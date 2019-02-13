@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_padding"
+    tools:context=".activities.Set_Profile_Pic">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="toVerification"
+        android:text="@string/skip"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/button_textSize"
+        android:textStyle="italic"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/divider_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_set_propic"
+        android:layout_width="@dimen/propic_set"
+        android:layout_height="@dimen/propic_set"
+        android:src="@drawable/generic_avatar"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toTopOf="@id/divider_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <Button
+        android:id="@+id/bt_set_camera"
+        style="@style/buttons_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:drawableStart="@drawable/ic_photo_camera_black_24dp"
+        android:drawablePadding="@dimen/margin_tiny"
+        android:padding="@dimen/margin_small"
+        android:text="@string/camera"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/bt_set_gallery"
+        app:layout_constraintTop_toBottomOf="@id/divider_view"
+        />
+
+    <Button
+        android:id="@+id/bt_set_gallery"
+        style="@style/buttons_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_perm_media_black_24dp"
+        android:drawablePadding="@dimen/margin_tiny"
+        android:padding="@dimen/margin_small"
+        android:text="@string/gallery"
+        app:layout_constraintLeft_toRightOf="@id/bt_set_camera"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_view"
+        />
+
+
+    <Button
+        android:id="@+id/bt_set_next"
+        style="@style/buttons_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_arrow_forward_blue_black_24dp"
+        android:drawablePadding="@dimen/margin_tiny"
+        android:padding="@dimen/margin_small"
+        android:text="@string/submit"
+        app:layout_constraintBottom_toTopOf="@id/card_instruction"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_set_camera" />
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/margin_small"
+        app:cardUseCompatPadding="true"
+        android:layout_marginBottom="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <TextView
+            android:padding="@dimen/margin_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/set_pic"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="@dimen/button_textSize" />
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

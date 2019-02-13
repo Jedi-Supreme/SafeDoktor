@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/bg_rsize_"
+    android:id="@+id/reg_const_layout"
+    android:padding="@dimen/activity_padding"
+    tools:context=".activities.SignupActivity">
+
+    <ScrollView
+        android:scrollbars="none"
+        android:id="@+id/card_registration"
+        app:layout_constraintBottom_toTopOf="@id/bt_reg_next"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.8"
+            app:cardCornerRadius="@dimen/margin_tiny"
+            app:cardElevation="@dimen/margin_small"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/activity_padding">
+
+                <!--Firstname-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_fn"
+                    style="@style/input_border_styles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/input_reg_ln"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_fn"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/firstname"
+                        android:inputType="textPersonName" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--Firstname-->
+
+                <!--Lastname-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_ln"
+                    style="@style/input_border_styles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@id/input_reg_fn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_ln"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/Lastname"
+                        android:inputType="textPersonName" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--Lastname-->
+
+                <!--Email-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_email"
+                    style="@style/input_border_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/input_reg_ln">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_email"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--Email-->
+
+                <!--Mobile Number-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_mobileNumber"
+                    style="@style/input_border_styles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_tiny"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintLeft_toRightOf="@id/hbb_country_picker"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input_reg_email">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_mobileNumber"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/mobileNumber"
+                        android:inputType="phone" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--Mobile Number-->
+
+                <!--Country Code Picker-->
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/hbb_country_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_input_borders"
+                    app:ccp_defaultNameCode="GH"
+                    app:ccp_textSize="@dimen/med_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/input_reg_mobileNumber"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/input_reg_mobileNumber" />
+                <!--Country Code Picker-->
+
+                <!--DOB-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_dob"
+                    style="@style/input_border_styles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/bt_dob_picker"
+                    app:layout_constraintTop_toBottomOf="@id/input_reg_mobileNumber">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_dob"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/dob"
+                        android:inputType="date" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--DOB-->
+
+                <!--Date picker button-->
+                <Button
+                    android:id="@+id/bt_dob_picker"
+                    android:layout_width="@dimen/small_button"
+                    android:layout_height="@dimen/small_button"
+                    android:background="@drawable/date_picker_background"
+                    app:layout_constraintBottom_toBottomOf="@id/input_reg_dob"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/input_reg_dob" />
+                <!--Date picker button-->
+
+                <!--Password-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_password"
+                    style="@style/input_border_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/input_reg_dob">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_password"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:inputType="textPassword" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--Password-->
+
+                <!--Confirm Password-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_reg_conf_pass"
+                    style="@style/input_border_styles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    app:layout_constraintTop_toBottomOf="@id/input_reg_password">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_reg_conf_pass"
+                        style="@style/edittor_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/conf_password"
+                        android:inputType="textPassword" />
+
+                </android.support.design.widget.TextInputLayout>
+                <!--Confirm Password-->
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/bt_reg_next"
+        style="@style/buttons_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_arrow_forward_blue_black_24dp"
+        android:onClick="toSet_profilePic"
+        android:padding="10dp"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_registration" />
+
+</android.support.constraint.ConstraintLayout>

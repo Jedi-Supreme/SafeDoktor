@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DashboardActivity">
+
+    <!-- main layout. drawer covers this-->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/landing_bottom_nav"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_small">
+
+                <!--Welcome textview-->
+                <TextView
+                    android:id="@+id/tv_dash_welcome"
+                    style="@style/dashboard_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:text="@string/dash_welcome"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--Username textview-->
+                <TextView
+                    android:id="@+id/tv_dash_username"
+                    style="@style/dashboard_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/developer_name"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_dash_welcome"
+                    app:layout_constraintTop_toBottomOf="@id/tv_dash_welcome" />
+
+                <!--Appointment card view-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/appointment_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dash_card_height"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/card_elevate"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@id/tv_dash_username">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tv_appt_design"
+                            android:layout_width="@dimen/margin_small"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/dash_view_design"
+                            app:layout_constraintBottom_toBottomOf="@id/const_appointment_body"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/const_appointment_body" />
+
+                        <!--Appointment Constraint view-->
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/const_appointment_body"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/margin_small"
+                            app:layout_constraintLeft_toRightOf="@id/tv_appt_design"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/main_app_icon"
+                                android:layout_width="@dimen/dash_card_icons"
+                                android:layout_height="@dimen/dash_card_icons"
+                                android:contentDescription="@string/main_icon_desc"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/calendar" />
+
+                            <TextView
+                                android:id="@+id/tv_app_title"
+                                style="@style/card_maintxt_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dash_appointments"
+                                app:layout_constraintLeft_toRightOf="@id/main_app_icon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_main_description"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:text="@string/appointment_desc"
+                                android:textSize="@dimen/normal_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="@id/tv_app_title"
+                                app:layout_constraintRight_toLeftOf="@id/tv_app_count"
+                                app:layout_constraintTop_toBottomOf="@id/tv_app_title" />
+
+                            <TextView
+                                android:id="@+id/tv_app_count"
+                                style="@style/dash_counting_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/landing_page_background_count"
+                                android:gravity="center"
+                                android:text="@string/numb7"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_main_description"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tv_app_title" />
+
+                        </android.support.constraint.ConstraintLayout>
+                        <!--Appointment Constraint view-->
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!--online visit card view-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_online_visits"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dash_card_height"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/card_elevate"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@id/appointment_card">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--online visits view-->
+                        <TextView
+                            android:id="@+id/tv_ov_design"
+                            android:layout_width="@dimen/margin_small"
+                            android:layout_height="0dp"
+                            android:background="@drawable/dash_view_design"
+                            app:layout_constraintBottom_toBottomOf="@id/const_ov_body"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/const_ov_body" />
+
+                        <!--online visits view-->
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/const_ov_body"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/margin_small"
+                            app:layout_constraintLeft_toRightOf="@id/tv_ov_design"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/main_ov_icon"
+                                android:layout_width="@dimen/dash_card_icons"
+                                android:layout_height="@dimen/dash_card_icons"
+                                android:contentDescription="@string/main_icon_desc"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/pulse" />
+
+                            <TextView
+                                android:id="@+id/tv_ov_title"
+                                style="@style/card_maintxt_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dash_online_visits"
+                                app:layout_constraintLeft_toRightOf="@id/main_ov_icon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_ov_description"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:text="@string/online_visit_desc"
+                                android:textSize="@dimen/normal_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="@id/tv_ov_title"
+                                app:layout_constraintRight_toLeftOf="@id/tv_ov_count"
+                                app:layout_constraintTop_toBottomOf="@id/tv_ov_title" />
+
+                            <TextView
+                                android:id="@+id/tv_ov_count"
+                                style="@style/dash_counting_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/landing_page_background_count"
+                                android:text="@string/numb7"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_ov_description"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tv_ov_title" />
+
+                        </android.support.constraint.ConstraintLayout>
+                        <!--online visits view-->
+
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!--clinic visit card view-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_clinical_visits"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dash_card_height"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/card_elevate"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@id/card_online_visits">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--clinical visits view-->
+                        <TextView
+                            android:id="@+id/tv_cv_design"
+                            android:layout_width="@dimen/margin_small"
+                            android:layout_height="0dp"
+                            android:background="@drawable/dash_view_design"
+                            app:layout_constraintBottom_toBottomOf="@id/const_cv_body"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/const_cv_body" />
+
+                        <!--clinical visits view-->
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/const_cv_body"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/margin_small"
+                            app:layout_constraintLeft_toRightOf="@id/tv_cv_design"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/main_cv_icon"
+                                android:layout_width="@dimen/dash_card_icons"
+                                android:layout_height="@dimen/dash_card_icons"
+                                android:contentDescription="@string/main_icon_desc"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/hospital" />
+
+                            <TextView
+                                android:id="@+id/tv_cv_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="@string/dash_clinical_visits"
+                                style="@style/card_maintxt_label"
+                                app:layout_constraintLeft_toRightOf="@id/main_cv_icon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_cv_description"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:text="@string/clinical_visits_desc"
+                                android:textSize="@dimen/normal_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="@id/tv_cv_title"
+                                app:layout_constraintRight_toLeftOf="@id/tv_cv_count"
+                                app:layout_constraintTop_toBottomOf="@id/tv_cv_title" />
+
+                            <TextView
+                                android:id="@+id/tv_cv_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/landing_page_background_count"
+                                android:text="@string/numb7"
+                                style="@style/dash_counting_text"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_cv_description"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tv_cv_title" />
+
+                        </android.support.constraint.ConstraintLayout>
+                        <!--clinical visits view-->
+
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <!--reminders card view-->
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_reminders"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dash_card_height"
+                    app:cardCornerRadius="@dimen/margin_small"
+                    app:cardElevation="@dimen/card_elevate"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@id/card_clinical_visits">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--Reminders view-->
+                        <TextView
+                            android:id="@+id/tv_rmds_design"
+                            android:layout_width="@dimen/margin_small"
+                            android:layout_height="0dp"
+                            android:background="@drawable/dash_view_design"
+                            app:layout_constraintBottom_toBottomOf="@id/const_rmds_body"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/const_rmds_body" />
+
+                        <!--Reminders view-->
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/const_rmds_body"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/margin_small"
+                            app:layout_constraintLeft_toRightOf="@id/tv_rmds_design"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/main_rmds_icon"
+                                android:layout_width="@dimen/dash_card_icons"
+                                android:layout_height="@dimen/dash_card_icons"
+                                android:contentDescription="@string/main_icon_desc"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/group_2" />
+
+                            <TextView
+                                android:id="@+id/tv_rmds_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dash_reminders"
+                                style="@style/card_maintxt_label"
+                                app:layout_constraintLeft_toRightOf="@id/main_rmds_icon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_rmds_description"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:text="@string/reminders_desc"
+                                android:textSize="@dimen/normal_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="@id/tv_rmds_title"
+                                app:layout_constraintRight_toLeftOf="@id/tv_rmds_count"
+                                app:layout_constraintTop_toBottomOf="@id/tv_rmds_title" />
+
+                            <TextView
+                                android:id="@+id/tv_rmds_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/landing_page_background_count"
+                                android:text="@string/numb7"
+                                style="@style/dash_counting_text"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_rmds_description"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tv_rmds_title" />
+
+                        </android.support.constraint.ConstraintLayout>
+                        <!--Reminders view-->
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!--health library card view-->
+                <android.support.v7.widget.CardView
+                    android:visibility="gone"
+                    android:id="@+id/card_health_library"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="4dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@id/card_reminders">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--health library view-->
+                        <TextView
+                            android:id="@+id/tv_hlbr_design"
+                            android:layout_width="10dp"
+                            android:layout_height="0dp"
+                            android:background="@drawable/dash_view_design"
+                            app:layout_constraintBottom_toBottomOf="@id/const_hlbr_body"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/const_hlbr_body" />
+
+                        <!--health library view-->
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/const_hlbr_body"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/margin_small"
+                            app:layout_constraintLeft_toRightOf="@id/tv_hlbr_design"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/main_hlbr_icon"
+                                android:layout_width="@dimen/dash_card_icons"
+                                android:layout_height="@dimen/dash_card_icons"
+                                android:contentDescription="@string/main_icon_desc"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:background="@drawable/ic_local_library_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/tv_hlbr_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dash_health_library"
+                                style="@style/card_maintxt_label"
+                                app:layout_constraintLeft_toRightOf="@id/main_hlbr_icon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_hlbr_description"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/health_lib_desc"
+                                android:textSize="@dimen/normal_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="@id/tv_hlbr_title"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_hlbr_title" />
+
+                        </android.support.constraint.ConstraintLayout>
+                        <!--health library view-->
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <!--first aid card view-->
+                <android.support.v7.widget.CardView
+                    android:visibility="gone"
+                    android:id="@+id/card_firstaid"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="4dp"
+                    app:cardUseCompatPadding="true"
+                    app:layout_constraintTop_toBottomOf="@id/card_health_library">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <!--first aid view-->
+                        <TextView
+                            android:id="@+id/tv_faid_design"
+                            android:layout_width="@dimen/margin_small"
+                            android:layout_height="0dp"
+                            android:background="@drawable/dash_view_design"
+                            app:layout_constraintBottom_toBottomOf="@id/const_faid_body"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/const_faid_body" />
+
+                        <!--first aid view-->
+                        <android.support.constraint.ConstraintLayout
+                            android:id="@+id/const_faid_body"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/activity_padding"
+                            app:layout_constraintLeft_toRightOf="@id/tv_faid_design"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:background="@drawable/ic_first_aid"
+                                android:id="@+id/main_faid_icon"
+                                android:layout_width="@dimen/dash_card_icons"
+                                android:layout_height="@dimen/dash_card_icons"
+                                android:contentDescription="@string/main_icon_desc"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                 />
+
+                            <TextView
+                                android:id="@+id/tv_faid_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/dash_first_aid"
+                                style="@style/card_maintxt_label"
+                                app:layout_constraintLeft_toRightOf="@id/main_faid_icon"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/tv_faid_description"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/first_aid_desc"
+                                android:textSize="@dimen/normal_text_size"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintLeft_toLeftOf="@id/tv_faid_title"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_faid_title" />
+
+                        </android.support.constraint.ConstraintLayout>
+                        <!--first aid view-->
+
+                    </android.support.constraint.ConstraintLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </android.support.constraint.ConstraintLayout>
+
+        </ScrollView>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/landing_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/deep_blue_grey"
+            app:menu="@menu/dash_bottom_nav_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--navigation drawer menu-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="false"
+        app:headerLayout="@layout/dashboard_drawer_header" />
+
+
+</android.support.v4.widget.DrawerLayout>
