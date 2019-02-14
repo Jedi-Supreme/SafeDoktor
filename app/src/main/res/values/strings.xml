@@ -1,18 +1,22 @@
 <resources>
 
+    <string-array name="gender_Arr">
+        <item><i>Select Gender</i></item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
     <string name="phone_valid_intro">Safe Doktor will send a one time SMS message to verify your phone number. Enter the <b>6-digit code</b> below</string>
     <string name="phone_enter_explain">Please confirm your country code and enter your phone number</string>
 
     <string name="app_name">SafeDoktor</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="password">Password</string>
     <string name="reg_text">Dont have an account? <u><b>Sign Up</b></u></string>
     <string name="login">Login</string>
     <string name="sign_up">Sign up</string>
     <string name="app_logo">safe doktor logo</string>
     <string name="pass_reset"><u>Forgot Password?</u></string>
-    <string name="firstname">Firstname</string>
-    <string name="Lastname">Lastname</string>
+    <string name="firstname">First Name</string>
+    <string name="Lastname">Last Name</string>
     <string name="email">Email Address</string>
     <string name="mobileNumber">Mobile Number</string>
     <string name="dob">Date Of Birth</string>
@@ -69,8 +73,20 @@
     <string name="dash_health_library">Health Library</string>
     <string name="health_lib_desc">Information hub</string>
     <string name="dash_first_aid">First Aid</string>
-    <string name="first_aid_desc">Signs and symptoms of everyday occurances</string>
+    <string name="first_aid_desc">Signs and symptoms of everyday occurrences</string>
     <string name="library">Library</string>
     <string name="chat">Chat</string>
     <string name="partners">Partners</string>
+    <string name="dob_txt">Date Of Birth</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="conf_pass">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="terms_and_service"><u><![CDATA[Terms of Service & Privacy]]></u></string>
+    <string name="password">Password</string>
+    <string name="login_logo_pic">Main app icon</string>
+    <string name="phone_email">Phone or Email</string>
+    <string name="register_txt"><u>Register Here</u></string>
+    <string name="reg_qn">Dont have an account?</string>
+    <string name="accept_pic">Accept</string>
+    <string name="cancel">Cancel</string>
 </resources>

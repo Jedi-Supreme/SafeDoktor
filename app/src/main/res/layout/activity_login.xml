@@ -2,139 +2,206 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_login_Activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/safe_doctor_bg2"
-    android:padding="@dimen/activity_padding"
-    android:id="@+id/main_login_Activity"
+    android:background="@color/colorPrimary"
     tools:context=".activities.LoginActivity">
 
-    <ImageView
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/card_loginform"
-        android:layout_width="@dimen/logo_dimen"
-        android:layout_height="@dimen/logo_dimen"
-        android:contentDescription="@string/app_logo" />
 
-    <android.support.v7.widget.CardView
-        android:alpha="0.8"
-        android:id="@+id/card_loginform"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/activity_padding"
-        app:cardElevation="@dimen/activity_padding"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/view_middle"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_login_logo"
+            android:layout_width="@dimen/dash_card_height"
+            android:layout_height="@dimen/dash_card_height"
+            android:layout_marginBottom="@dimen/dash_card_height"
+            android:contentDescription="@string/login_logo_pic"
+            android:src="@drawable/safedoktor_rebirth"
+            app:layout_constraintBottom_toTopOf="@id/view_middle"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraint_sub_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_med">
+            android:layout_height="0dp"
+            android:layout_marginTop="70dp"
+            android:background="@color/deep_blue_grey"
+            android:padding="@dimen/margin_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_login_logo">
 
-            <!-- Phone number input-->
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_login_number"
+            <View
+                android:id="@+id/sub_view_middle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_tiny">
+                android:layout_height="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_login_id"
+                style="@style/inputlayout_style"
+                android:layout_width="wrap_content"
+                app:hintEnabled="false"
+                app:layout_constraintBottom_toTopOf="@id/sub_view_middle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/et_login_number"
+                    android:id="@+id/et_login_id"
+                    style="@style/input_edittext_style"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:ems="10"
-                    android:hint="@string/phone_number"
-                    android:inputType="phone"
-                    android:textSize="@dimen/normal_text_size" />
+                    android:ems="15"
+                    android:inputType="text" />
 
             </android.support.design.widget.TextInputLayout>
-            <!-- Phone number input-->
 
-            <!-- Password input-->
+            <TextView
+                style="@style/input_textview_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_email"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/input_login_id"
+                app:layout_constraintLeft_toLeftOf="@id/input_login_id"
+                app:layout_constraintTop_toTopOf="@id/input_login_id" />
+
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_login_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/margin_tiny"
-                app:layout_constraintTop_toBottomOf="@id/input_login_number">
+                style="@style/inputlayout_style"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/margin_med"
+                app:hintEnabled="false"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_login_id">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/et_login_password"
+                    style="@style/input_edittext_style"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="@string/password"
-                    android:inputType="textPassword"
-                    android:textSize="@dimen/normal_text_size" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="15"
+                    android:inputType="textPassword" />
 
             </android.support.design.widget.TextInputLayout>
-            <!-- Password input-->
 
             <TextView
-                android:onClick="UserSignup"
-                android:id="@+id/tv_login_signup"
-                android:focusable="true"
-                android:clickable="true"
-                android:layout_width="match_parent"
+                style="@style/input_textview_label"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reg_text"
-                android:textAlignment="center"
-                app:layout_constraintTop_toBottomOf="@id/input_login_password" />
+                android:text="@string/password"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toTopOf="@id/input_login_password"
+                app:layout_constraintLeft_toLeftOf="@id/input_login_password"
+                app:layout_constraintTop_toTopOf="@id/input_login_password" />
 
             <ProgressBar
-                android:visibility="gone"
-                android:id="@+id/probar_login"
+                android:id="@+id/probar_login_bar"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:indeterminate="true"
-                android:layout_marginTop="@dimen/margin_tiny"
-                app:layout_constraintTop_toBottomOf="@id/tv_login_signup"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@id/input_login_password"
+                app:layout_constraintRight_toRightOf="@id/input_login_password"
+                app:layout_constraintTop_toBottomOf="@id/input_login_password" />
+
+            <TextView
+                android:id="@+id/tv_login_reset_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_med"
+                android:text="@string/pass_reset"
+                android:textColor="@color/blue_black"
+                android:textSize="@dimen/med_text_size"
+                app:layout_constraintLeft_toLeftOf="@id/input_login_password"
+                app:layout_constraintTop_toBottomOf="@id/input_login_password" />
+
+            <Button
+                android:id="@+id/bt_login_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_med"
+                android:background="@drawable/app_button_background"
+                android:drawableStart="@drawable/ic_arrow_forward_white_24dp"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_tiny"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintRight_toRightOf="@id/input_login_password"
+                app:layout_constraintTop_toBottomOf="@id/input_login_password" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_med"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_login_acc_qn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/reg_qn"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/normal_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_login_acc_signup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="UserSignup"
+                    android:text="@string/register_txt"
+                    android:textColor="@color/blue_black"
+                    android:textSize="@dimen/med_text_size"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+            </TableRow>
+
 
         </android.support.constraint.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/tv_login_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_med"
+            android:background="@drawable/login_white_rec_background"
+            android:paddingStart="@dimen/margin_large"
+            android:paddingEnd="@dimen/margin_large"
+            android:paddingBottom="@dimen/margin_med"
+            android:text="@string/login"
+            android:textColor="@color/blue_black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/constraint_sub_view"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/constraint_sub_view" />
 
-    <Button
-        android:id="@+id/bt_login_login"
-        style="@style/buttons_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rnded_bt_border_sel"
-        android:text="@string/login"
-        android:onClick="loginToDashboard"
-        app:layout_constraintLeft_toLeftOf="@id/card_loginform"
-        app:layout_constraintRight_toLeftOf="@id/bt_login_signup"
-        app:layout_constraintTop_toBottomOf="@id/card_loginform" />
 
-    <Button
-        android:id="@+id/bt_login_signup"
-        style="@style/buttons_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rnded_bt_border_sel"
-        android:text="@string/sign_up"
-        android:onClick="UserSignup"
-        app:layout_constraintLeft_toRightOf="@id/bt_login_login"
-        app:layout_constraintRight_toRightOf="@id/card_loginform"
-        app:layout_constraintTop_toBottomOf="@id/card_loginform" />
-
-    <TextView
-        android:focusable="true"
-        android:clickable="true"
-        android:onClick="ResetPassword"
-        android:textColor="@color/white_colors"
-        android:textSize="@dimen/med_text_size"
-        android:textAlignment= "center"
-        android:text="@string/pass_reset"
-        app:layout_constraintTop_toBottomOf="@id/bt_login_login"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>

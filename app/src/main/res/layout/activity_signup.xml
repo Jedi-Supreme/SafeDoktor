@@ -2,227 +2,342 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reg_const_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@drawable/bg_rsize_"
-    android:id="@+id/reg_const_layout"
-    android:padding="@dimen/activity_padding"
     tools:context=".activities.SignupActivity">
 
-    <ScrollView
-        android:scrollbars="none"
-        android:id="@+id/card_registration"
-        app:layout_constraintBottom_toTopOf="@id/bt_reg_next"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="@dimen/margin_small"
+    <android.support.constraint.ConstraintLayout
+        android:layout_marginTop="@dimen/dash_card_icons"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
+        android:id="@+id/const_sub_reg_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:background="@color/deep_blue_grey"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.8"
-            app:cardCornerRadius="@dimen/margin_tiny"
-            app:cardElevation="@dimen/margin_small"
-            app:cardUseCompatPadding="true"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_reg_fn"
+            android:layout_width="wrap_content"
+            style="@style/inputlayout_style"
+            android:layout_marginTop="@dimen/dash_card_icons"
+            android:layout_marginEnd="@dimen/margin_tiny"
+            android:background="@drawable/input_rounded_border"
+            app:hintEnabled="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/input_reg_ln"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_reg_fn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@null"
+                style="@style/input_edittext_style"
+                android:ems="8"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorPrimary"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/firstname"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_fn"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintTop_toTopOf="@id/input_reg_fn" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_reg_ln"
+            android:layout_width="wrap_content"
+            style="@style/inputlayout_style"
+            android:layout_marginTop="@dimen/dash_card_icons"
+            android:background="@drawable/input_rounded_border"
+            android:padding="@dimen/margin_small"
+            app:hintEnabled="false"
+            app:layout_constraintLeft_toRightOf="@id/input_reg_fn"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_reg_ln"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:ems="8"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/med_text_size"
+                android:textStyle="bold" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Lastname"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_ln"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_ln"
+            app:layout_constraintTop_toTopOf="@id/input_reg_ln" />
+
+        <!--Country Code Picker-->
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/hbb_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@drawable/input_rounded_border"
+            android:gravity="center"
+            app:ccp_contentColor="@color/colorPrimary"
+            app:ccp_defaultNameCode="GH"
+            app:ccp_textSize="@dimen/normal_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/input_reg_mobile_number"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintTop_toTopOf="@id/input_reg_mobile_number" />
+        <!--Country Code Picker-->
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_reg_mobile_number"
+            android:layout_width="0dp"
+            app:hintEnabled="false"
+            style="@style/inputlayout_style"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_med"
+            android:background="@drawable/input_rounded_border"
+            app:layout_constraintLeft_toRightOf="@id/hbb_picker"
+            app:layout_constraintRight_toRightOf="@id/input_reg_ln"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_ln">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_reg_mobile_number"
+                style="@style/input_edittext_style"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/activity_padding">
+                android:ems="10"
+                android:inputType="phone" />
 
-                <!--Firstname-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_fn"
-                    style="@style/input_border_styles"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/input_reg_ln"
-                    app:layout_constraintTop_toTopOf="parent">
+        </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_fn"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/firstname"
-                        android:inputType="textPersonName" />
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/phone_number"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_mobile_number"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_mobile_number"
+            app:layout_constraintTop_toTopOf="@id/input_reg_mobile_number" />
 
-                </android.support.design.widget.TextInputLayout>
-                <!--Firstname-->
+        <android.support.design.widget.TextInputLayout
+            app:hintEnabled="false"
+            android:id="@+id/input_reg_email"
+            android:layout_width="0dp"
+            style="@style/inputlayout_style"
+            android:layout_marginTop="@dimen/margin_med"
+            android:background="@drawable/input_rounded_border"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintRight_toRightOf="@id/input_reg_ln"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_mobile_number">
 
-                <!--Lastname-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_ln"
-                    style="@style/input_border_styles"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toRightOf="@id/input_reg_fn"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_reg_email"
+                style="@style/input_edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_ln"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/Lastname"
-                        android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
 
-                </android.support.design.widget.TextInputLayout>
-                <!--Lastname-->
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_email"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_email"
+            app:layout_constraintTop_toTopOf="@id/input_reg_email" />
 
-                <!--Email-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_email"
-                    style="@style/input_border_styles"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    app:layout_constraintTop_toBottomOf="@id/input_reg_ln">
+        <android.support.design.widget.TextInputLayout
+            app:hintEnabled="false"
+            android:focusable="false"
+            android:id="@+id/input_reg_dob"
+            android:layout_width="0dp"
+            style="@style/inputlayout_style"
+            android:layout_marginTop="@dimen/margin_med"
+            android:background="@drawable/input_rounded_border"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintRight_toRightOf="@id/input_reg_ln"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_email">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_email"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/email"
-                        android:inputType="textEmailAddress" />
+            <android.support.design.widget.TextInputEditText
+                android:focusable="false"
+                android:clickable="false"
+                android:longClickable="false"
+                android:id="@+id/et_reg_dob"
+                style="@style/input_edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="date" />
 
-                </android.support.design.widget.TextInputLayout>
-                <!--Email-->
+        </android.support.design.widget.TextInputLayout>
 
-                <!--Mobile Number-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_mobileNumber"
-                    style="@style/input_border_styles"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_tiny"
-                    android:layout_marginTop="@dimen/margin_small"
-                    app:layout_constraintLeft_toRightOf="@id/hbb_country_picker"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/input_reg_email">
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_tiny"
+            android:text="@string/dob_txt"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_dob"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
+            app:layout_constraintTop_toTopOf="@id/input_reg_dob" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_mobileNumber"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/mobileNumber"
-                        android:inputType="phone" />
+        <TableRow
+            android:id="@+id/sp_tbr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:background="@drawable/input_rounded_border"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
+            app:layout_constraintRight_toRightOf="@id/input_reg_dob"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_dob">
 
-                </android.support.design.widget.TextInputLayout>
-                <!--Mobile Number-->
+            <Spinner
+                android:id="@+id/sp_reg_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/gender_Arr"
+                android:padding="@dimen/margin_small"
+                app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
+                app:layout_constraintRight_toRightOf="@id/input_reg_dob"
+                app:layout_constraintTop_toBottomOf="@id/input_reg_dob"
+                />
 
-                <!--Country Code Picker-->
-                <com.hbb20.CountryCodePicker
-                    android:id="@+id/hbb_country_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_input_borders"
-                    app:ccp_defaultNameCode="GH"
-                    app:ccp_textSize="@dimen/med_text_size"
-                    app:layout_constraintBottom_toBottomOf="@id/input_reg_mobileNumber"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/input_reg_mobileNumber" />
-                <!--Country Code Picker-->
+        </TableRow>
 
-                <!--DOB-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_dob"
-                    style="@style/input_border_styles"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/bt_dob_picker"
-                    app:layout_constraintTop_toBottomOf="@id/input_reg_mobileNumber">
+        <android.support.design.widget.TextInputLayout
+            app:hintEnabled="false"
+            android:id="@+id/input_reg_password"
+            android:layout_width="0dp"
+            android:layout_marginTop="@dimen/margin_med"
+            style="@style/inputlayout_style"
+            android:background="@drawable/input_rounded_border"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintRight_toRightOf="@id/input_reg_ln"
+            app:layout_constraintTop_toBottomOf="@id/sp_tbr">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_dob"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/dob"
-                        android:inputType="date" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_reg_password"
+                style="@style/input_edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword" />
 
-                </android.support.design.widget.TextInputLayout>
-                <!--DOB-->
+        </android.support.design.widget.TextInputLayout>
 
-                <!--Date picker button-->
-                <Button
-                    android:id="@+id/bt_dob_picker"
-                    android:layout_width="@dimen/small_button"
-                    android:layout_height="@dimen/small_button"
-                    android:background="@drawable/date_picker_background"
-                    app:layout_constraintBottom_toBottomOf="@id/input_reg_dob"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/input_reg_dob" />
-                <!--Date picker button-->
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_password"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_password"
+            app:layout_constraintTop_toTopOf="@id/input_reg_password" />
 
-                <!--Password-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_password"
-                    style="@style/input_border_styles"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    app:layout_constraintTop_toBottomOf="@id/input_reg_dob">
+        <android.support.design.widget.TextInputLayout
+            app:hintEnabled="false"
+            android:id="@+id/input_reg_conf_pass"
+            android:layout_width="0dp"
+            style="@style/inputlayout_style"
+            android:layout_marginTop="@dimen/margin_med"
+            android:background="@drawable/input_rounded_border"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintRight_toRightOf="@id/input_reg_ln"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_password">
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_password"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/password"
-                        android:inputType="textPassword" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_reg_conf_pass"
+                style="@style/input_edittext_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="textPassword" />
 
-                </android.support.design.widget.TextInputLayout>
-                <!--Password-->
+        </android.support.design.widget.TextInputLayout>
 
-                <!--Confirm Password-->
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_reg_conf_pass"
-                    style="@style/input_border_styles"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
-                    app:layout_constraintTop_toBottomOf="@id/input_reg_password">
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/conf_pass"
+            app:layout_constraintBottom_toTopOf="@id/input_reg_conf_pass"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_conf_pass"
+            app:layout_constraintTop_toTopOf="@id/input_reg_conf_pass" />
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/et_reg_conf_pass"
-                        style="@style/edittor_style"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/conf_password"
-                        android:inputType="textPassword" />
+        <Button
+            android:onClick="toVerification"
+            style="@style/app_buttons_style"
+            android:id="@+id/bt_reg_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_med"
+            android:drawableStart="@drawable/ic_arrow_forward_white_24dp"
+            android:text="@string/register"
+            app:layout_constraintRight_toRightOf="@id/input_reg_conf_pass"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_conf_pass" />
 
-                </android.support.design.widget.TextInputLayout>
-                <!--Confirm Password-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/bt_reg_reg" />
 
-            </android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/terms_and_service"
+            android:textColor="@color/blue_black"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/bt_reg_reg"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/bt_reg_reg"
+            app:layout_constraintTop_toTopOf="@id/bt_reg_reg" />
 
-        </android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
 
-    </ScrollView>
-
-    <Button
-        android:id="@+id/bt_reg_next"
-        style="@style/buttons_style"
+    <TextView
+        android:id="@+id/tv_reg_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_arrow_forward_blue_black_24dp"
-        android:onClick="toSet_profilePic"
-        android:padding="10dp"
-        android:text="@string/next"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/login_white_rec_background"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:paddingBottom="15dp"
+        android:text="@string/register"
+        android:textColor="@color/blue_black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/const_sub_reg_view"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_registration" />
+        app:layout_constraintTop_toTopOf="@id/const_sub_reg_view" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:scaleType="centerCrop"
+        android:id="@+id/iv_reg_pro_pic"
+        android:src="@drawable/editprofilepic"
+        app:layout_constraintLeft_toRightOf="@id/tv_reg_label"
+        app:layout_constraintTop_toTopOf="@id/const_sub_reg_view"
+        app:layout_constraintBottom_toTopOf="@id/const_sub_reg_view"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="@dimen/reg_pic_dim"
+        android:layout_height="@dimen/reg_pic_dim" />
 
 </android.support.constraint.ConstraintLayout>

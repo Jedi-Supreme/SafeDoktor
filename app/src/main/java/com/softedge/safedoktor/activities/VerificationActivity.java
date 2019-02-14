@@ -18,8 +18,11 @@ import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
 import com.softedge.safedoktor.models.Patient;
@@ -31,8 +34,10 @@ public class VerificationActivity extends AppCompatActivity {
 
     final long COUNTDOWN_TIME = 30000; // 30 seconds
     final long SECS = 1000;
-    TextInputEditText et_verify_code;
+    TextInputEditText et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6;
     CountDownTimer countDownTimer;
+
+    TextInputEditText[] code_input_Array;
 
     WeakReference<VerificationActivity> weakverification;
 
@@ -43,6 +48,8 @@ public class VerificationActivity extends AppCompatActivity {
     PhoneAuthProvider.ForceResendingToken resendingToken;
     Bundle registration_bundle;
 
+    FirebaseUser email_fire_user;
+
     //============================================ON CREATE=========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +58,18 @@ public class VerificationActivity extends AppCompatActivity {
 
         weakverification = new WeakReference<>(this);
 
-        et_verify_code = findViewById(R.id.et_verify_code);
         tv_verify_downtime = findViewById(R.id.tv_verify_dwntime);
-
         tv_verify_resend = findViewById(R.id.tv_verify_resend);
+
+        et_code_1 = findViewById(R.id.et_code_1);
+        et_code_2 = findViewById(R.id.et_code_2);
+        et_code_3 = findViewById(R.id.et_code_3);
+        et_code_4 = findViewById(R.id.et_code_4);
+        et_code_5 = findViewById(R.id.et_code_5);
+        et_code_6 = findViewById(R.id.et_code_6);
+
+        code_input_Array = new TextInputEditText[]{et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6};
+
         probar_verify_code = findViewById(R.id.probar_verify_code);
 
         registration_bundle = getIntent().getExtras();
@@ -109,6 +124,67 @@ public class VerificationActivity extends AppCompatActivity {
         countDownTimer.cancel();
     }
 
+    //create user email account
+    //--------------------------------------CREATE ACCOUNT------------------------------------------
+    void create_firebase_account(final PhoneAuthCredential credential){
+
+        final String email = registration_bundle.getString(Patient.EMAIL,null);
+        String password = registration_bundle.getString(Patient.PASSWORD,null);
+
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            //Log.d(TAG, "createUserWithEmail:success");
+                            email_fire_user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (email_fire_user != null) {
+                                try {
+                                    save_Online(email_fire_user.getUid());
+                                    email_fire_user.linkWithCredential(credential).addOnCompleteListener(weakverification.get(), new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()){
+                                                signInWithPhoneAuthCredential(credential);
+                                            }
+                                        }
+                                    });
+                                }catch (Exception e){
+                                    Toast.makeText(getApplicationContext(), " Unable to save online." + e.toString(),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            Toast.makeText(getApplicationContext(), "Account Creation Successful.",
+                                    Toast.LENGTH_LONG).show();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            probar_verify_code.clearAnimation();
+                            probar_verify_code.setVisibility(View.INVISIBLE);
+                            //updateUI(null);
+                        }
+
+                    }
+                });
+    }
+    //--------------------------------------CREATE ACCOUNT------------------------------------------
+
+    //--------------------------------------SAVE TO ONLINE DB---------------------------------------
+    void save_Online(String firebase_id){
+
+        DatabaseReference records_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.records_ref));
+        DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
+
+        Patient firebase_patient = common_code.patientFromBundle(registration_bundle);
+        String cell_number = "0"+String.valueOf(firebase_patient.getMobile_number());
+        records_ref.child(cell_number).child("email").setValue(firebase_patient.getEmail());
+
+        all_users_ref.child(firebase_id).setValue(firebase_patient);
+    }
+    //--------------------------------------SAVE TO ONLINE DB---------------------------------------
+
     //send verification code
     void send_Code_Method(String mobile_number){
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
@@ -136,6 +212,8 @@ public class VerificationActivity extends AppCompatActivity {
                     //in this case the code will be null
                     //so user has to manually enter the code
                     if (code != null) {
+
+                        codeValues_into_views(code);
 
                         stop_timer();
                         //verify the code
@@ -174,10 +252,12 @@ public class VerificationActivity extends AppCompatActivity {
         probar_verify_code.animate();
 
         //creating the credential
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, code);
+        final PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, code);
+
+        create_firebase_account(credential);
 
         //signing the user
-        signInWithPhoneAuthCredential(credential);
+        //signInWithPhoneAuthCredential(credential);
     }
 
     //sign in
@@ -214,28 +294,50 @@ public class VerificationActivity extends AppCompatActivity {
 
     }
 
+    void codeValues_into_views(String code){
+
+        char[] codes_arr = code.toCharArray();
+
+        if (codes_arr.length == code_input_Array.length){
+
+            for (int x = 0; x < codes_arr.length; x++){
+                code_input_Array[x].setText(String.valueOf(codes_arr[x]));
+            }
+        }
+
+    }
+
     //--------------------------------------------METHODS-------------------------------------------
 
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENERS-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=-=-
     public void VerifyCodeRecieved(View view) {
 
-        if (!et_verify_code.getText().toString().isEmpty()){
-            verifyVerificationCode(et_verify_code.getText().toString());
+        StringBuilder codebuilder = new StringBuilder();
+
+        for (TextInputEditText et_code : code_input_Array){
+            codebuilder.append(et_code.getText().toString());
+        }
+
+        if (!codebuilder.toString().isEmpty()){
+            verifyVerificationCode(codebuilder.toString());
         }else {
             common_code.Mysnackbar(findViewById(R.id.const_verify_parentview),
                     "Enter Verification Code", Snackbar.LENGTH_LONG).show();
         }
 
-        //toDashboard();
     }
 
     public void ResendCode(View view) {
 
     }
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENERS-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=-=-
 
     void toDashboard(){
+        probar_verify_code.setVisibility(View.GONE);
         Intent dashboard_intent = new Intent(this,DashboardActivity.class);
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
+        super.finish();
     }
 
 }

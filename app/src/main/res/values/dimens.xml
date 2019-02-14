@@ -10,9 +10,11 @@
     <dimen name="med_text_size">14sp</dimen>
     <dimen name="small_button">35dp</dimen>
     <dimen name="avatar_dim">85dp</dimen>
+    <dimen name="reg_pic_dim">70dp</dimen>
     <dimen name="propic_set">200dp</dimen>
-    <dimen name="dash_card_height">100dp</dimen>
+    <dimen name="dash_card_height">120dp</dimen>
     <dimen name="card_elevate">4dp</dimen>
     <dimen name="dash_card_icons">40dp</dimen>
     <dimen name="card_mainlbl_txtsize">20sp</dimen>
+    <dimen name="verify_code_dim">50dp</dimen>
 </resources>

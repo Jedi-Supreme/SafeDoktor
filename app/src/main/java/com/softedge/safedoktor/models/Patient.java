@@ -6,10 +6,13 @@ public class Patient {
     public final static String FIREBASE_ID = "firebase_id";
     public final static String EMAIL = "email";
     public final static String FIRSTNAME = "firstname";
+    public final static String GENDER = "gender";
     public final static String LASTNAME = "lastname";
     public final static String MOBILE_NUMBER = "mobile_number";
     public final static String COUNTRY_CODE = "country_code";
     public final static String DATE_OF_BIRTH = "dob";
+    public final static String PASSWORD = "password";
+
 
 
     private String firebase_Uid;
@@ -32,17 +35,19 @@ public class Patient {
 
     public Patient(){}
 
-    public Patient(String fn, String ln,String country_code ,int mobile_number,String date_of_birth){
+    public Patient(String fn, String ln, int gender,String country_code,int mobile_number,String date_of_birth){
         firstname = fn;
         lastname = ln;
+        this.gender = gender;
         this.country_code = country_code;
         this.mobile_number = mobile_number;
         this.date_of_birth = date_of_birth;
     }
 
-    public Patient(String fn, String ln,String country_code,int mobile_number,String date_of_birth, String email){
+    public Patient(String fn, String ln,int gender,String country_code,int mobile_number, String email, String date_of_birth){
         firstname = fn;
         lastname = ln;
+        this.gender = gender;
         this.country_code = country_code;
         this.mobile_number = mobile_number;
         this.date_of_birth = date_of_birth;
@@ -96,5 +101,13 @@ public class Patient {
 
     public void setCountry_code(String country_code) {
         this.country_code = country_code;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
     }
 }
