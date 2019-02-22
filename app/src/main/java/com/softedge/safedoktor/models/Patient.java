@@ -6,7 +6,7 @@ public class Patient {
     public final static String ID = "_id";
     public final static String FIREBASE_ID = "firebase_id";
     public final static String EMAIL = "email";
-    public final static String PROFILE_PIC = "profile_pic_url";
+    public final static String PROFILE_PIC_URL = "profile_pic_url";
     public final static String FIRSTNAME = "firstname";
     public final static String GENDER = "gender";
     public final static String LASTNAME = "lastname";
