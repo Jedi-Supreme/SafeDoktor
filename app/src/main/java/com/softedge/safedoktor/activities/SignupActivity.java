@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import com.hbb20.CountryCodePicker;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
-import com.softedge.safedoktor.models.Patient;
+import com.softedge.safedoktor.models.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -147,16 +147,16 @@ public class SignupActivity extends AppCompatActivity {
 
                 }else {
 
-                    Patient reg_patient = new Patient(
+                    Biography reg_biography = new Biography(
                             et_reg_fn.getText().toString(),
                             et_reg_ln.getText().toString(),
                             sp_reg_gender.getSelectedItemPosition(),
                             country_code.getSelectedCountryCode(),
-                            mob_numb,
+                            String.valueOf(mob_numb),
                             et_reg_dob.getText().toString()
                     );
 
-                    pass_dataTo_verification(reg_patient,et_reg_confpass.getText().toString());
+                    pass_dataTo_verification(reg_biography,et_reg_confpass.getText().toString());
 
                 }
             }catch (Exception mobilenumb_error){
@@ -167,28 +167,28 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    void pass_dataTo_verification(Patient reg_patient, String password){
+    void pass_dataTo_verification(Biography reg_biography, String password){
         Intent verification_intent = new Intent(getApplicationContext(), VerificationActivity.class);
 
         if (!et_reg_email.getText().toString().isEmpty() &&
                 et_reg_email.getText().toString().contains("@") &&
                 et_reg_email.getText().toString().contains(".")){
-            verification_intent.putExtra(Patient.EMAIL, et_reg_email.getText().toString());
+            verification_intent.putExtra(Biography.EMAIL, et_reg_email.getText().toString());
         }else {
             //create default email if patient does not enter valid email
-            String default_email = "0"+String.valueOf(reg_patient.getMobile_number())
+            String default_email = "0"+String.valueOf(reg_biography.getMobile_number())
                     +getResources().getString(R.string.default_email_suffix);
-            verification_intent.putExtra(Patient.EMAIL, default_email);
+            verification_intent.putExtra(Biography.EMAIL, default_email);
         }
 
-        verification_intent.putExtra(Patient.FIRSTNAME, reg_patient.getFirstname());
-        verification_intent.putExtra(Patient.LASTNAME, reg_patient.getLastname());
-        verification_intent.putExtra(Patient.GENDER, reg_patient.getGender());
-        verification_intent.putExtra(Patient.PASSWORD,password);
+        verification_intent.putExtra(Biography.FIRSTNAME, reg_biography.getFirstname());
+        verification_intent.putExtra(Biography.LASTNAME, reg_biography.getLastname());
+        verification_intent.putExtra(Biography.GENDER, reg_biography.getGender());
+        verification_intent.putExtra(Biography.PASSWORD,password);
 
-        verification_intent.putExtra(Patient.MOBILE_NUMBER, reg_patient.getMobile_number());
-        verification_intent.putExtra(Patient.COUNTRY_CODE, reg_patient.getCountry_code());
-        verification_intent.putExtra(Patient.DATE_OF_BIRTH,reg_patient.getDate_of_birth());
+        verification_intent.putExtra(Biography.MOBILE_NUMBER, reg_biography.getMobile_number());
+        verification_intent.putExtra(Biography.COUNTRY_CODE, reg_biography.getCountry_code());
+        verification_intent.putExtra(Biography.DATE_OF_BIRTH, reg_biography.getDate_of_birth());
 
         startActivity(verification_intent);
 

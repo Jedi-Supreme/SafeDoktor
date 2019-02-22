@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.softedge.safedoktor.models.Patient;
+import com.softedge.safedoktor.models.PatientPackage.Biography;
 
 public class common_code {
 
@@ -22,21 +22,21 @@ public class common_code {
         return snackbar;
     }
 
-    public static Patient patientFromBundle(Bundle patbundle){
+    public static Biography patientFromBundle(Bundle patbundle){
 
-        Patient new_patient;
+        Biography new_biography;
 
-        new_patient = new Patient(
-                patbundle.getString(Patient.FIRSTNAME),
-                patbundle.getString(Patient.LASTNAME),
-                patbundle.getInt(Patient.GENDER),
-                patbundle.getString(Patient.COUNTRY_CODE),
-                patbundle.getInt(Patient.MOBILE_NUMBER),
-                patbundle.getString(Patient.EMAIL),
-                patbundle.getString(Patient.DATE_OF_BIRTH)
+        new_biography = new Biography(
+                patbundle.getString(Biography.FIRSTNAME),
+                patbundle.getString(Biography.LASTNAME),
+                patbundle.getInt(Biography.GENDER),
+                patbundle.getString(Biography.COUNTRY_CODE),
+                patbundle.getString(Biography.MOBILE_NUMBER),
+                patbundle.getString(Biography.EMAIL),
+                patbundle.getString(Biography.DATE_OF_BIRTH)
         );
 
-        return new_patient;
+        return new_biography;
     }
 }
 

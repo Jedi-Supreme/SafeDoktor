@@ -27,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
-import com.softedge.safedoktor.models.Patient;
+import com.softedge.safedoktor.models.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
@@ -107,8 +107,8 @@ public class VerificationActivity extends AppCompatActivity {
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
 
         if (registration_bundle != null) {
-            int mobile_number = registration_bundle.getInt(Patient.MOBILE_NUMBER);
-            String country_code = registration_bundle.getString(Patient.COUNTRY_CODE);
+            int mobile_number = registration_bundle.getInt(Biography.MOBILE_NUMBER);
+            String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
             String usernumber = "+" + country_code + String.valueOf(mobile_number);
             send_Code_Method(usernumber);
         }else {
@@ -176,8 +176,8 @@ public class VerificationActivity extends AppCompatActivity {
     //--------------------------------------CREATE ACCOUNT------------------------------------------
     void create_firebase_account(final PhoneAuthCredential credential){
 
-        final String email = registration_bundle.getString(Patient.EMAIL,null);
-        String password = registration_bundle.getString(Patient.PASSWORD,null);
+        final String email = registration_bundle.getString(Biography.EMAIL,null);
+        String password = registration_bundle.getString(Biography.PASSWORD,null);
 
         //show status text
         tv_verify_status.setText(getResources().getString(R.string.creating_account));
@@ -228,11 +228,11 @@ public class VerificationActivity extends AppCompatActivity {
         DatabaseReference records_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.records_ref));
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
-        Patient firebase_patient = common_code.patientFromBundle(registration_bundle);
-        String cell_number = "0"+String.valueOf(firebase_patient.getMobile_number());
-        records_ref.child(cell_number).child("email").setValue(firebase_patient.getEmail());
+        Biography firebase_biography = common_code.patientFromBundle(registration_bundle);
+        String cell_number = "0"+String.valueOf(firebase_biography.getMobile_number());
+        records_ref.child(cell_number).child("email").setValue(firebase_biography.getEmail());
 
-        all_users_ref.child(firebase_id).setValue(firebase_patient);
+        all_users_ref.child(firebase_id).setValue(firebase_biography);
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
@@ -325,8 +325,8 @@ public class VerificationActivity extends AppCompatActivity {
         //show status text
         tv_verify_status.setText(getResources().getString(R.string.logging_in));
 
-        String email = registration_bundle.getString(Patient.EMAIL);
-        String password = registration_bundle.getString(Patient.PASSWORD);
+        String email = registration_bundle.getString(Biography.EMAIL);
+        String password = registration_bundle.getString(Biography.PASSWORD);
 
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 

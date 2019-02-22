@@ -5,7 +5,6 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
-
     <string-array name="marital_status">
         <item><i>Marital Status</i></item>
         <item>Single</item>
@@ -13,7 +12,14 @@
         <item>Divorced</item>
         <item>Widowed</item>
     </string-array>
-
+    <string-array name="relations">
+        <item>Mother</item>
+        <item>Father</item>
+        <item>Sister</item>
+        <item>Brother</item>
+        <item>Family</item>
+        <item>Friend</item>
+    </string-array>
     <string-array name="blood_groups_arr">
         <item><i>Blood Group</i></item>
         <item>A-</item>
