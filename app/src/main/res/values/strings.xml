@@ -6,8 +6,27 @@
         <item>Female</item>
     </string-array>
 
+    <string-array name="marital_status">
+        <item><i>Marital Status</i></item>
+        <item>Single</item>
+        <item>Married</item>
+        <item>Divorced</item>
+        <item>Widowed</item>
+    </string-array>
+
+    <string-array name="blood_groups_arr">
+        <item><i>Blood Group</i></item>
+        <item>A-</item>
+        <item>A+</item>
+        <item>B-</item>
+        <item>B+</item>
+        <item>AB-</item>
+        <item>AB+</item>
+        <item>O-</item>
+        <item>O+</item>
+    </string-array>
+
     <string name="phone_valid_intro">Safe Doktor will send a one time SMS message to verify your phone number. Enter the <b>6-digit code</b> below</string>
-    <string name="phone_enter_explain">Please confirm your country code and enter your phone number</string>
 
     <string name="app_name">SafeDoktor</string>
     <string name="reg_text">Dont have an account? <u><b>Sign Up</b></u></string>
@@ -53,7 +72,7 @@
     <string name="no_internet_connection_txt">No Internet Connection</string>
     <string name="settings_txt">Settings</string>
     <string name="next">Next</string>
-    <string name="skip"><u>Skip</u></string>
+    <string name="skip">Skip</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="set_pic">Set Account Profile picture</string>
@@ -81,7 +100,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="conf_pass">Confirm Password</string>
     <string name="register">Register</string>
-    <string name="terms_and_service"><u><![CDATA[Terms of Service & Privacy]]></u></string>
+    <string name="terms_and_privacy"><u><![CDATA[Terms of Service & Privacy]]></u></string>
     <string name="password">Password</string>
     <string name="login_logo_pic">Main app icon</string>
     <string name="phone_email">Phone or Email</string>
@@ -89,4 +108,38 @@
     <string name="reg_qn">Dont have an account?</string>
     <string name="accept_pic">Accept</string>
     <string name="cancel">Cancel</string>
+    <string name="logging_in">Logging in…</string>
+    <string name="verifying">Verifying…</string>
+    <string name="creating_account">Creating Account…</string>
+    <string name="reset_intro">Enter the email address associated with your account</string>
+    <string name="reset_action">We will send you a link to reset your password</string>
+    <string name="send">Send</string>
+    <string name="developer_full_number">+233547779429</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="help">Help</string>
+    <string name="info">Info</string>
+    <string name="notifications">Notifications</string>
+    <string name="app_info_desc"><![CDATA[App Version, Policies, Terms & Conditions]]></string>
+    <string name="toggle_txt">Toggle App Alerts</string>
+    <string name="biography">Biography</string>
+    <string name="contact_persons">Contact Persons</string>
+    <string name="next_of_kins">Next of Kins</string>
+    <string name="medications">Medications</string>
+    <string name="medical_history">Medical History</string>
+    <string name="account">Account</string>
+    <string name="change_number">Change Phone Number</string>
+    <string name="change_pass">Change Password</string>
+    <string name="change_email">Change Email</string>
+    <string name="new_pass">New Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="auth_instruct">To safeguard your account and confirm your identity, please re-enter your account password.</string>
+    <string name="blood_group_txt">Blood group</string>
+    <string name="height_cm">Height(cm)</string>
+    <string name="weight_kg">Weight(kg)</string>
+    <string name="save">Save</string>
+    <string name="basic_info_txt">Basic Information</string>
+    <string name="address">Address</string>
+    <string name="home_add">Home Address</string>
+    <string name="physicals_genetics"><![CDATA[Physicals & Genetics]]></string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>

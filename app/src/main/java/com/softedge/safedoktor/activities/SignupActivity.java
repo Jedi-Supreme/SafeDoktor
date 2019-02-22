@@ -2,19 +2,13 @@ package com.softedge.safedoktor.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
@@ -30,13 +24,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class SignupActivity extends AppCompatActivity {
 
     WeakReference<SignupActivity> weak_signup;
-
-    AlertDialog pic_dialog_builder;
 
     TextInputLayout
             input_reg_password,
@@ -47,24 +37,20 @@ public class SignupActivity extends AppCompatActivity {
             et_reg_mobile, et_reg_email,
             et_reg_dob, et_reg_pass, et_reg_confpass;
 
-    CircleImageView iv_reg_propic;
-
     CountryCodePicker country_code;
     ConstraintLayout signup_layout;
-
-    //Uri global_profile_pic_path;
 
     DatePickerDialog datePickerDialog;
 
     Spinner sp_reg_gender;
-    private final int  GET_FROM_CAMERA = 201;
-    private final int GET_FROM_GALLERY = 202;
 
     //============================================ON CREATE=========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
+        //todo terms and conditions
 
         weak_signup = new WeakReference<>(SignupActivity.this);
 
@@ -81,8 +67,6 @@ public class SignupActivity extends AppCompatActivity {
 
         input_reg_password = findViewById(R.id.input_reg_password);
         input_reg_confpass = findViewById(R.id.input_reg_conf_pass);
-
-        iv_reg_propic = findViewById(R.id.iv_reg_pro_pic);
 
         country_code = findViewById(R.id.hbb_picker);
 
@@ -111,47 +95,10 @@ public class SignupActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(this,R.style.DatePickerTheme,dateSetListener,
                 calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
 
-        iv_reg_propic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                profile_pic_dialog();
-            }
-        });
+
 
     }
     //============================================ON CREATE=========================================
-
-    //--=--=--=--=--=--=--=--=--=--=--=--=--=--=--OVERRIDE METHODS=--=--=--=--=--=--=--=--=--=--=--=
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        pic_dialog_builder.dismiss();
-
-        switch (requestCode){
-
-            case GET_FROM_CAMERA:
-                if (resultCode == RESULT_OK){
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap;
-
-                    if (extras != null) {
-                        imageBitmap = (Bitmap) extras.get("data");
-                        pic_preview_dialog(imageBitmap);
-                    }
-
-                }
-                break;
-
-            case GET_FROM_GALLERY:
-                if (resultCode == RESULT_OK){
-                    pic_preview_dialog(data.getData());
-                }
-                break;
-        }
-    }
-
-    //--=--=--=--=--=--=--=--=--=--=--=--=--=--=--OVERRIDE METHODS=--=--=--=--=--=--=--=--=--=--=--=
 
     //--------------------------------------DEFINED METHODS-----------------------------------------
     void test_userinputs(){
@@ -220,126 +167,6 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    //build dialog for user to select profile pic
-    void profile_pic_dialog(){
-        pic_dialog_builder = new AlertDialog.Builder(weak_signup.get()).create();
-
-        View propic_view = LayoutInflater.from(weak_signup.get()).inflate(R.layout.frag_propic,signup_layout,false);
-
-        pic_dialog_builder.setCancelable(true);
-        pic_dialog_builder.setView(propic_view);
-
-        Button bt_camera = propic_view.findViewById(R.id.bt_set_camera);
-        Button bt_gallery = propic_view.findViewById(R.id.bt_set_gallery);
-
-        bt_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent start_camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                if (start_camera.resolveActivity(getPackageManager())!= null){
-                    startActivityForResult(start_camera,GET_FROM_CAMERA);
-                }
-            }
-        });
-
-        bt_gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent gallery_pic = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-
-                if (gallery_pic.resolveActivity(getPackageManager()) != null){
-                    startActivityForResult(gallery_pic,GET_FROM_GALLERY);
-                }
-
-            }
-        });
-
-        pic_dialog_builder.show();
-
-    }
-
-    //user previews selected picture from camera
-    void pic_preview_dialog(final Bitmap profile_pic_bitmap){
-
-        final AlertDialog preview_dialog_builder = new AlertDialog.Builder(weak_signup.get()).create();
-
-        View propic_view = LayoutInflater.from(weak_signup.get()).inflate(R.layout.frag_pic_preview,signup_layout,false);
-
-        preview_dialog_builder.setCancelable(true);
-        preview_dialog_builder.setView(propic_view);
-
-        CircleImageView iv_prev_propic = propic_view.findViewById(R.id.iv_prev_propic);
-        Button bt_prev_accept = propic_view.findViewById(R.id.bt_prev_accept);
-        Button bt_prev_cancel = propic_view.findViewById(R.id.bt_prev_cancel);
-
-        try {
-            iv_prev_propic.setImageBitmap(profile_pic_bitmap);
-        }catch (Exception ignored){}
-
-
-        //user accepted to set selected pic
-        bt_prev_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iv_reg_propic.setImageBitmap(profile_pic_bitmap);
-                preview_dialog_builder.dismiss();
-            }
-        });
-
-        //user declined pic setting process
-        bt_prev_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                preview_dialog_builder.dismiss();
-            }
-        });
-
-        preview_dialog_builder.show();
-    }
-
-    //preview overload for gallery
-    void pic_preview_dialog(final Uri profile_pic_path){
-
-        final AlertDialog preview_dialog_builder = new AlertDialog.Builder(weak_signup.get()).create();
-
-        View propic_view = LayoutInflater.from(weak_signup.get()).inflate(R.layout.frag_pic_preview,signup_layout,false);
-
-        preview_dialog_builder.setCancelable(true);
-        preview_dialog_builder.setView(propic_view);
-
-        CircleImageView iv_prev_propic = propic_view.findViewById(R.id.iv_prev_propic);
-        Button bt_prev_accept = propic_view.findViewById(R.id.bt_prev_accept);
-        Button bt_prev_cancel = propic_view.findViewById(R.id.bt_prev_cancel);
-
-        try {
-            iv_prev_propic.setImageURI(profile_pic_path);
-        }catch (Exception ignored){}
-
-
-        //user accepted to set selected pic
-        bt_prev_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iv_reg_propic.setImageURI(profile_pic_path);
-                preview_dialog_builder.dismiss();
-            }
-        });
-
-        //user declined pic setting process
-        bt_prev_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                preview_dialog_builder.dismiss();
-            }
-        });
-
-        preview_dialog_builder.show();
-    }
-
     void pass_dataTo_verification(Patient reg_patient, String password){
         Intent verification_intent = new Intent(getApplicationContext(), VerificationActivity.class);
 
@@ -349,7 +176,8 @@ public class SignupActivity extends AppCompatActivity {
             verification_intent.putExtra(Patient.EMAIL, et_reg_email.getText().toString());
         }else {
             //create default email if patient does not enter valid email
-            String default_email = "0"+String.valueOf(reg_patient.getMobile_number())+"@safedoktor.com";
+            String default_email = "0"+String.valueOf(reg_patient.getMobile_number())
+                    +getResources().getString(R.string.default_email_suffix);
             verification_intent.putExtra(Patient.EMAIL, default_email);
         }
 

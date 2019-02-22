@@ -207,6 +207,7 @@
             app:layout_constraintTop_toBottomOf="@id/input_reg_dob">
 
             <Spinner
+                android:backgroundTint="@color/colorPrimary"
                 android:id="@+id/sp_reg_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -302,7 +303,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:text="@string/terms_and_service"
+            android:text="@string/terms_and_privacy"
             android:textColor="@color/blue_black"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="@id/bt_reg_reg"
@@ -329,15 +330,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/const_sub_reg_view" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:scaleType="centerCrop"
-        android:id="@+id/iv_reg_pro_pic"
-        android:src="@drawable/editprofilepic"
-        app:layout_constraintLeft_toRightOf="@id/tv_reg_label"
-        app:layout_constraintTop_toTopOf="@id/const_sub_reg_view"
-        app:layout_constraintBottom_toTopOf="@id/const_sub_reg_view"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_width="@dimen/reg_pic_dim"
-        android:layout_height="@dimen/reg_pic_dim" />
 
 </android.support.constraint.ConstraintLayout>

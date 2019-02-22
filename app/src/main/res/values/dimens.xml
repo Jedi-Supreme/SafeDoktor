@@ -16,5 +16,9 @@
     <dimen name="card_elevate">4dp</dimen>
     <dimen name="dash_card_icons">40dp</dimen>
     <dimen name="card_mainlbl_txtsize">20sp</dimen>
-    <dimen name="verify_code_dim">50dp</dimen>
+    <dimen name="verify_code_dim">40dp</dimen>
+    <dimen name="intro_text_width">300dp</dimen>
+    <dimen name="largest_text">20sp</dimen>
+    <dimen name="large_text">18sp</dimen>
+    <dimen name="profile_pic_size">150dp</dimen>
 </resources>

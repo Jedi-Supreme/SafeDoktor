@@ -7,7 +7,10 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
@@ -41,8 +43,9 @@ public class VerificationActivity extends AppCompatActivity {
 
     WeakReference<VerificationActivity> weakverification;
 
-    TextView tv_verify_downtime, tv_verify_resend;
+    TextView tv_verify_downtime, tv_verify_resend, tv_verify_status;
     ProgressBar probar_verify_code;
+    Button bt_verify_code;
 
     String verification_id;
     PhoneAuthProvider.ForceResendingToken resendingToken;
@@ -57,9 +60,11 @@ public class VerificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verification);
 
         weakverification = new WeakReference<>(this);
+        registration_bundle = getIntent().getExtras();
 
         tv_verify_downtime = findViewById(R.id.tv_verify_dwntime);
         tv_verify_resend = findViewById(R.id.tv_verify_resend);
+        tv_verify_status = findViewById(R.id.tv_verify_Status);
 
         et_code_1 = findViewById(R.id.et_code_1);
         et_code_2 = findViewById(R.id.et_code_2);
@@ -68,11 +73,10 @@ public class VerificationActivity extends AppCompatActivity {
         et_code_5 = findViewById(R.id.et_code_5);
         et_code_6 = findViewById(R.id.et_code_6);
 
-        code_input_Array = new TextInputEditText[]{et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6};
-
         probar_verify_code = findViewById(R.id.probar_verify_code);
+        bt_verify_code = findViewById(R.id.bt_verifycode);
 
-        registration_bundle = getIntent().getExtras();
+        code_input_Array = new TextInputEditText[]{et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6};
 
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
         countDownTimer = new CountDownTimer(COUNTDOWN_TIME, SECS) {
@@ -107,7 +111,11 @@ public class VerificationActivity extends AppCompatActivity {
             String country_code = registration_bundle.getString(Patient.COUNTRY_CODE);
             String usernumber = "+" + country_code + String.valueOf(mobile_number);
             send_Code_Method(usernumber);
+        }else {
+            Toast.makeText(getApplicationContext(),"bundle is empty",Toast.LENGTH_LONG).show();
         }
+
+        editorSwitcher();
 
     }
     //============================================ON CREATE=========================================
@@ -124,12 +132,55 @@ public class VerificationActivity extends AppCompatActivity {
         countDownTimer.cancel();
     }
 
+    void editorSwitcher(){
+
+        for (final TextInputEditText et_input : code_input_Array){
+            et_input.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    switch (et_input.getId()){
+                        case R.id.et_code_1:
+                            et_code_2.requestFocus();
+                            break;
+                        case R.id.et_code_2:
+                            et_code_3.requestFocus();
+                            break;
+                        case R.id.et_code_3:
+                            et_code_4.requestFocus();
+                            break;
+                        case R.id.et_code_4:
+                            et_code_5.requestFocus();
+                            break;
+                        case R.id.et_code_5:
+                            et_code_6.requestFocus();
+                            break;
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
+    }
+
     //create user email account
     //--------------------------------------CREATE ACCOUNT------------------------------------------
     void create_firebase_account(final PhoneAuthCredential credential){
 
         final String email = registration_bundle.getString(Patient.EMAIL,null);
         String password = registration_bundle.getString(Patient.PASSWORD,null);
+
+        //show status text
+        tv_verify_status.setText(getResources().getString(R.string.creating_account));
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -146,7 +197,7 @@ public class VerificationActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if (task.isSuccessful()){
-                                                signInWithPhoneAuthCredential(credential);
+                                                login_with_email();
                                             }
                                         }
                                     });
@@ -243,7 +294,6 @@ public class VerificationActivity extends AppCompatActivity {
 
             };
 
-
     //verify code
     private void verifyVerificationCode(String code) {
 
@@ -251,47 +301,53 @@ public class VerificationActivity extends AppCompatActivity {
         probar_verify_code.setVisibility(View.VISIBLE);
         probar_verify_code.animate();
 
-        //creating the credential
-        final PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, code);
+        //show status text
+        tv_verify_status.setText(getResources().getString(R.string.verifying));
+        tv_verify_status.setVisibility(View.VISIBLE);
 
-        create_firebase_account(credential);
+        try {
+            //creating the credential
+            final PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, code);
 
-        //signing the user
-        //signInWithPhoneAuthCredential(credential);
+            //create user account with email
+            create_firebase_account(credential);
+
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_LONG).show();
+        }
+
+
     }
 
     //sign in
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    void login_with_email(){
 
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        //show status text
+        tv_verify_status.setText(getResources().getString(R.string.logging_in));
 
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            //verification successful ,move on to the second step
-                            if (mAuth.getCurrentUser() != null){
-                                toDashboard();
+        String email = registration_bundle.getString(Patient.EMAIL);
+        String password = registration_bundle.getString(Patient.PASSWORD);
+
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        if (email != null && password != null) {
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+
+                                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                    toDashboard();
+                                }
+                                // Sign in success, update UI with the signed-in user's information
+                                //Log.d(TAG, "signInWithEmail:success");
+
                             }
 
-                        } else {
-
-                            //verification unsuccessful.. display an error message
-                            String message = "Verification Unsuccessful, Please try again...";
-
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                message = "Invalid code entered...";
-                                probar_verify_code.setVisibility(View.GONE);
-                                probar_verify_code.clearAnimation();
-                            }
-
-                            common_code.Mysnackbar(findViewById(R.id.const_verify_parentview),
-                                    message,Snackbar.LENGTH_LONG).show();
                         }
-                    }
-                });
-
+                    });
+        }
     }
 
     void codeValues_into_views(String code){
@@ -318,7 +374,8 @@ public class VerificationActivity extends AppCompatActivity {
             codebuilder.append(et_code.getText().toString());
         }
 
-        if (!codebuilder.toString().isEmpty()){
+        if (!codebuilder.toString().isEmpty() && codebuilder.toString().length() == 6){
+            Toast.makeText(getApplicationContext(),codebuilder.toString(),Toast.LENGTH_LONG).show();
             verifyVerificationCode(codebuilder.toString());
         }else {
             common_code.Mysnackbar(findViewById(R.id.const_verify_parentview),
@@ -328,7 +385,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void ResendCode(View view) {
-
+        //TODO resend function
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENERS-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=-=-
 
