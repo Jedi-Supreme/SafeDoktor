@@ -1,10 +1,8 @@
 package com.softedge.safedoktor.models.PatientPackage;
 
-import com.softedge.safedoktor.models.PatientPackage.Address;
-
 public class Biography {
 
-    public final static String TABLE = "PATIENT";
+    public final static String TABLE = "BIOGRAPHY";
     public final static String ID = "_id";
     public final static String FIREBASE_ID = "firebase_id";
     public final static String EMAIL = "email";

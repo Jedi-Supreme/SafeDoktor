@@ -17,31 +17,34 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:label="@string/biography"
-            android:theme="@style/biotheme"
-            android:windowSoftInputMode="adjustPan"
+            android:name=".activities.ContactsActivity"
+            android:label="@string/contact_persons"
             android:screenOrientation="portrait"
-            android:name=".activities.BiographyActivity"/>
+            android:theme="@style/contacts_style" />
 
         <activity
-            android:label="@string/medical_history"
+            android:name=".activities.BiographyActivity"
+            android:label="@string/biography"
             android:screenOrientation="portrait"
-            android:name=".activities.MedicalHistoryActivity" />
+            android:theme="@style/biotheme"
+            android:windowSoftInputMode="adjustPan" />
 
+        <activity
+            android:theme="@style/contacts_style"
+            android:name=".activities.MedicalHistoryActivity"
+            android:label="@string/medical_history"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AccountActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:label="@string/edit_profile"
             android:name=".activities.ProfileActivity"
+            android:label="@string/edit_profile"
             android:screenOrientation="portrait" />
-
         <activity
-            android:label="@string/settings_txt"
             android:name=".activities.SettingsActivity"
+            android:label="@string/settings_txt"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -52,35 +55,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.WelcomeActvity"
             android:label="@string/dash_welcome"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/logintheme"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".activities.SignupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/logintheme"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".activities.VerificationActivity"
             android:label="@string/verifyCode"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
     </application>
 
 </manifest>

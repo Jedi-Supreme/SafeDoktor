@@ -23,10 +23,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
@@ -107,7 +111,7 @@ public class VerificationActivity extends AppCompatActivity {
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
 
         if (registration_bundle != null) {
-            int mobile_number = registration_bundle.getInt(Biography.MOBILE_NUMBER);
+            String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
             String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
             String usernumber = "+" + country_code + String.valueOf(mobile_number);
             send_Code_Method(usernumber);
@@ -229,12 +233,49 @@ public class VerificationActivity extends AppCompatActivity {
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
         Biography firebase_biography = common_code.patientFromBundle(registration_bundle);
+        firebase_biography.setFirebase_Uid(firebase_id);
         String cell_number = "0"+String.valueOf(firebase_biography.getMobile_number());
         records_ref.child(cell_number).child("email").setValue(firebase_biography.getEmail());
 
-        all_users_ref.child(firebase_id).setValue(firebase_biography);
+        //save user details to All_Users/Biography/Uid
+        all_users_ref.child(getResources().getString(R.string.bio_ref)).child(firebase_id).setValue(firebase_biography);
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
+
+    void loadBioData_online(String fireID){
+
+        String all_users = getResources().getString(R.string.all_users);
+        String biography = getResources().getString(R.string.bio_ref);
+
+        final SafeDB safe_db = new SafeDB(weakverification.get(),null);
+
+        DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users).child(biography);
+
+        bio_ref.child(fireID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Biography userBio = dataSnapshot.getValue(Biography.class);
+
+                if (userBio != null){
+                    try {
+                        safe_db.addPat_bio(userBio);
+                        toDashboard();
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"Error loading online data "
+                                +e.toString(),Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     //send verification code
     void send_Code_Method(String mobile_number){
@@ -338,7 +379,7 @@ public class VerificationActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
 
                                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                    toDashboard();
+                                   loadBioData_online(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                 }
                                 // Sign in success, update UI with the signed-in user's information
                                 //Log.d(TAG, "signInWithEmail:success");

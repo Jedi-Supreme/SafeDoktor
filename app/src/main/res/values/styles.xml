@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="contacts_style" parent="AppTheme">
+        <item name="colorAccent">@color/black</item>
+    </style>
+
+    <style name="switch_style">
+        <item name="android:colorControlActivated">#43A047</item>
+    </style>
+
     <style name="divider_view_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>

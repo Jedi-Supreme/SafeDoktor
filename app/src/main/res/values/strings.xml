@@ -1,27 +1,28 @@
 <resources>
 
     <string-array name="gender_Arr">
-        <item><i>Select Gender</i></item>
+        <item><i>Select</i></item>
         <item>Male</item>
         <item>Female</item>
     </string-array>
     <string-array name="marital_status">
-        <item><i>Marital Status</i></item>
+        <item><i>Select</i></item>
         <item>Single</item>
         <item>Married</item>
         <item>Divorced</item>
         <item>Widowed</item>
     </string-array>
     <string-array name="relations">
+        <item><i>Select</i></item>
         <item>Mother</item>
         <item>Father</item>
         <item>Sister</item>
         <item>Brother</item>
-        <item>Family</item>
+        <item>Guardian</item>
         <item>Friend</item>
     </string-array>
     <string-array name="blood_groups_arr">
-        <item><i>Blood Group</i></item>
+        <item><i>Select</i></item>
         <item>A-</item>
         <item>A+</item>
         <item>B-</item>
@@ -30,6 +31,32 @@
         <item>AB+</item>
         <item>O-</item>
         <item>O+</item>
+    </string-array>
+
+    <string-array name="personal_qns">
+        <item>Do you have any allergies?</item>
+        <item>Are you currently taking any medications and/or supplements?</item>
+        <item>Have you ever been admitted to a hospital for a serious illness or injury (ie: stroke, heart attack, car accident, etc)?</item>
+    </string-array>
+    <string-array name="family_qns">
+        <item>Have any of your relatives had Inflammatory Bowel Disease?</item>
+        <item>Have any of your relatives had cancer?</item>
+    </string-array>
+    <string-array name="social_qns">
+        <item>Has anyone in your family or home ever physically or verbally hurt you?</item>
+        <item>Do you need assistance with getting around (ie: cane, wheel chair, etc.)?</item>
+        <item>Do you exercise?</item>
+        <item>How many children do you have?</item>
+        <item>Did you sustain any injury during delivery?</item>
+        <item>Do you smoke?</item>
+        <item>Have you ever smoked?</item>
+        <item>Do you take alcohol?</item>
+        <item>Do you take recreational drugs?</item>
+        <item>When last did you take a recreational drug?</item>
+    </string-array>
+    <string-array name="surgical_qns">
+        <item>Have you ever undergone surgery?</item>
+        <item>Have you ever had a colonoscopy></item>
     </string-array>
 
     <string name="phone_valid_intro">Safe Doktor will send a one time SMS message to verify your phone number. Enter the <b>6-digit code</b> below</string>
@@ -148,4 +175,12 @@
     <string name="home_add">Home Address</string>
     <string name="physicals_genetics"><![CDATA[Physicals & Genetics]]></string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="gender">Gender</string>
+    <string name="marital_status">Marital Status</string>
+    <string name="full_name">Full Name</string>
+    <string name="home_work_add">Home or Work Address</string>
+    <string name="relationship">Relationship</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="remarks">Remarks</string>
 </resources>
