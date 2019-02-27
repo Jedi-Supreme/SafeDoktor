@@ -15,25 +15,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activities.ApptMake_Activity" />
+        <activity
+            android:name=".activities.Appointments"
+            android:label="@string/appointments_txt"
+            android:screenOrientation="portrait"
+            android:theme="@style/contacts_style" />
         <activity
             android:name=".activities.ContactsActivity"
             android:label="@string/contact_persons"
             android:screenOrientation="portrait"
             android:theme="@style/contacts_style" />
-
         <activity
             android:name=".activities.BiographyActivity"
             android:label="@string/biography"
             android:screenOrientation="portrait"
             android:theme="@style/biotheme"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:theme="@style/contacts_style"
             android:name=".activities.MedicalHistoryActivity"
             android:label="@string/medical_history"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/contacts_style"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.AccountActivity"
             android:screenOrientation="portrait" />

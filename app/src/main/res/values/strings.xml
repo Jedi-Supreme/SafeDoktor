@@ -183,4 +183,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="remarks">Remarks</string>
+    <string name="doc_pic_desc">consultation doctor profile picture</string>
+    <string name="hori_options">Horizontal more button</string>
+    <string name="to">to</string>
+    <string name="consult_type">Consultation type icon</string>
+    <string name="booking_no">Booking No:</string>
+    <string name="add_appt">Add Appointment</string>
 </resources>

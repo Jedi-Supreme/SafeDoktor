@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
+import com.softedge.safedoktor.fragments.library_fragment;
+import com.softedge.safedoktor.fragments.partners_fragment;
 import com.softedge.safedoktor.models.GlideApp;
 import com.softedge.safedoktor.models.PatientPackage.Biography;
 import com.softedge.safedoktor.models.PatientPackage.ContactPerson;
@@ -30,12 +34,19 @@ import java.lang.ref.WeakReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements TabHost.OnTabChangeListener{
 
     SharedPreferences safe_pref;
 
     DrawerLayout dash_drawer_layout;
     NavigationView dash_nav_view;
+
+    TabHost dash_tabhost;
+
+    final static String lib = "Library";
+    final static String partner = "Partners";
+    final static String chatroom = "chatroom";
+    final static String home = "Home";
 
     TextView tv_nav_logout, tv_nav_settings, tv_nav_fullname, tv_dash_username, tv_dash_usernumber;
     CircleImageView iv_nav_avatarpic;
@@ -43,6 +54,8 @@ public class DashboardActivity extends AppCompatActivity {
     WeakReference<DashboardActivity> weakDash;
     String fireID;
     SafeDB safe_db;
+
+    ActionBar actionBar;
 
     //==========================================ON CREATE===========================================
     @Override
@@ -56,6 +69,35 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar dash_toolbar = findViewById(R.id.dash_toolbar);
         dash_drawer_layout = findViewById(R.id.dash_drawer_layout);
         dash_nav_view = findViewById(R.id.dash_nav_view);
+
+        dash_tabhost = findViewById(R.id.dash_tabhost);
+        dash_tabhost.setup();
+
+        //------------------------------------DASHBOARD TABS----------------------------------------
+
+        TabHost.TabSpec homeSpec = dash_tabhost.newTabSpec(home);
+        TabHost.TabSpec libSpec = dash_tabhost.newTabSpec(lib);
+        TabHost.TabSpec chatSpec = dash_tabhost.newTabSpec(chatroom);
+        TabHost.TabSpec partnerSpec = dash_tabhost.newTabSpec(partner);
+
+        homeSpec.setIndicator("",getDrawable(R.drawable.home));
+        libSpec.setIndicator("",getDrawable(R.drawable.book));
+        chatSpec.setIndicator("",getDrawable(R.drawable.dialog));
+        partnerSpec.setIndicator("",getDrawable(R.drawable.users));
+
+
+        homeSpec.setContent(R.id.const_dash_content);
+        libSpec.setContent(R.id.dash_frag_holder);
+        partnerSpec.setContent(R.id.dash_frag_holder);
+        chatSpec.setContent(R.id.dash_frag_holder);
+
+        dash_tabhost.addTab(homeSpec);
+        dash_tabhost.addTab(libSpec);
+        dash_tabhost.addTab(chatSpec);
+        dash_tabhost.addTab(partnerSpec);
+
+        dash_tabhost.setOnTabChangedListener(this);
+        //------------------------------------DASHBOARD TABS----------------------------------------
 
         tv_dash_username = findViewById(R.id.tv_dash_username);
         tv_nav_logout = dash_nav_view.findViewById(R.id.tv_nav_logout);
@@ -77,7 +119,7 @@ public class DashboardActivity extends AppCompatActivity {
         //---------------------------------------get user id----------------------------------------
 
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
 
         if (actionBar !=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -122,7 +164,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
 
-
     }
     //==========================================ON CREATE===========================================
 
@@ -146,6 +187,8 @@ public class DashboardActivity extends AppCompatActivity {
             dash_drawer_layout.closeDrawer(GravityCompat.START);
         }
 
+        dash_tabhost.setCurrentTab(0);
+
         loadBioData_online();
 
         try{
@@ -161,6 +204,32 @@ public class DashboardActivity extends AppCompatActivity {
         startmain.addCategory(Intent.CATEGORY_HOME);
         startmain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startmain);
+
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+
+        switch (tabId){
+
+            case home:
+                if (actionBar != null){
+                    actionBar.setTitle(getString(R.string.app_name));
+                }
+                break;
+
+            case lib:
+                toLibrary();
+                break;
+
+            case partner:
+                toPartners();
+                break;
+
+            case chatroom:
+                break;
+
+        }
 
     }
 
@@ -290,6 +359,36 @@ public class DashboardActivity extends AppCompatActivity {
         Intent settings_intent = new Intent(getApplicationContext(),SettingsActivity.class);
         startActivity(settings_intent);
     }
+
+    void toAppointment(){
+        Intent appt_intent = new Intent(getApplicationContext(),Appointments.class);
+        startActivity(appt_intent);
+    }
+
+    void toLibrary(){
+
+        if (actionBar != null){
+          actionBar.setTitle("Health Info");
+        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.dash_frag_holder, new library_fragment());
+        ft.commit();
+    }
+
+    void toPartners(){
+        if (actionBar != null){
+            actionBar.setTitle(partner);
+        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.dash_frag_holder, new partners_fragment());
+        ft.commit();
+    }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+    //-------------------------------------------CLICK LISTENERS------------------------------------
+    public void appt_clicked(View view) {
+        toAppointment();
+    }
+    //-------------------------------------------CLICK LISTENERS------------------------------------
 
 }
