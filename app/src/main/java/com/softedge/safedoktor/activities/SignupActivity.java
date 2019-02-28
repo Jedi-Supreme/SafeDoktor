@@ -2,12 +2,12 @@ package com.softedge.safedoktor.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -208,7 +208,7 @@ public class SignupActivity extends AppCompatActivity {
     };
 
     public void showDate(int year, int month, int day) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/YYYY", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy", Locale.getDefault());
         SimpleDateFormat parseDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
         String userdate;
         Date date;

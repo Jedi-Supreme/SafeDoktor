@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/const_medhistory_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MedicalHistoryActivity">
+
+    <include
+        android:id="@+id/history_tabhost"
+        layout="@layout/inc_tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        app:layout_constraintBottom_toTopOf="@id/probar_history"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/probar_history"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue_black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bt_history_save" />
+
+    <Button
+        android:id="@+id/bt_history_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_padding"
+        android:background="@drawable/bio_button_back"
+        android:drawableStart="@drawable/ic_done_white_24dp"
+        android:onClick="Save_history_data"
+        android:paddingStart="@dimen/dash_card_height"
+        android:paddingEnd="@dimen/dash_card_height"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

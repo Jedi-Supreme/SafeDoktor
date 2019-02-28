@@ -2,6 +2,7 @@ package com.softedge.safedoktor.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
+import com.softedge.safedoktor.fragments.chats_fragment;
 import com.softedge.safedoktor.fragments.library_fragment;
 import com.softedge.safedoktor.fragments.partners_fragment;
 import com.softedge.safedoktor.models.GlideApp;
@@ -84,7 +85,6 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         libSpec.setIndicator("",getDrawable(R.drawable.book));
         chatSpec.setIndicator("",getDrawable(R.drawable.dialog));
         partnerSpec.setIndicator("",getDrawable(R.drawable.users));
-
 
         homeSpec.setContent(R.id.const_dash_content);
         libSpec.setContent(R.id.dash_frag_holder);
@@ -213,6 +213,7 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         switch (tabId){
 
             case home:
+
                 if (actionBar != null){
                     actionBar.setTitle(getString(R.string.app_name));
                 }
@@ -227,6 +228,7 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
                 break;
 
             case chatroom:
+                toChatroom();
                 break;
 
         }
@@ -318,9 +320,11 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         tv_nav_fullname.setText(username);
         tv_dash_usernumber.setText(usernumber);
 
-        GlideApp.with(weakDash.get())
-                .load(app_userBio.getPropic_url())
-                .into(iv_nav_avatarpic);
+        if (!app_userBio.getPropic_url().isEmpty() || !app_userBio.getPropic_url().equals("")) {
+            GlideApp.with(weakDash.get())
+                    .load(app_userBio.getPropic_url())
+                    .into(iv_nav_avatarpic);
+        }
 
     }
 
@@ -372,6 +376,15 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.dash_frag_holder, new library_fragment());
+        ft.commit();
+    }
+
+    void toChatroom() {
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.chat));
+        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.dash_frag_holder, new chats_fragment());
         ft.commit();
     }
 

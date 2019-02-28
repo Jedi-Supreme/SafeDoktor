@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/const_profile_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProfileActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/const_pro_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_grey"
+        android:padding="@dimen/margin_small"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile_pic"
+            android:layout_width="@dimen/profile_pic_size"
+            android:layout_height="@dimen/profile_pic_size"
+            android:src="@drawable/generic_avatar"
+            app:civ_border_width="1dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile_pic_bt"
+            android:layout_width="@dimen/reg_pic_dim"
+            android:layout_height="@dimen/reg_pic_dim"
+            android:scaleType="centerCrop"
+            android:src="@drawable/editprofilepic"
+            app:layout_constraintLeft_toRightOf="@id/iv_profile_pic"
+            app:layout_constraintRight_toRightOf="@id/iv_profile_pic"
+            app:layout_constraintTop_toTopOf="@id/iv_profile_pic" />
+
+        <TextView
+            android:id="@+id/tv_profile_fullname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textAlignment="center"
+            android:textSize="@dimen/largest_text"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_pic" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/probar_profile"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue_black"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/const_pro_pic" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_small"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/const_pro_pic">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/bt_profile_account"
+                style="@style/list_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_forward_grey_24dp"
+                android:text="@string/account" />
+
+            <View style="@style/divider_view_style" />
+
+            <Button
+                android:id="@+id/bt_profile_bio"
+                style="@style/list_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_forward_grey_24dp"
+                android:text="@string/biography" />
+
+            <View style="@style/divider_view_style" />
+
+            <Button
+                android:id="@+id/bt_profile_pers"
+                style="@style/list_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_forward_grey_24dp"
+                android:text="@string/contact_persons" />
+
+            <View style="@style/divider_view_style" />
+
+            <Button
+                android:id="@+id/bt_profile_medication"
+                style="@style/list_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_forward_grey_24dp"
+                android:text="@string/medications" />
+
+            <View style="@style/divider_view_style" />
+
+            <Button
+                android:id="@+id/bt_profile_medhistory"
+                style="@style/list_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_forward_grey_24dp"
+                android:text="@string/medical_history" />
+
+            <View style="@style/divider_view_style" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/const_bio_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:padding="@dimen/activity_padding"
+    tools:context=".activities.BiographyActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/probar_bio_update"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_rounded_border"
+                android:padding="@dimen/margin_tiny"
+                android:text="@string/basic_info_txt"
+                android:textAlignment="center"
+                android:textColor="@color/blue_black"
+                android:textSize="@dimen/large_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="-5dp"
+                android:text="@string/marital_status"
+                android:textSize="@dimen/med_text_size" />
+
+            <Spinner
+                android:id="@+id/sp_bio_marry"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/marital_status" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_bio_fn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_bio_fn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/firstname"
+                    android:textSize="@dimen/med_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_bio_ln"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_bio_ln"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Lastname"
+                    android:textSize="@dimen/med_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="-15dp"
+                android:text="@string/gender" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+
+                <Spinner
+                    android:id="@+id/sp_bio_gender"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/gender_Arr" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_bio_dob"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_bio_dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:hint="@string/dob"
+                        android:longClickable="false"
+                        android:textSize="@dimen/med_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+            </TableRow>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_bio_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_bio_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="@string/email"
+                    android:longClickable="false"
+                    android:textSize="@dimen/med_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@drawable/input_rounded_border"
+                android:padding="@dimen/margin_tiny"
+                android:text="@string/address"
+                android:textAlignment="center"
+                android:textColor="@color/blue_black"
+                android:textSize="@dimen/large_text" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_bio_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_bio_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/home_add"
+                    android:longClickable="false"
+                    android:textSize="@dimen/med_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@drawable/input_rounded_border"
+                android:padding="@dimen/margin_tiny"
+                android:text="@string/physicals_genetics"
+                android:textAlignment="center"
+                android:textColor="@color/blue_black"
+                android:textSize="@dimen/large_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="-15dp"
+                android:text="@string/blood_group_txt"
+                android:textSize="@dimen/med_text_size" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:gravity="bottom">
+
+                <Spinner
+                    android:id="@+id/sp_bio_bloodgrp"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/blood_groups_arr" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_bio_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_bio_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="5"
+                        android:hint="@string/height_cm"
+                        android:inputType="numberDecimal"
+                        android:textSize="@dimen/med_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_bio_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_bio_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="5"
+                        android:hint="@string/weight_kg"
+                        android:inputType="numberDecimal"
+                        android:textSize="@dimen/med_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </TableRow>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/probar_bio_update"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue_black"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bt_bio_save" />
+
+    <Button
+        android:id="@+id/bt_bio_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@drawable/bio_button_back"
+        android:drawableStart="@drawable/ic_done_white_24dp"
+        android:onClick="Save_bio_data"
+        android:paddingStart="@dimen/dash_card_height"
+        android:paddingEnd="@dimen/dash_card_height"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

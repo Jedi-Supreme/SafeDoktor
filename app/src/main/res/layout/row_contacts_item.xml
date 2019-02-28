@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_contact_fullname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_med"
+        android:padding="@dimen/margin_tiny"
+        android:text="@string/developer_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_contact_rel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_tiny"
+        android:paddingEnd="@dimen/margin_small"
+        android:text="@string/blood_group_txt"
+        app:layout_constraintLeft_toLeftOf="@id/tv_contact_fullname"
+        app:layout_constraintTop_toBottomOf="@id/tv_contact_fullname" />
+
+    <TextView
+        android:id="@+id/tv_contact_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:background="@drawable/ic_delete_grey_24dp"
+        android:padding="@dimen/margin_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        style="@style/divider_view_style"
+        android:layout_marginTop="@dimen/margin_tiny"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_contact_rel" />
+
+
+</android.support.constraint.ConstraintLayout>

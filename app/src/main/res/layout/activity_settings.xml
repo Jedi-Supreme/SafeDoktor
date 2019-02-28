@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_padding"
+    tools:context=".activities.SettingsActivity">
+
+    <TextView
+        android:id="@+id/tv_sett_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_med"
+        android:text="@string/profile"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_text" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/tv_sett_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_med"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_med"
+        android:text="@string/notifications"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_tiny"
+        android:paddingStart="@dimen/margin_med"
+        android:paddingEnd="@dimen/margin_small"
+        android:text="@string/toggle_txt"
+        android:textColor="@color/grey_200" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey" />
+
+    <TextView
+        android:id="@+id/tv_sett_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/margin_med"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_med"
+        android:text="@string/info"
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_tiny"
+        android:paddingStart="@dimen/margin_med"
+        android:paddingEnd="@dimen/margin_med"
+        android:text="@string/app_info_desc"
+        android:textColor="@color/grey_200" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/grey" />
+
+
+</LinearLayout>
