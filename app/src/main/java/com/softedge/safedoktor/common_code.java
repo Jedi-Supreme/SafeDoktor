@@ -8,21 +8,18 @@ import com.softedge.safedoktor.models.PatientPackage.Biography;
 
 public class common_code {
 
-    public static Snackbar Mysnackbar(View parent_view, String message, int lenght){
+    //private static final int CAMERA_AUDIO_REQ_CODE = 434;
 
-        final Snackbar snackbar =  Snackbar.make(parent_view,message,lenght);
+    public static Snackbar Mysnackbar(View parent_view, String message, int lenght) {
+
+        final Snackbar snackbar = Snackbar.make(parent_view, message, lenght);
         snackbar.setActionTextColor(parent_view.getContext().getResources().getColor(R.color.colorPrimary));
-        snackbar.setAction("Close", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbar.dismiss();
-            }
-        });
+        snackbar.setAction("Close", v -> snackbar.dismiss());
 
         return snackbar;
     }
 
-    public static Biography patientFromBundle(Bundle patbundle){
+    public static Biography patientFromBundle(Bundle patbundle) {
 
         Biography new_biography;
 
@@ -38,6 +35,24 @@ public class common_code {
 
         return new_biography;
     }
+
+    /*private boolean checkPermissionForCameraAndMicrophone(Context context) {
+        int resultCamera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
+        int resultMic = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO);
+        return (resultCamera == PackageManager.PERMISSION_GRANTED) && (resultMic == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermissionForCameraAndMicrophone(Activity activity) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)
+                || ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO)) {
+            Toast.makeText(activity, "Camera and Microphone permissions needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},
+                    CAMERA_AUDIO_REQ_CODE);
+        }
+    }*/
+
+
 }
 
 

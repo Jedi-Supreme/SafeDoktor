@@ -14,9 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -56,12 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
         const_login_layout = findViewById(R.id.main_login_Activity);
 
-        et_login_password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                input_login_password.setPasswordVisibilityToggleEnabled(hasFocus);
-            }
-        });
+        et_login_password.setOnFocusChangeListener((v, hasFocus) -> input_login_password.setPasswordVisibilityToggleEnabled(hasFocus));
     }
     //=============================================ON CREATE========================================
 
@@ -110,39 +102,36 @@ public class LoginActivity extends AppCompatActivity {
     void login_with_credentials(final String email, String password) {
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            toDashboard();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        toDashboard();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            if (task.getException() instanceof FirebaseAuthInvalidUserException) {
-                                if (email.contains(getResources().getString(R.string.default_email_suffix))) {
-                                    common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Mobile number",
-                                            Snackbar.LENGTH_SHORT).show();
-                                } else {
-                                    common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Email Address",
-                                            Snackbar.LENGTH_SHORT).show();
-                                }
-                                probar_login.setVisibility(View.INVISIBLE);
-                                probar_login.clearAnimation();
-
-                            } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-
-                                common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Wrong Password",
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        if (task.getException() instanceof FirebaseAuthInvalidUserException) {
+                            if (email.contains(getResources().getString(R.string.default_email_suffix))) {
+                                common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Mobile number",
                                         Snackbar.LENGTH_SHORT).show();
-
-                                probar_login.setVisibility(View.INVISIBLE);
-                                probar_login.clearAnimation();
+                            } else {
+                                common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Email Address",
+                                        Snackbar.LENGTH_SHORT).show();
                             }
+                            probar_login.setVisibility(View.INVISIBLE);
+                            probar_login.clearAnimation();
 
+                        } else if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
 
+                            common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Wrong Password",
+                                    Snackbar.LENGTH_SHORT).show();
+
+                            probar_login.setVisibility(View.INVISIBLE);
+                            probar_login.clearAnimation();
                         }
 
+
                     }
+
                 });
 
     }
@@ -158,20 +147,17 @@ public class LoginActivity extends AppCompatActivity {
         final TextInputEditText et_reset_email = reset_view.findViewById(R.id.et_reset_email);
         reset_dialog.setView(reset_view);
 
-        bt_reset_send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!et_reset_email.getText().toString().isEmpty() || !et_reset_email.getText().toString().equals("")) {
+        bt_reset_send.setOnClickListener(v -> {
+            if (!et_reset_email.getText().toString().isEmpty() || !et_reset_email.getText().toString().equals("")) {
 
-                    if (et_reset_email.getText().toString().isEmpty() || et_reset_email.getText().toString().equals("") ||
-                            !et_reset_email.getText().toString().contains("@")) {
-                        et_reset_email.setError("Enter Email");
-                        et_reset_email.requestFocus();
-                    } else {
-                        et_reset_email.setEnabled(false);
-                        FirebaseAuth.getInstance().sendPasswordResetEmail(et_reset_email.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
+                if (et_reset_email.getText().toString().isEmpty() || et_reset_email.getText().toString().equals("") ||
+                        !et_reset_email.getText().toString().contains("@")) {
+                    et_reset_email.setError("Enter Email");
+                    et_reset_email.requestFocus();
+                } else {
+                    et_reset_email.setEnabled(false);
+                    FirebaseAuth.getInstance().sendPasswordResetEmail(et_reset_email.getText().toString())
+                            .addOnCompleteListener(task -> {
 
                                 if (task.isSuccessful()) {
 
@@ -183,9 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                                     common_code.Mysnackbar(const_login_layout,
                                             "Invalid Email, Please Check and try Again", Snackbar.LENGTH_LONG).show();
                                 }
-                            }
-                        });
-                    }
+                            });
                 }
             }
         });

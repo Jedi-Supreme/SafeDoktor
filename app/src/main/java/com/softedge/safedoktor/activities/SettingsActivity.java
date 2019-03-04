@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.softedge.safedoktor.R;
@@ -32,12 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
         tv_sett_profile = findViewById(R.id.tv_sett_profile);
         tv_sett_notifications = findViewById(R.id.tv_sett_notifications);
 
-        tv_sett_profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toProfile();
-            }
-        });
+        tv_sett_profile.setOnClickListener(v -> toProfile());
 
     }
     //============================================ON CREATE=========================================

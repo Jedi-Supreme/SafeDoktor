@@ -49,7 +49,10 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
     final static String chatroom = "chatroom";
     final static String home = "Home";
 
-    TextView tv_nav_logout, tv_nav_settings, tv_nav_fullname, tv_dash_username, tv_dash_usernumber;
+    TextView
+            tv_nav_logout, tv_nav_settings,
+            tv_nav_fullname, tv_dash_username,
+            tv_dash_usernumber, tv_nav_help;
     CircleImageView iv_nav_avatarpic;
 
     WeakReference<DashboardActivity> weakDash;
@@ -104,6 +107,7 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         tv_nav_settings = dash_nav_view.findViewById(R.id.tv_nav_settings);
         tv_nav_fullname = dash_nav_view.findViewById(R.id.dash_header_fullname);
         tv_dash_usernumber = dash_nav_view.findViewById(R.id.dash_header_usernumber);
+        tv_nav_help = dash_nav_view.findViewById(R.id.tv_nav_help);
 
         iv_nav_avatarpic = dash_nav_view.findViewById(R.id.dash_header_avatarpic);
 
@@ -148,21 +152,12 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         }
 
         //click listener to logout
-        tv_nav_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        tv_nav_logout.setOnClickListener(v -> logout());
 
         //click listener to settings
-        tv_nav_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toSettings();
-            }
-        });
+        tv_nav_settings.setOnClickListener(v -> toSettings());
 
+        tv_nav_help.setOnClickListener(v -> toVidecall());
 
     }
     //==========================================ON CREATE===========================================
@@ -395,6 +390,11 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.dash_frag_holder, new partners_fragment());
         ft.commit();
+    }
+
+    void toVidecall() {
+        Intent videoIntent = new Intent(getApplicationContext(), VideoCallingActivity.class);
+        startActivity(videoIntent);
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 

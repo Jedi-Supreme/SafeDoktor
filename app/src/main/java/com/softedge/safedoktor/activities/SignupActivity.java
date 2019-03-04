@@ -9,7 +9,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 
 import com.hbb20.CountryCodePicker;
@@ -44,60 +43,7 @@ public class SignupActivity extends AppCompatActivity {
 
     Spinner sp_reg_gender;
 
-    //============================================ON CREATE=========================================
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-
-        //todo terms and conditions
-
-        weak_signup = new WeakReference<>(SignupActivity.this);
-
-        et_reg_fn = findViewById(R.id.et_reg_fn);
-        et_reg_ln = findViewById(R.id.et_reg_ln);
-        et_reg_mobile = findViewById(R.id.et_reg_mobile_number);
-        et_reg_email = findViewById(R.id.et_reg_email);
-        et_reg_dob = findViewById(R.id.et_reg_dob);
-        et_reg_pass = findViewById(R.id.et_reg_password);
-        et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
-
-        sp_reg_gender = findViewById(R.id.sp_reg_gender);
-        signup_layout = findViewById(R.id.reg_const_layout);
-
-        input_reg_password = findViewById(R.id.input_reg_password);
-        input_reg_confpass = findViewById(R.id.input_reg_conf_pass);
-
-        country_code = findViewById(R.id.hbb_picker);
-
-        et_reg_dob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user_pick_date();
-            }
-        });
-
-        et_reg_pass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                input_reg_password.setPasswordVisibilityToggleEnabled(hasFocus);
-            }
-        });
-
-        et_reg_confpass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                input_reg_confpass.setPasswordVisibilityToggleEnabled(hasFocus);
-            }
-        });
-
-        Calendar calendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(this,R.style.DatePickerTheme,dateSetListener,
-                calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
-
-
-
-    }
+    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
     //============================================ON CREATE=========================================
 
     //--------------------------------------DEFINED METHODS-----------------------------------------
@@ -199,13 +145,44 @@ public class SignupActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+    //============================================ON CREATE=========================================
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
 
-            showDate(year,month,dayOfMonth);
-        }
-    };
+        //todo terms and conditions
+
+        weak_signup = new WeakReference<>(SignupActivity.this);
+
+        et_reg_fn = findViewById(R.id.et_reg_fn);
+        et_reg_ln = findViewById(R.id.et_reg_ln);
+        et_reg_mobile = findViewById(R.id.et_reg_mobile_number);
+        et_reg_email = findViewById(R.id.et_reg_email);
+        et_reg_dob = findViewById(R.id.et_reg_dob);
+        et_reg_pass = findViewById(R.id.et_reg_password);
+        et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
+
+        sp_reg_gender = findViewById(R.id.sp_reg_gender);
+        signup_layout = findViewById(R.id.reg_const_layout);
+
+        input_reg_password = findViewById(R.id.input_reg_password);
+        input_reg_confpass = findViewById(R.id.input_reg_conf_pass);
+
+        country_code = findViewById(R.id.hbb_picker);
+
+        et_reg_dob.setOnClickListener(v -> user_pick_date());
+
+        et_reg_pass.setOnFocusChangeListener((v, hasFocus) -> input_reg_password.setPasswordVisibilityToggleEnabled(hasFocus));
+
+        et_reg_confpass.setOnFocusChangeListener((v, hasFocus) -> input_reg_confpass.setPasswordVisibilityToggleEnabled(hasFocus));
+
+        Calendar calendar = Calendar.getInstance();
+        datePickerDialog = new DatePickerDialog(this, R.style.DatePickerTheme, dateSetListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
+    }
 
     public void showDate(int year, int month, int day) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy", Locale.getDefault());

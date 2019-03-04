@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -20,10 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.database.DatabaseReference;
@@ -212,29 +207,26 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         probar_profile.setVisibility(View.VISIBLE);
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            startActivity(toActivity);
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        startActivity(toActivity);
+                        probar_profile.setVisibility(View.GONE);
+
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+
+                            common_code.Mysnackbar(const_profile_layout, "Wrong Password",
+                                    Snackbar.LENGTH_SHORT).show();
+
                             probar_profile.setVisibility(View.GONE);
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-
-                                common_code.Mysnackbar(const_profile_layout, "Wrong Password",
-                                        Snackbar.LENGTH_SHORT).show();
-
-                                probar_profile.setVisibility(View.GONE);
-
-                            }
-
 
                         }
 
+
                     }
+
                 });
 
     }
@@ -245,19 +237,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //save user details to All_Users/Biography/Uid
         all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid())
-                .setValue(fireBio).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
+                .setValue(fireBio).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
 
-                    probar_profile.setVisibility(View.GONE);
-                    common_code.Mysnackbar(const_profile_layout, "Profile picture Changed Successfully",
-                            Snackbar.LENGTH_LONG).show();
-                } else {
-                    probar_profile.setVisibility(View.GONE);
-                    common_code.Mysnackbar(const_profile_layout, "Biography Update Failed, Please Try again later",
-                            Snackbar.LENGTH_SHORT).show();
-                }
+                probar_profile.setVisibility(View.GONE);
+                common_code.Mysnackbar(const_profile_layout, "Profile picture Changed Successfully",
+                        Snackbar.LENGTH_LONG).show();
+            } else {
+                probar_profile.setVisibility(View.GONE);
+                common_code.Mysnackbar(const_profile_layout, "Biography Update Failed, Please Try again later",
+                        Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -276,32 +265,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Button bt_auth_accept = authview.findViewById(R.id.bt_auth_accept);
         Button bt_auth_cancel = authview.findViewById(R.id.bt_auth_cancel);
 
-        bt_auth_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        bt_auth_accept.setOnClickListener(v -> {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
-                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                    String password = et_authpass.getText().toString();
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                String password = et_authpass.getText().toString();
 
-                    if (!password.isEmpty() || !password.equals("")) {
-                        login_with_credentials(email, password, activity_intent);
-                        authdialog.dismiss();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Please Enter password", Toast.LENGTH_SHORT).show();
-                    }
-
-
+                if (!password.isEmpty() || !password.equals("")) {
+                    login_with_credentials(email, password, activity_intent);
+                    authdialog.dismiss();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please Enter password", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 
-        bt_auth_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                authdialog.dismiss();
-            }
-        });
+        bt_auth_cancel.setOnClickListener(v -> authdialog.dismiss());
 
         authdialog.setView(authview);
         authdialog.show();
@@ -320,30 +301,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Button bt_camera = propic_view.findViewById(R.id.bt_set_camera);
         Button bt_gallery = propic_view.findViewById(R.id.bt_set_gallery);
 
-        bt_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bt_camera.setOnClickListener(v -> {
 
-                Intent start_camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            Intent start_camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                if (start_camera.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(start_camera, GET_FROM_CAMERA);
-                }
+            if (start_camera.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(start_camera, GET_FROM_CAMERA);
             }
         });
 
-        bt_gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bt_gallery.setOnClickListener(v -> {
 
-                Intent gallery_pic = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            Intent gallery_pic = new Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 
-                if (gallery_pic.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(gallery_pic, GET_FROM_GALLERY);
-                }
-
+            if (gallery_pic.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(gallery_pic, GET_FROM_GALLERY);
             }
+
         });
 
         pic_dialog_builder.show();
@@ -372,23 +347,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         //user accepted to set selected pic
-        bt_prev_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                probar_profile.setVisibility(View.VISIBLE);
-                iv_profile_pic.setImageBitmap(profile_pic_bitmap);
-                upload_profile_pic(appUser_bio.getFirebase_Uid(), profile_pic_bitmap);
-                preview_dialog_builder.dismiss();
-            }
+        bt_prev_accept.setOnClickListener(v -> {
+            probar_profile.setVisibility(View.VISIBLE);
+            iv_profile_pic.setImageBitmap(profile_pic_bitmap);
+            upload_profile_pic(appUser_bio.getFirebase_Uid(), profile_pic_bitmap);
+            preview_dialog_builder.dismiss();
         });
 
         //user declined pic setting process
-        bt_prev_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                preview_dialog_builder.dismiss();
-            }
-        });
+        bt_prev_cancel.setOnClickListener(v -> preview_dialog_builder.dismiss());
 
         preview_dialog_builder.show();
     }
@@ -398,7 +365,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         final AlertDialog preview_dialog_builder = new AlertDialog.Builder(weak_profile.get()).create();
 
-        View propic_view = LayoutInflater.from(weak_profile.get()).inflate(R.layout.frag_pic_preview, const_profile_layout, false);
+        View propic_view = LayoutInflater.from(weak_profile.get()).inflate(R.layout.frag_pic_preview, const_profile_layout,
+                false);
 
         preview_dialog_builder.setCancelable(true);
         preview_dialog_builder.setView(propic_view);
@@ -414,23 +382,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         //user accepted to set selected pic
-        bt_prev_accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                probar_profile.setVisibility(View.VISIBLE);
-                upload_profile_pic(appUser_bio.getFirebase_Uid(), profile_pic_path);
-                iv_profile_pic.setImageURI(profile_pic_path);
-                preview_dialog_builder.dismiss();
-            }
+        bt_prev_accept.setOnClickListener(v -> {
+            probar_profile.setVisibility(View.VISIBLE);
+            upload_profile_pic(appUser_bio.getFirebase_Uid(), profile_pic_path);
+            iv_profile_pic.setImageURI(profile_pic_path);
+            preview_dialog_builder.dismiss();
         });
 
         //user declined pic setting process
-        bt_prev_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                preview_dialog_builder.dismiss();
-            }
-        });
+        bt_prev_cancel.setOnClickListener(v -> preview_dialog_builder.dismiss());
 
         preview_dialog_builder.show();
     }
@@ -453,35 +413,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             uptask = pic_ref.putBytes(pic_data);
 
-            uptask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    return pic_ref.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
+            uptask.continueWithTask(task -> pic_ref.getDownloadUrl()).addOnCompleteListener(task -> {
 
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
 
-                        if (downloadUri != null) {
-                            appUser_bio.setPropic_url(downloadUri.toString());
-                            safe_db.updatePat_bio(appUser_bio);
-                        }
-
-                        //update biodata online after uploading pic
-                        save_Online(appUser_bio);
-
-                    } else {
-
-                        // Handle failures
-                        probar_profile.setVisibility(View.GONE);
-                        common_code.Mysnackbar(const_profile_layout, "Profile picture upload failed, Please try again later",
-                                Snackbar.LENGTH_LONG).show();
+                    if (downloadUri != null) {
+                        appUser_bio.setPropic_url(downloadUri.toString());
+                        safe_db.updatePat_bio(appUser_bio);
                     }
 
+                    //update biodata online after uploading pic
+                    save_Online(appUser_bio);
+
+                } else {
+
+                    // Handle failures
+                    probar_profile.setVisibility(View.GONE);
+                    common_code.Mysnackbar(const_profile_layout, "Profile picture upload failed, Please try again later",
+                            Snackbar.LENGTH_LONG).show();
                 }
+
             });
 
         }
@@ -499,36 +451,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             //Bitmap scaled_bitmap = Bitmap.createScaledBitmap(bitmap,200,200,true);
             uptask = pic_ref.putFile(profile_pic_path);
 
-            uptask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) {
+            uptask.continueWithTask(task -> {
 
-                    // Continue with the task to get the download URL
-                    return pic_ref.getDownloadUrl();
+                // Continue with the task to get the download URL
+                return pic_ref.getDownloadUrl();
 
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
 
-                        if (downloadUri != null) {
-                            appUser_bio.setPropic_url(downloadUri.toString());
+                    if (downloadUri != null) {
+                        appUser_bio.setPropic_url(downloadUri.toString());
 
-                            safe_db.updatePat_bio(appUser_bio);
-                        }
-
-                        //update biodata online after uploading pic
-                        save_Online(appUser_bio);
-
-                    } else {
-
-                        // Handle failures
-                        probar_profile.setVisibility(View.GONE);
-                        common_code.Mysnackbar(const_profile_layout, "Profile picture upload failed, Please try again later",
-                                Snackbar.LENGTH_LONG).show();
+                        safe_db.updatePat_bio(appUser_bio);
                     }
+
+                    //update biodata online after uploading pic
+                    save_Online(appUser_bio);
+
+                } else {
+
+                    // Handle failures
+                    probar_profile.setVisibility(View.GONE);
+                    common_code.Mysnackbar(const_profile_layout, "Profile picture upload failed, Please try again later",
+                            Snackbar.LENGTH_LONG).show();
                 }
             });
 

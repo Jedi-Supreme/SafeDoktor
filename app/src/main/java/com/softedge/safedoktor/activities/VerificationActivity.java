@@ -1,12 +1,12 @@
 package com.softedge.safedoktor.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,10 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -187,41 +184,36 @@ public class VerificationActivity extends AppCompatActivity {
         tv_verify_status.setText(getResources().getString(R.string.creating_account));
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "createUserWithEmail:success");
-                            email_fire_user = FirebaseAuth.getInstance().getCurrentUser();
-                            if (email_fire_user != null) {
-                                try {
-                                    save_Online(email_fire_user.getUid());
-                                    email_fire_user.linkWithCredential(credential).addOnCompleteListener(weakverification.get(), new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if (task.isSuccessful()){
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        //Log.d(TAG, "createUserWithEmail:success");
+                        email_fire_user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (email_fire_user != null) {
+                            try {
+                                save_Online(email_fire_user.getUid());
+                                email_fire_user.linkWithCredential(credential).addOnCompleteListener(weakverification.get(),
+                                        task1 -> {
+                                            if (task1.isSuccessful()) {
                                                 login_with_email();
                                             }
-                                        }
-                                    });
-                                }catch (Exception e){
-                                    Toast.makeText(getApplicationContext(), " Unable to save online." + e.toString(),
-                                            Toast.LENGTH_LONG).show();
-                                }
+                                        });
+                            } catch (Exception e) {
+                                Toast.makeText(getApplicationContext(), " Unable to save online." + e.toString(),
+                                        Toast.LENGTH_LONG).show();
                             }
-                            Toast.makeText(getApplicationContext(), "Account Creation Successful.",
-                                    Toast.LENGTH_LONG).show();
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            probar_verify_code.clearAnimation();
-                            probar_verify_code.setVisibility(View.INVISIBLE);
-                            //updateUI(null);
                         }
+                        Toast.makeText(getApplicationContext(), "Account Creation Successful.",
+                                Toast.LENGTH_LONG).show();
 
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        probar_verify_code.clearAnimation();
+                        probar_verify_code.setVisibility(View.INVISIBLE);
+                        //updateUI(null);
                     }
+
                 });
     }
     //--------------------------------------CREATE ACCOUNT------------------------------------------
@@ -373,20 +365,17 @@ public class VerificationActivity extends AppCompatActivity {
 
         if (email != null && password != null) {
             firebaseAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
 
-                                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                   loadBioData_online(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                }
-                                // Sign in success, update UI with the signed-in user's information
-                                //Log.d(TAG, "signInWithEmail:success");
-
+                            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                                loadBioData_online(FirebaseAuth.getInstance().getCurrentUser().getUid());
                             }
+                            // Sign in success, update UI with the signed-in user's information
+                            //Log.d(TAG, "signInWithEmail:success");
 
                         }
+
                     });
         }
     }

@@ -14,7 +14,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
@@ -60,37 +59,28 @@ public class WelcomeActvity extends AppCompatActivity {
                 R.drawable.onboarding_smile
         };
 
-        ts_intro_titles.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                TextView tv_intro = new TextView(getApplicationContext());
-                tv_intro.setTextSize(20);
-                tv_intro.setTextColor(getResources().getColor(R.color.deep_blue_grey));
-                tv_intro.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                return tv_intro;
-            }
+        ts_intro_titles.setFactory(() -> {
+            TextView tv_intro = new TextView(getApplicationContext());
+            tv_intro.setTextSize(20);
+            tv_intro.setTextColor(getResources().getColor(R.color.deep_blue_grey));
+            tv_intro.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            return tv_intro;
         });
 
 
-        ts_intro_texts.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                TextView tv_intro = new TextView(getApplicationContext());
-                tv_intro.setTextSize(16);
-                tv_intro.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                return tv_intro;
-            }
+        ts_intro_texts.setFactory(() -> {
+            TextView tv_intro = new TextView(getApplicationContext());
+            tv_intro.setTextSize(16);
+            tv_intro.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            return tv_intro;
         });
 
-        is_intro_images.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView iv_images = new ImageView(getApplicationContext());
-                iv_images.setScaleType(ImageView.ScaleType.FIT_XY);
-                iv_images.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                return iv_images;
-            }
+        is_intro_images.setFactory(() -> {
+            ImageView iv_images = new ImageView(getApplicationContext());
+            iv_images.setScaleType(ImageView.ScaleType.FIT_XY);
+            iv_images.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+            return iv_images;
         });
 
         try {
@@ -99,57 +89,46 @@ public class WelcomeActvity extends AppCompatActivity {
             common_code.Mysnackbar(findViewById(R.id.const_intro_layout), intro_error.toString(), Snackbar.LENGTH_INDEFINITE).show();
         }
 
-        rdg_intro_selections.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
+        rdg_intro_selections.setOnCheckedChangeListener((group, checkedId) -> {
 
-                switch (rdg_intro_selections.getCheckedRadioButtonId()) {
+            switch (rdg_intro_selections.getCheckedRadioButtonId()) {
 
-                    case R.id.rb1:
-                        intro_index = 0;
-                        present_intro(intro_index);
-                        break;
+                case R.id.rb1:
+                    intro_index = 0;
+                    present_intro(intro_index);
+                    break;
 
-                    case R.id.rb2:
-                        intro_index = 1;
-                        present_intro(intro_index);
-                        break;
+                case R.id.rb2:
+                    intro_index = 1;
+                    present_intro(intro_index);
+                    break;
 
-                    case R.id.rb3:
-                        intro_index = 2;
-                        present_intro(intro_index);
-                        break;
+                case R.id.rb3:
+                    intro_index = 2;
+                    present_intro(intro_index);
+                    break;
 
-                    case R.id.rb4:
-                        intro_index = 3;
-                        present_intro(intro_index);
-                        break;
+                case R.id.rb4:
+                    intro_index = 3;
+                    present_intro(intro_index);
+                    break;
 
-                    case R.id.rb5:
-                        intro_index = 4;
-                        present_intro(intro_index);
-                        break;
-                }
+                case R.id.rb5:
+                    intro_index = 4;
+                    present_intro(intro_index);
+                    break;
             }
         });
 
-        bt_intro_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    present_intro(++intro_index);
-                } catch (Exception ignored) {
-                    tologin();
-                }
-            }
-        });
-
-        bt_intro_skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bt_intro_next.setOnClickListener(v -> {
+            try {
+                present_intro(++intro_index);
+            } catch (Exception ignored) {
                 tologin();
             }
         });
+
+        bt_intro_skip.setOnClickListener(v -> tologin());
 
 
     }

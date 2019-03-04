@@ -95,59 +95,56 @@ public class ContactsActivity extends AppCompatActivity {
 
         contactdialog.setView(contactView);
 
-        bt_contact_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        bt_contact_submit.setOnClickListener(v -> {
 
-                if (et_contact_fullname.getText().toString().isEmpty()) {
-                    et_contact_fullname.setError("This Field is Required");
-                    et_contact_fullname.requestFocus();
+            if (et_contact_fullname.getText().toString().isEmpty()) {
+                et_contact_fullname.setError("This Field is Required");
+                et_contact_fullname.requestFocus();
 
-                } else if (et_contact_number.getText().toString().isEmpty()
-                        || et_contact_number.getText().toString().length() < 10) {
-                    et_contact_number.setError("Contact's Mobile Number Required");
-                    et_contact_number.requestFocus();
+            } else if (et_contact_number.getText().toString().isEmpty()
+                    || et_contact_number.getText().toString().length() < 10) {
+                et_contact_number.setError("Contact's Mobile Number Required");
+                et_contact_number.requestFocus();
 
-                } else if (sp_contact_rel.getSelectedItemPosition() <= 0) {
-                    Toast.makeText(getApplicationContext(), "Select Contact Relation", Toast.LENGTH_LONG).show();
-                    sp_contact_rel.requestFocus();
-                } else {
+            } else if (sp_contact_rel.getSelectedItemPosition() <= 0) {
+                Toast.makeText(getApplicationContext(), "Select Contact Relation", Toast.LENGTH_LONG).show();
+                sp_contact_rel.requestFocus();
+            } else {
 
-                    ContactPerson contactPerson = new ContactPerson(
-                            fireID,
-                            et_contact_fullname.getText().toString(),
-                            "",
-                            et_contact_number.getText().toString(),
-                            "",
-                            sp_contact_rel.getSelectedItemPosition());
+                ContactPerson contactPerson = new ContactPerson(
+                        fireID,
+                        et_contact_fullname.getText().toString(),
+                        "",
+                        et_contact_number.getText().toString(),
+                        "",
+                        sp_contact_rel.getSelectedItemPosition());
 
-                    if (!et_contact_email.getText().toString().isEmpty()) {
-                        contactPerson.setEmail(et_contact_email.getText().toString());
-                    }
-
-                    if (!et_contact_address.getText().toString().isEmpty()) {
-                        contactPerson.setAddress(et_contact_address.getText().toString());
-                    }
-
-                    if (safe_DB.addContact(contactPerson)) {
-
-                        ArrayList<ContactPerson> contacts_list = safe_DB.contactsList(fireID);
-                        save_Online(contacts_list);
-
-                        common_code.Mysnackbar(const_contact_layout, "Contact Person added Successfully",
-                                Snackbar.LENGTH_SHORT).show();
-                        refresh_contacts_list();
-
-                    } else {
-                        common_code.Mysnackbar(const_contact_layout, "Error adding Contact Person",
-                                Snackbar.LENGTH_SHORT).show();
-                    }
-
-                    contactdialog.dismiss();
-
+                if (!et_contact_email.getText().toString().isEmpty()) {
+                    contactPerson.setEmail(et_contact_email.getText().toString());
                 }
 
+                if (!et_contact_address.getText().toString().isEmpty()) {
+                    contactPerson.setAddress(et_contact_address.getText().toString());
+                }
+
+                if (safe_DB.addContact(contactPerson)) {
+
+                    ArrayList<ContactPerson> contacts_list = safe_DB.contactsList(fireID);
+                    save_Online(contacts_list);
+
+                    common_code.Mysnackbar(const_contact_layout, "Contact Person added Successfully",
+                            Snackbar.LENGTH_SHORT).show();
+                    refresh_contacts_list();
+
+                } else {
+                    common_code.Mysnackbar(const_contact_layout, "Error adding Contact Person",
+                            Snackbar.LENGTH_SHORT).show();
+                }
+
+                contactdialog.dismiss();
+
             }
+
         });
 
         contactdialog.show();

@@ -1,7 +1,6 @@
 package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -13,8 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -165,17 +162,14 @@ public class BiographyActivity extends AppCompatActivity {
 
         //save user details to All_Users/Biography/Uid
         all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid())
-                .setValue(fireBio).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    probar_bio_update.setVisibility(View.GONE);
-                    common_code.Mysnackbar(const_bio_layout, "Biography Updated Successfully", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    probar_bio_update.setVisibility(View.GONE);
-                    common_code.Mysnackbar(const_bio_layout, "Biography Update Failed, Please Try again later",
-                            Snackbar.LENGTH_SHORT).show();
-                }
+                .setValue(fireBio).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                probar_bio_update.setVisibility(View.GONE);
+                common_code.Mysnackbar(const_bio_layout, "Biography Updated Successfully", Snackbar.LENGTH_SHORT).show();
+            } else {
+                probar_bio_update.setVisibility(View.GONE);
+                common_code.Mysnackbar(const_bio_layout, "Biography Update Failed, Please Try again later",
+                        Snackbar.LENGTH_SHORT).show();
             }
         });
     }

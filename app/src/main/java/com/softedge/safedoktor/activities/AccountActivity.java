@@ -3,7 +3,6 @@ package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -18,8 +17,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -161,19 +158,9 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         tbr_acc_number = findViewById(R.id.tbr_acc_number);
         ccd_acc_picker = findViewById(R.id.hbb_acc_picker);
 
-        et_acc_pass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                input_acc_pass.setPasswordVisibilityToggleEnabled(hasFocus);
-            }
-        });
+        et_acc_pass.setOnFocusChangeListener((v, hasFocus) -> input_acc_pass.setPasswordVisibilityToggleEnabled(hasFocus));
 
-        et_acc_confpass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                input_acc_confpass.setPasswordVisibilityToggleEnabled(hasFocus);
-            }
-        });
+        et_acc_confpass.setOnFocusChangeListener((v, hasFocus) -> input_acc_confpass.setPasswordVisibilityToggleEnabled(hasFocus));
 
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
         countDownTimer = new CountDownTimer(COUNTDOWN_TIME, SECS) {
@@ -303,29 +290,26 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
                     FirebaseAuth.getInstance().getCurrentUser().updatePhoneNumber(credential)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+                            .addOnCompleteListener(task -> {
 
-                                    if (task.isSuccessful()) {
+                                if (task.isSuccessful()) {
 
-                                        appUser_bio.setMobile_number(String.valueOf(
-                                                Integer.parseInt(et_acc_mobNumb.getText().toString())
-                                        ));
+                                    appUser_bio.setMobile_number(String.valueOf(
+                                            Integer.parseInt(et_acc_mobNumb.getText().toString())
+                                    ));
 
-                                        //update details online and locally
-                                        save_Online(appUser_bio);
-                                        safe_db.updatePat_bio(appUser_bio);
+                                    //update details online and locally
+                                    save_Online(appUser_bio);
+                                    safe_db.updatePat_bio(appUser_bio);
 
-                                        common_code.Mysnackbar(const_account_layout, "Phone Number Changed Successfully",
-                                                Snackbar.LENGTH_LONG).show();
-                                        hideViews(new View[]{probar_acc_update, bt_acc_update, tbr_acc_number});
+                                    common_code.Mysnackbar(const_account_layout, "Phone Number Changed Successfully",
+                                            Snackbar.LENGTH_LONG).show();
+                                    hideViews(new View[]{probar_acc_update, bt_acc_update, tbr_acc_number});
 
-                                    } else {
-                                        common_code.Mysnackbar(const_account_layout, "Phone Number update failed, Please try again later",
-                                                Snackbar.LENGTH_LONG).show();
-                                        hideViews(new View[]{probar_acc_update});
-                                    }
+                                } else {
+                                    common_code.Mysnackbar(const_account_layout, "Phone Number update failed, Please try again later",
+                                            Snackbar.LENGTH_LONG).show();
+                                    hideViews(new View[]{probar_acc_update});
                                 }
                             });
                 }
@@ -353,27 +337,24 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 FirebaseAuth.getInstance().getCurrentUser().updateEmail(et_acc_email.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
 
-                                    appUser_bio.setEmail(et_acc_email.getText().toString());
+                                appUser_bio.setEmail(et_acc_email.getText().toString());
 
-                                    //update details online and locally
-                                    save_Online(appUser_bio);
-                                    safe_db.updatePat_bio(appUser_bio);
+                                //update details online and locally
+                                save_Online(appUser_bio);
+                                safe_db.updatePat_bio(appUser_bio);
 
-                                    common_code.Mysnackbar(const_account_layout,
-                                            "Email Update Successful", Snackbar.LENGTH_LONG).show();
-                                    hideViews(new View[]{input_acc_email, probar_acc_update, bt_acc_update});
+                                common_code.Mysnackbar(const_account_layout,
+                                        "Email Update Successful", Snackbar.LENGTH_LONG).show();
+                                hideViews(new View[]{input_acc_email, probar_acc_update, bt_acc_update});
 
-                                } else {
+                            } else {
 
-                                    common_code.Mysnackbar(const_account_layout,
-                                            "Email Update Failed, please try again", Snackbar.LENGTH_LONG).show();
-                                    hideViews(new View[]{probar_acc_update});
-                                }
+                                common_code.Mysnackbar(const_account_layout,
+                                        "Email Update Failed, please try again", Snackbar.LENGTH_LONG).show();
+                                hideViews(new View[]{probar_acc_update});
                             }
                         });
             }
@@ -404,22 +385,19 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 FirebaseAuth.getInstance().getCurrentUser().updatePassword(et_acc_confpass.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
 
-                                    common_code.Mysnackbar(const_account_layout,
-                                            "Password Update Successful", Snackbar.LENGTH_LONG).show();
-                                    hideViews(new View[]{input_acc_pass, input_acc_confpass, bt_acc_update, probar_acc_update});
+                                common_code.Mysnackbar(const_account_layout,
+                                        "Password Update Successful", Snackbar.LENGTH_LONG).show();
+                                hideViews(new View[]{input_acc_pass, input_acc_confpass, bt_acc_update, probar_acc_update});
 
-                                } else {
+                            } else {
 
-                                    common_code.Mysnackbar(const_account_layout,
-                                            " Password Update Failed, please try again later",
-                                            Snackbar.LENGTH_LONG).show();
-                                    hideViews(new View[]{probar_acc_update});
-                                }
+                                common_code.Mysnackbar(const_account_layout,
+                                        " Password Update Failed, please try again later",
+                                        Snackbar.LENGTH_LONG).show();
+                                hideViews(new View[]{probar_acc_update});
                             }
                         });
             }
