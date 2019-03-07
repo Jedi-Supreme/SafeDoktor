@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.fragments.chats_fragment;
@@ -35,7 +36,8 @@ import java.lang.ref.WeakReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DashboardActivity extends AppCompatActivity implements TabHost.OnTabChangeListener{
+public class DashboardActivity extends AppCompatActivity implements
+        TabHost.OnTabChangeListener{
 
     SharedPreferences safe_pref;
 
@@ -53,6 +55,7 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
             tv_nav_logout, tv_nav_settings,
             tv_nav_fullname, tv_dash_username,
             tv_dash_usernumber, tv_nav_help;
+
     CircleImageView iv_nav_avatarpic;
 
     WeakReference<DashboardActivity> weakDash;
@@ -142,6 +145,7 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
                 //go to login screen
                 tologin();
             }else {
+
                 try {
                     loadLocal_data();
                 }catch (Exception ignored){
@@ -182,9 +186,10 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
             dash_drawer_layout.closeDrawer(GravityCompat.START);
         }
 
-        dash_tabhost.setCurrentTab(0);
+        //dash_tabhost.setCurrentTab(0);
 
         loadBioData_online();
+        saveDeviceToken();
 
         try{
             loadLocal_data();
@@ -236,6 +241,25 @@ public class DashboardActivity extends AppCompatActivity implements TabHost.OnTa
     //test if user is logged in
     boolean isUserLogged_in(){
         return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+
+    void saveDeviceToken(){
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            DatabaseReference personal_token_ref = FirebaseDatabase.getInstance().getReference("NotifyID")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("devToken");
+
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(task -> {
+
+                        if (task.getResult() != null && task.isSuccessful()){
+                            String token = task.getResult().getToken();
+                            personal_token_ref.setValue(token);
+                        }
+                        // Get new Instance ID token
+                    });
+
+        }
     }
 
     void loadBioData_online(){

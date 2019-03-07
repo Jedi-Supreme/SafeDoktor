@@ -19,11 +19,10 @@ public class CloudMessaging extends FirebaseMessagingService {
         super.onNewToken(s);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            DatabaseReference token_ref = FirebaseDatabase.getInstance().getReference("Notification_id")
-                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("device_token_key");
+            DatabaseReference token_ref = FirebaseDatabase.getInstance().getReference("NotifyID")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("devToken");
 
             token_ref.setValue(s);
-
             //FirebaseMessaging.getInstance().subscribeToTopic();
         }
 

@@ -77,30 +77,52 @@
             android:layout_height="wrap_content"
             android:text="@string/change_email" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_acc_email"
-            style="@style/inputlayout_style"
-            android:layout_width="match_parent"
-            android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:background="@drawable/input_rounded_border"
+        <TableRow
             android:visibility="gone"
-            app:hintEnabled="false"
-            app:layout_constraintLeft_toRightOf="@id/hbb_picker"
-            app:layout_constraintRight_toRightOf="@id/input_reg_ln"
-            app:layout_constraintTop_toBottomOf="@id/input_reg_ln">
+            android:id="@+id/tbr_acc_email"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/et_acc_email"
-                style="@style/input_edittext_style"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/black" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_acc_email"
+                style="@style/inputlayout_style"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/margin_small"
+                android:background="@drawable/input_rounded_border"
+                android:visibility="visible"
+                app:hintEnabled="false"
+                app:layout_constraintLeft_toRightOf="@id/hbb_picker"
+                app:layout_constraintRight_toRightOf="@id/input_reg_ln"
+                app:layout_constraintTop_toBottomOf="@id/input_reg_ln">
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_acc_email"
+                    style="@style/input_edittext_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_acc_verify"
+                android:padding="@dimen/margin_small"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/verify"
+                />
+
+        </TableRow>
 
         <View style="@style/divider_view_style" />
 

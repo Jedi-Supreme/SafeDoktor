@@ -116,24 +116,6 @@
                 </android.support.design.widget.TextInputLayout>
             </TableRow>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_bio_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/et_bio_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false"
-                    android:focusable="false"
-                    android:hint="@string/email"
-                    android:longClickable="false"
-                    android:textSize="@dimen/med_text_size" />
-
-            </android.support.design.widget.TextInputLayout>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

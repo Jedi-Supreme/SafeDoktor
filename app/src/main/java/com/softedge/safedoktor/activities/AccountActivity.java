@@ -36,21 +36,23 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     final long COUNTDOWN_TIME = 30000; // 30 seconds
     final long SECS = 1000;
+
     ConstraintLayout const_account_layout, const_acc_verify;
     WeakReference<AccountActivity> weakAccount;
-    TextView tv_acc_downtime;
+    TextView tv_acc_downtime, tv_acc_verify;
     Button bt_acc_change_number, bt_acc_change_email, bt_acc_change_pass, bt_acc_update;
     ProgressBar probar_acc_update;
     TextInputLayout input_acc_email, input_acc_pass, input_acc_confpass;
     TextInputEditText et_acc_email, et_acc_mobNumb, et_acc_pass, et_acc_confpass,
             et_acc_code_1, et_acc_code_2, et_acc_code_3, et_acc_code_4, et_acc_code_5, et_acc_code_6;
     TextInputEditText[] code_acc_Array;
-    TableRow tbr_acc_number;
+    TableRow tbr_acc_number, tbr_acc_email;
     CountryCodePicker ccd_acc_picker;
     CountDownTimer countDownTimer;
     String verification_id;
     Biography appUser_bio;
     SafeDB safe_db;
+
     //the callback to detect the verification status
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks =
             new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -127,6 +129,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         const_account_layout = findViewById(R.id.const_account_layout);
         const_acc_verify = findViewById(R.id.const_acc_verify);
         tv_acc_downtime = findViewById(R.id.tv_acc_dwntime);
+        tv_acc_verify = findViewById(R.id.tv_acc_verify);
 
 
         bt_acc_change_number = findViewById(R.id.bt_acc_change_number);
@@ -156,6 +159,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 {et_acc_code_1, et_acc_code_2, et_acc_code_3, et_acc_code_4, et_acc_code_5, et_acc_code_6};
 
         tbr_acc_number = findViewById(R.id.tbr_acc_number);
+        tbr_acc_email = findViewById(R.id.tbr_acc_email);
         ccd_acc_picker = findViewById(R.id.hbb_acc_picker);
 
         et_acc_pass.setOnFocusChangeListener((v, hasFocus) -> input_acc_pass.setPasswordVisibilityToggleEnabled(hasFocus));
@@ -348,7 +352,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
                                 common_code.Mysnackbar(const_account_layout,
                                         "Email Update Successful", Snackbar.LENGTH_LONG).show();
-                                hideViews(new View[]{input_acc_email, probar_acc_update, bt_acc_update});
+                                hideViews(new View[]{tbr_acc_email, probar_acc_update, bt_acc_update});
 
                             } else {
 
@@ -412,7 +416,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             checkNumber();
         }
 
-        if (input_acc_email.getVisibility() == View.VISIBLE) {
+        if (tbr_acc_email.getVisibility() == View.VISIBLE) {
             checkEmail();
         }
 
@@ -449,7 +453,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.bt_acc_change_email:
-                showViews(new View[]{bt_acc_update, input_acc_email});
+                showViews(new View[]{bt_acc_update, tbr_acc_email});
                 break;
 
             case R.id.bt_acc_change_pass:
@@ -476,6 +480,30 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+
+            String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+            if (email != null && !email.contains(getResources().getString(R.string.default_email_suffix))){
+                et_acc_email.setText(email);
+            }
+
+            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+                et_acc_email.setCompoundDrawablesWithIntrinsicBounds(null,null,
+                        getResources().getDrawable(R.drawable.ic_check_circle_green_24dp),null);
+
+            }else {
+                et_acc_email.setCompoundDrawablesWithIntrinsicBounds(null,null,
+                        getResources().getDrawable(R.drawable.ic_cancel_red_24dp),null);
+                tv_acc_verify.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     //----------------------------------------OVERRIDE METHODS--------------------------------------
 
 }

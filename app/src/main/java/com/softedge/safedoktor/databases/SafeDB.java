@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.activities.DashboardActivity;
 import com.softedge.safedoktor.models.Historypackage.FamilyHistory;
 import com.softedge.safedoktor.models.Historypackage.History;
@@ -384,11 +387,28 @@ public class SafeDB extends SQLiteOpenHelper {
 
     //delete contact
     public void deleteContact(ContactPerson contactPerson) {
+
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
         sqLiteDatabase.execSQL("DELETE FROM " + ContactPerson.TABLE + " WHERE "
                 + ContactPerson.RELATION + " = \"" + contactPerson.getRelation() + "\" AND "
                 + ContactPerson.FIRE_ID + " = \"" + contactPerson.getUser_fireID() + "\"");
+
+        save_Online(contactsList(contactPerson.getUser_fireID()),contactPerson.getUser_fireID());
+
     }
+
+    //--------------------------------------SAVE TO ONLINE DB-----------------------------------
+    private void save_Online(ArrayList<ContactPerson> fireContacts, String fireID) {
+
+        DatabaseReference all_users_ref = FirebaseDatabase.getInstance()
+                .getReference(mContext.getResources().getString(R.string.all_users));
+
+        //save user details to All_Users/Contacts/Uid
+        all_users_ref.child(mContext.getResources().getString(R.string.contacts_ref)).child(fireID)
+                .setValue(fireContacts);
+    }
+    //--------------------------------------SAVE TO ONLINE DB-----------------------------------
 
     //fetch list of contacts
     public ArrayList<ContactPerson> contactsList(String fireID) {

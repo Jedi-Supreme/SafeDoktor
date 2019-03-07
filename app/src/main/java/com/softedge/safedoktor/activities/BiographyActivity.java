@@ -1,5 +1,6 @@
 package com.softedge.safedoktor.activities;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -22,18 +23,25 @@ import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class BiographyActivity extends AppCompatActivity {
 
     Spinner sp_bio_marry, sp_bio_gender, sp_bio_bloodgrp;
 
-    TextInputEditText et_bio_fn, et_bio_ln, et_bio_dob, et_bio_email, et_bio_Address, et_bio_height, et_bio_weight;
+    TextInputEditText et_bio_fn, et_bio_ln, et_bio_dob, et_bio_Address, et_bio_height, et_bio_weight;
 
     ProgressBar probar_bio_update;
     Biography loadBio;
 
     ConstraintLayout const_bio_layout;
     WeakReference<BiographyActivity> weakBio;
+
+    DatePickerDialog datePickerDialog;
 
     String userID;
 
@@ -63,16 +71,21 @@ public class BiographyActivity extends AppCompatActivity {
         et_bio_fn = findViewById(R.id.et_bio_fn);
         et_bio_ln = findViewById(R.id.et_bio_ln);
         et_bio_dob = findViewById(R.id.et_bio_dob);
-        et_bio_email = findViewById(R.id.et_bio_email);
         et_bio_Address = findViewById(R.id.et_bio_add);
         et_bio_height = findViewById(R.id.et_bio_height);
         et_bio_weight = findViewById(R.id.et_bio_weight);
+
+        Calendar calendar = Calendar.getInstance();
+        datePickerDialog = new DatePickerDialog(this, R.style.DatePickerTheme, dateSetListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         try {
             loadUser_biodata();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         }
+
+        et_bio_dob.setOnClickListener(v -> user_pick_date());
 
     }
     //==============================================ON CREATE=======================================
@@ -94,17 +107,6 @@ public class BiographyActivity extends AppCompatActivity {
 
         sp_bio_gender.setSelection(loadBio.getGender(), true);
         et_bio_dob.setText(loadBio.getDate_of_birth());
-
-        String email = "";
-        String defaultSuffix = getResources().getString(R.string.default_email_suffix);
-
-        if (FirebaseAuth.getInstance().getCurrentUser() != null && FirebaseAuth.getInstance().getCurrentUser().getEmail() != null) {
-
-            if (!FirebaseAuth.getInstance().getCurrentUser().getEmail().contains(defaultSuffix)) {
-                email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-            }
-        }
-        et_bio_email.setText(email);
 
     }
 
@@ -156,6 +158,40 @@ public class BiographyActivity extends AppCompatActivity {
 
     }
 
+    //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
+    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
+
+    void user_pick_date(){
+        datePickerDialog.show();
+    }
+
+    public void showDate(int year, int month, int day) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MMM/yyyy", Locale.getDefault());
+        SimpleDateFormat parseDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+        String userdate;
+        Date date;
+
+        if (month+1<10){
+            userdate =  "0" + String.valueOf(month+1)+ "/" + String.valueOf(day) +  "/" +  String.valueOf(year) ;
+            try {
+                date = parseDateFormat.parse(userdate);
+                et_bio_dob.setText(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            userdate = String.valueOf(month+1)+ "/" + String.valueOf(day) +  "/" +  String.valueOf(year) ;
+            try {
+                date = parseDateFormat.parse(userdate);
+                et_bio_dob.setText(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
+
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
     void save_Online(Biography fireBio) {
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
@@ -190,6 +226,12 @@ public class BiographyActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-OVERRIDE METHODS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     //-----------------------------------------BUTTON CLICK LISTENER--------------------------------

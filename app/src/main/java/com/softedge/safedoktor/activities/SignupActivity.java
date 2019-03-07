@@ -43,10 +43,48 @@ public class SignupActivity extends AppCompatActivity {
 
     Spinner sp_reg_gender;
 
-    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
+    //============================================ON CREATE=========================================
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signup);
+
+        //todo terms and conditions
+
+        weak_signup = new WeakReference<>(SignupActivity.this);
+
+        et_reg_fn = findViewById(R.id.et_reg_fn);
+        et_reg_ln = findViewById(R.id.et_reg_ln);
+        et_reg_mobile = findViewById(R.id.et_reg_mobile_number);
+        et_reg_email = findViewById(R.id.et_reg_email);
+        et_reg_dob = findViewById(R.id.et_reg_dob);
+        et_reg_pass = findViewById(R.id.et_reg_password);
+        et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
+
+        sp_reg_gender = findViewById(R.id.sp_reg_gender);
+        signup_layout = findViewById(R.id.reg_const_layout);
+
+        input_reg_password = findViewById(R.id.input_reg_password);
+        input_reg_confpass = findViewById(R.id.input_reg_conf_pass);
+
+        country_code = findViewById(R.id.hbb_picker);
+
+        et_reg_dob.setOnClickListener(v -> user_pick_date());
+
+        et_reg_pass.setOnFocusChangeListener((v, hasFocus) -> input_reg_password.setPasswordVisibilityToggleEnabled(hasFocus));
+
+        et_reg_confpass.setOnFocusChangeListener((v, hasFocus) -> input_reg_confpass.setPasswordVisibilityToggleEnabled(hasFocus));
+
+        Calendar calendar = Calendar.getInstance();
+        datePickerDialog = new DatePickerDialog(this, R.style.DatePickerTheme, dateSetListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
+    }
     //============================================ON CREATE=========================================
 
     //--------------------------------------DEFINED METHODS-----------------------------------------
+
     void test_userinputs(){
 
         if (et_reg_fn.getText().toString().isEmpty()){
@@ -141,47 +179,10 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
+    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
+
     void user_pick_date(){
         datePickerDialog.show();
-    }
-
-    //============================================ON CREATE=========================================
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
-
-        //todo terms and conditions
-
-        weak_signup = new WeakReference<>(SignupActivity.this);
-
-        et_reg_fn = findViewById(R.id.et_reg_fn);
-        et_reg_ln = findViewById(R.id.et_reg_ln);
-        et_reg_mobile = findViewById(R.id.et_reg_mobile_number);
-        et_reg_email = findViewById(R.id.et_reg_email);
-        et_reg_dob = findViewById(R.id.et_reg_dob);
-        et_reg_pass = findViewById(R.id.et_reg_password);
-        et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
-
-        sp_reg_gender = findViewById(R.id.sp_reg_gender);
-        signup_layout = findViewById(R.id.reg_const_layout);
-
-        input_reg_password = findViewById(R.id.input_reg_password);
-        input_reg_confpass = findViewById(R.id.input_reg_conf_pass);
-
-        country_code = findViewById(R.id.hbb_picker);
-
-        et_reg_dob.setOnClickListener(v -> user_pick_date());
-
-        et_reg_pass.setOnFocusChangeListener((v, hasFocus) -> input_reg_password.setPasswordVisibilityToggleEnabled(hasFocus));
-
-        et_reg_confpass.setOnFocusChangeListener((v, hasFocus) -> input_reg_confpass.setPasswordVisibilityToggleEnabled(hasFocus));
-
-        Calendar calendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(this, R.style.DatePickerTheme, dateSetListener,
-                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
-
     }
 
     public void showDate(int year, int month, int day) {

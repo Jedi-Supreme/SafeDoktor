@@ -30,11 +30,9 @@
                 android:layout_height="match_parent"
                 android:padding="@dimen/activity_padding">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/appt_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" />
+                <include
+                    android:id="@+id/appt_info_view"
+                    layout="@layout/frag_appt_info"/>
 
             </FrameLayout>
 

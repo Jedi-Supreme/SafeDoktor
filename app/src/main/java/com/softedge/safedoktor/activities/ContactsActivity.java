@@ -151,7 +151,7 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
-    void save_Online(ArrayList<ContactPerson> fireContacts) {
+    public void save_Online(ArrayList<ContactPerson> fireContacts) {
 
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 

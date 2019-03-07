@@ -71,15 +71,12 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
             tv_relation.setText(rel_arr[contact.getRelation()]);
             tv_contact_fullname.setText(contact.getFullname());
 
-            tv_contact_delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            tv_contact_delete.setOnClickListener(v -> {
 
-                    safe_db.deleteContact(contact);
+                safe_db.deleteContact(contact);
 
-                    ((ContactsActivity) weak_activity.get()).refresh_contacts_list();
+                ((ContactsActivity) weak_activity.get()).refresh_contacts_list();
 
-                }
             });
 
         }
