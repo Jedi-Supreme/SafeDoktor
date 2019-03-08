@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/contacts_style"
+    android:theme="@style/dark_accent_style"
     app:cardCornerRadius="@dimen/margin_small"
     app:cardElevation="@dimen/card_elevate"
     app:cardUseCompatPadding="true">

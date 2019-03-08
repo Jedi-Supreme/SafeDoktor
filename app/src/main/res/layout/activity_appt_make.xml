@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".activities.ApptMake_Activity">
 
     <TabHost
-        android:id="@+id/makeappt_tabhost"
+        android:id="@+id/appt_tabhost"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_small"
@@ -33,6 +34,15 @@
                 <include
                     android:id="@+id/appt_info_view"
                     layout="@layout/frag_appt_info"/>
+
+                <include
+                    android:id="@+id/appt_payment_view"
+                    layout="@layout/frag_appt_payment"/>
+
+                <include
+                    android:id="@+id/appt_sum_view"
+                    layout="@layout/frag_appt_summary"
+                    />
 
             </FrameLayout>
 

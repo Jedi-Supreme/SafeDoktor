@@ -188,7 +188,7 @@
     <string name="doc_pic_desc">consultation doctor profile picture</string>
     <string name="hori_options">Horizontal more button</string>
     <string name="to">to</string>
-    <string name="consult_type">Consultation type icon</string>
+    <string name="consult_type">Consultation type</string>
     <string name="booking_no">Booking No:</string>
     <string name="add_appt">Add Appointment</string>
     <string name="pick_spec_lbl">Choose Specialty</string>
@@ -196,4 +196,24 @@
     <string name="pick_doc_lbl">Choose Doctor</string>
     <string name="select_date">Select Date</string>
     <string name="time_pick_lbl">Choose Time</string>
+    <string name="pick_conslt_lbl">Choose Consultation Type</string>
+    <string name="text">Text</string>
+    <string name="audio">Audio</string>
+    <string name="video">Video</string>
+    <string name="mm_mtn">MTN Mobile Money</string>
+    <string name="mm_airtigo">AirtelTigo Money</string>
+    <string name="mm_voda">Vodafone Cash</string>
+    <string name="pick_mm_lbl">Choose Mobile Money Type</string>
+    <string name="mm_numb_lbl">Mobile Money Number</string>
+    <string name="service_fee_gh">Service Fee (GH¢)</string>
+    <string name="appt_make_lbl">Make Appointments</string>
+    <string name="previous_button">Previous Button</string>
+    <string name="sum_appt_text">Summary of Appointment</string>
+    <string name="book_numb_lbl">Booking Number:</string>
+    <string name="patient">Patient:</string>
+    <string name="spec_txt">Specialty</string>
+    <string name="doc_txt">Doctor</string>
+    <string name="date_txt">Date</string>
+    <string name="time_txt">Time</string>
+    <string name="mm_type">Mobile Money Type</string>
 </resources>

@@ -444,31 +444,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
     //----------------------------------------OVERRIDE METHODS--------------------------------------
     @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R.id.bt_acc_change_number:
-                showViews(new View[]{tbr_acc_number, bt_acc_update});
-                break;
-
-            case R.id.bt_acc_change_email:
-                showViews(new View[]{bt_acc_update, tbr_acc_email});
-                break;
-
-            case R.id.bt_acc_change_pass:
-                showViews(new View[]{input_acc_pass, input_acc_confpass, bt_acc_update});
-                break;
-
-            case R.id.bt_acc_update:
-                probar_acc_update.setVisibility(View.VISIBLE);
-                probar_acc_update.animate();
-                update_modules();
-                break;
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
@@ -504,6 +479,38 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        super.onBackPressed();
+    }
     //----------------------------------------OVERRIDE METHODS--------------------------------------
+
+    //---------------------------------------BUTTON CLICK LISTENER----------------------------------
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.bt_acc_change_number:
+                showViews(new View[]{tbr_acc_number, bt_acc_update});
+                break;
+
+            case R.id.bt_acc_change_email:
+                showViews(new View[]{bt_acc_update, tbr_acc_email});
+                break;
+
+            case R.id.bt_acc_change_pass:
+                showViews(new View[]{input_acc_pass, input_acc_confpass, bt_acc_update});
+                break;
+
+            case R.id.bt_acc_update:
+                probar_acc_update.setVisibility(View.VISIBLE);
+                probar_acc_update.animate();
+                update_modules();
+                break;
+        }
+    }
+    //---------------------------------------BUTTON CLICK LISTENER----------------------------------
 
 }

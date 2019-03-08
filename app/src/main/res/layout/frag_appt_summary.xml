@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/margin_tiny"
+    android:paddingEnd="@dimen/margin_tiny"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/appt_sum_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_tiny"
+        android:text="@string/sum_appt_text"
+        android:textAllCaps="true"
+        android:textSize="@dimen/large_text"
+        android:textStyle="bold" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--booking label-->
+        <TextView
+            android:id="@+id/tv_bookn_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_tiny"
+            android:text="@string/book_numb_lbl"
+            android:textSize="@dimen/normal_text_size" />
+
+        <!--booking serial number-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:textColor="@color/blue_highlight"
+            android:textSize="@dimen/normal_text_size" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--patient name label-->
+        <TextView
+            android:id="@+id/tv_pat_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_tiny"
+            android:text="@string/patient"
+            android:textSize="@dimen/normal_text_size" />
+
+        <!--patient name-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_tiny"
+            android:text="@string/developer_name"
+            android:textColor="@color/blue_highlight"
+            android:textSize="@dimen/normal_text_size" />
+    </TableRow>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--specialty row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/spec_txt" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_spec"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/spec_txt" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--doctor row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/doc_txt" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_doc"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/doc_txt" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--date row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/date_txt" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_date"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/select_date" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--time row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/time_txt" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_time"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/time_pick_lbl" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--consultation type row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/consult_type" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_type"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/text" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--payment type row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/mm_type" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_mm"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/mm_mtn" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--mobile number row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/mm_numb_lbl" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_numb"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/developer_full_number" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+            <!--service fee row-->
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_tiny">
+
+                <TextView
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/service_fee_gh" />
+
+                <TextView
+                    android:id="@+id/tv_appt_sum_fee"
+                    style="@style/sum_texts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:text="@string/spec_txt" />
+
+            </TableRow>
+
+            <View
+                style="@style/divider_view_style"
+                android:layout_marginTop="@dimen/margin_tiny" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_small">
+
+        <ImageButton
+            android:id="@+id/bt_appt_sum_prev"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/appt_prev_button"
+            android:contentDescription="@string/previous_button"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            android:textAllCaps="false"
+            android:textSize="@dimen/large_text" />
+
+        <Button
+            android:id="@+id/bt_appt_pay_next"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_weight="1"
+            android:background="@drawable/bio_button_back"
+            android:text="@string/next"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/large_text" />
+
+    </TableRow>
+
+</LinearLayout>

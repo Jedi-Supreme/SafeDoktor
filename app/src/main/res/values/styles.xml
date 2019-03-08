@@ -8,8 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="contacts_style" parent="AppTheme">
+    <style name="dark_accent_style" parent="AppTheme">
         <item name="colorAccent">@color/black</item>
+    </style>
+    
+    <style name="payment_radioBttons" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/custom_radio_buttons</item>
+        <item name="android:button">@drawable/custom_radio_buttons</item>
+    </style>
+
+    <style name="sum_texts">
+        <item name="android:padding">@dimen/margin_small</item>
+        <item name="android:layout_weight">1</item>
     </style>
 
     <style name="switch_style">
@@ -32,11 +42,7 @@
         <item name="android:gravity">start|center</item>
     </style>
 
-    <style name="biotheme" parent="AppTheme">
-        <item name="colorAccent">@color/black</item>
-    </style>
-
-    <style name="logintheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="darkAccent_noActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/black</item>
     </style>
 
