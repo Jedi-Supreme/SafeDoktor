@@ -184,7 +184,7 @@ public class VerificationActivity extends AppCompatActivity {
         tv_verify_status.setText(getResources().getString(R.string.creating_account));
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
+                .addOnCompleteListener(weakverification.get(), task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         //Log.d(TAG, "createUserWithEmail:success");
@@ -278,6 +278,17 @@ public class VerificationActivity extends AppCompatActivity {
                 weakverification.get(),
                 verificationCallbacks);
         start_timer();
+    }
+
+    //resend verification code
+    void resend_Code_Method(String mobile_number, PhoneAuthProvider.ForceResendingToken token){
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                mobile_number,
+                COUNTDOWN_TIME,
+                TimeUnit.MILLISECONDS,
+                weakverification.get(),
+                verificationCallbacks,
+                token);
     }
 
     //the callback to detect the verification status
@@ -415,7 +426,14 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     public void ResendCode(View view) {
-        //TODO resend function
+
+        if (registration_bundle != null && resendingToken != null) {
+            String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
+            String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
+            String usernumber = "+" + country_code + String.valueOf(mobile_number);
+            resend_Code_Method(usernumber,resendingToken);
+        }
+
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENERS-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=-=-
 

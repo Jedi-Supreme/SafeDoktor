@@ -58,7 +58,6 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
             new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                 String code;
-                //TODO save to records
 
                 @Override
                 public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
@@ -101,6 +100,8 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
             };
     //============================================ON CREATE=========================================
+
+    //TODO show verification code view
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=DEFINED METHODS=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

@@ -199,7 +199,6 @@
     <string name="pick_conslt_lbl">Choose Consultation Type</string>
     <string name="text">Text</string>
     <string name="audio">Audio</string>
-    <string name="video">Video</string>
     <string name="mm_mtn">MTN Mobile Money</string>
     <string name="mm_airtigo">AirtelTigo Money</string>
     <string name="mm_voda">Vodafone Cash</string>
@@ -216,4 +215,17 @@
     <string name="date_txt">Date</string>
     <string name="time_txt">Time</string>
     <string name="mm_type">Mobile Money Type</string>
+    <string name="call">Call</string>
+    <string name="message">Message</string>
+    <string name="review">Review</string>
+    <string name="languages">Languages</string>
+    <string name="specialities">Specialities</string>
+    <string name="facility_affiliation">Facility Affiliation</string>
+    <string name="accomplishments">Accomplishments</string>
+    <string name="skills">Skills</string>
+    <string name="certificates">Certificates</string>
+    <string name="awards">Awards</string>
+    <string name="pat_care">Patient Care -</string>
+    <string name="video">Video</string>
+    <string name="review_topic_title">You are currently reviewing</string>
 </resources>

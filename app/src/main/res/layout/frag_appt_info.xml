@@ -37,7 +37,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_view_specs"
+                    android:id="@+id/tv_specs_view"
                     android:textStyle="bold"
                     android:textColor="@color/deep_blue_grey"
                     android:padding="@dimen/margin_tiny"
@@ -82,7 +82,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tv_view_docs"
+                    android:id="@+id/tv_docs_view"
                     android:textStyle="bold"
                     android:textColor="@color/deep_blue_grey"
                     android:padding="@dimen/margin_tiny"
@@ -112,14 +112,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.stevkky.customcalendarview.CalendarView
-                android:id="@+id/appt_calendar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/logo_dimen"
-                app:headerColor="@color/colorPrimaryDark"
-                app:firstDayOfWeek="0"
-                app:allowPreviousDates="false"
-                />
+           <HorizontalScrollView
+               android:scrollbars="none"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <CalendarView
+                   android:scrollbars="horizontal"
+                   android:id="@+id/appt_calendar"
+                   android:theme="@style/calendar_style"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+
+           </HorizontalScrollView>
+
 
             <TextView
                 android:layout_marginTop="@dimen/margin_small"

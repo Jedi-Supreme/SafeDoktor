@@ -11,6 +11,11 @@
     <style name="dark_accent_style" parent="AppTheme">
         <item name="colorAccent">@color/black</item>
     </style>
+
+    <style name="calendar_style" parent="AppTheme">
+        <item name="colorPrimary">@color/deep_blue_grey</item>
+        <item name="colorAccent">@color/blue_highlight</item>
+    </style>
     
     <style name="payment_radioBttons" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:background">@drawable/custom_radio_buttons</item>

@@ -21,4 +21,5 @@
     <dimen name="largest_text">20sp</dimen>
     <dimen name="large_text">18sp</dimen>
     <dimen name="profile_pic_size">150dp</dimen>
+    <dimen name="doc_pro_pic">90dp</dimen>
 </resources>
