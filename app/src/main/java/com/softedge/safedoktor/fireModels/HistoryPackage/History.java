@@ -1,6 +1,6 @@
-package com.softedge.safedoktor.models.Historypackage;
+package com.softedge.safedoktor.fireModels.HistoryPackage;
 
-import com.softedge.safedoktor.models.PatientPackage.Biography;
+import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
 
 public class History {
 

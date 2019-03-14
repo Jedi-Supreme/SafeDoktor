@@ -57,6 +57,12 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     //---------------------------------------IMAGE HANDLING-----------------------------------------
 
+    //------------------------------------------------API CALL--------------------------------------
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //------------------------------------------------API CALL--------------------------------------
+
     //------------------------------------VIDEO AND AUDIO CALLING-----------------------------------
     implementation 'com.opentok.android:opentok-android-sdk:2.15.3'
     android {

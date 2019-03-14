@@ -14,21 +14,4 @@
     <string name="completed">Completed</string>
     <string name="doctors">Doctors</string>
 
-    <string-array name="intro_texts_arr">
-        <item>"Bringing health care to your doorstep.\n\n Speak to qualified doctors, get first aid tips and much more"</item>
-        <item>"Enter your basic details and choose a password"</item>
-        <item>"Validate your phone number in 2 simple steps. \n\n First enter the number"</item>
-        <item>Enter <b>6-digit</b> code sent to you via <b>SMS</b> to the number provided.</item>
-        <item>"Safe Doktor is that simple! \n Go on! Just try it."</item>
-    </string-array>
-
-    <string-array name="intro_titles_arr">
-        <item>Welcome to <b>Safe Doktor</b></item>
-        <item>Registration</item>
-        <item>Enter Phone Number</item>
-        <item>"Validate Phone Number"</item>
-        <item>"Finished!"</item>
-    </string-array>
-
-
 </resources>

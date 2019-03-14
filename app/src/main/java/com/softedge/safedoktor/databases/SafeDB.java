@@ -12,15 +12,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.activities.DashboardActivity;
-import com.softedge.safedoktor.models.Historypackage.FamilyHistory;
-import com.softedge.safedoktor.models.Historypackage.History;
-import com.softedge.safedoktor.models.Historypackage.PersonalHistory;
-import com.softedge.safedoktor.models.Historypackage.SocialHistory;
-import com.softedge.safedoktor.models.Historypackage.SurgicalHistory;
-import com.softedge.safedoktor.models.PatientPackage.Address;
-import com.softedge.safedoktor.models.PatientPackage.Biography;
-import com.softedge.safedoktor.models.PatientPackage.ContactPerson;
-import com.softedge.safedoktor.models.PatientPackage.Physicals;
+import com.softedge.safedoktor.fireModels.HistoryPackage.FamilyHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.History;
+import com.softedge.safedoktor.fireModels.HistoryPackage.PersonalHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.SocialHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.SurgicalHistory;
+import com.softedge.safedoktor.fireModels.PatientPackage.Address;
+import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.fireModels.PatientPackage.ContactPerson;
+import com.softedge.safedoktor.fireModels.PatientPackage.Physicals;
 
 import java.util.ArrayList;
 

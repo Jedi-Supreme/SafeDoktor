@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
-import com.softedge.safedoktor.models.PatientPackage.Biography;
+import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
 

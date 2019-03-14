@@ -1,4 +1,4 @@
-package com.softedge.safedoktor.models.PatientPackage;
+package com.softedge.safedoktor.fireModels.PatientPackage;
 
 public class Biography {
 

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gender_Arr">
+        <item><i>Select</i></item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="marital_status">
+        <item><i>Select</i></item>
+        <item>Single</item>
+        <item>Married</item>
+        <item>Divorced</item>
+        <item>Widowed</item>
+    </string-array>
+    <string-array name="relations">
+        <item><i>Select</i></item>
+        <item>Mother</item>
+        <item>Father</item>
+        <item>Sister</item>
+        <item>Brother</item>
+        <item>Guardian</item>
+        <item>Friend</item>
+    </string-array>
+    <string-array name="blood_groups_arr">
+        <item><i>Select</i></item>
+        <item>A-</item>
+        <item>A+</item>
+        <item>B-</item>
+        <item>B+</item>
+        <item>AB-</item>
+        <item>AB+</item>
+        <item>O-</item>
+        <item>O+</item>
+    </string-array>
+
+    <string-array name="personal_qns">
+        <item>Do you have any allergies?</item>
+        <item>Are you currently taking any medications and/or supplements?</item>
+        <item>Have you ever been admitted to a hospital for a serious illness or injury (ie: stroke, heart attack, car accident, etc)?</item>
+    </string-array>
+    <string-array name="family_qns">
+        <item>Have any of your relatives had Inflammatory Bowel Disease?</item>
+        <item>Have any of your relatives had cancer?</item>
+    </string-array>
+    <string-array name="social_qns">
+        <item>Has anyone in your family or home ever physically or verbally hurt you?</item>
+        <item>Do you need assistance with getting around (ie: cane, wheel chair, etc.)?</item>
+        <item>Do you exercise?</item>
+        <item>How many children do you have?</item>
+        <item>Did you sustain any injury during delivery?</item>
+        <item>Do you smoke?</item>
+        <item>Have you ever smoked?</item>
+        <item>Do you take alcohol?</item>
+        <item>Do you take recreational drugs?</item>
+        <item>When last did you take a recreational drug?</item>
+    </string-array>
+    <string-array name="surgical_qns">
+        <item>Have you ever undergone surgery?</item>
+        <item>Have you ever had a colonoscopy></item>
+    </string-array>
+
+    <string-array name="review_qns">
+        <item>"What do you think about the doctor's communication level?"</item>
+        <item>"What do you think about the doctor's patient care?"</item>
+    </string-array>
+
+    <string-array name="intro_texts_arr">
+        <item>"Bringing health care to your doorstep.\n\n Speak to qualified doctors, get first aid tips and much more"</item>
+        <item>"Enter your basic details and choose a password"</item>
+        <item>"Validate your phone number in 2 simple steps. \n\n First enter the number"</item>
+        <item>Enter <b>6-digit</b> code sent to you via <b>SMS</b> to the number provided.</item>
+        <item>"Safe Doktor is that simple! \n Go on! Just try it."</item>
+    </string-array>
+    <string-array name="intro_titles_arr">
+        <item>Welcome to <b>Safe Doktor</b></item>
+        <item>Registration</item>
+        <item>Enter Phone Number</item>
+        <item>"Validate Phone Number"</item>
+        <item>"Finished!"</item>
+    </string-array>
+
+</resources>

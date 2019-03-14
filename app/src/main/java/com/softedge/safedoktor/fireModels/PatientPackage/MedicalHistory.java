@@ -1,9 +1,9 @@
-package com.softedge.safedoktor.models.PatientPackage;
+package com.softedge.safedoktor.fireModels.PatientPackage;
 
-import com.softedge.safedoktor.models.Historypackage.FamilyHistory;
-import com.softedge.safedoktor.models.Historypackage.PersonalHistory;
-import com.softedge.safedoktor.models.Historypackage.SocialHistory;
-import com.softedge.safedoktor.models.Historypackage.SurgicalHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.FamilyHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.PersonalHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.SocialHistory;
+import com.softedge.safedoktor.fireModels.HistoryPackage.SurgicalHistory;
 
 public class MedicalHistory {
 

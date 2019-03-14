@@ -25,12 +25,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
+import com.softedge.safedoktor.fireModels.GlideApp;
+import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.fireModels.PatientPackage.ContactPerson;
 import com.softedge.safedoktor.fragments.chats_fragment;
 import com.softedge.safedoktor.fragments.library_fragment;
 import com.softedge.safedoktor.fragments.partners_fragment;
-import com.softedge.safedoktor.models.GlideApp;
-import com.softedge.safedoktor.models.PatientPackage.Biography;
-import com.softedge.safedoktor.models.PatientPackage.ContactPerson;
 
 import java.lang.ref.WeakReference;
 

@@ -3,7 +3,9 @@ package com.softedge.safedoktor.activities;
 import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -26,18 +28,21 @@ import java.lang.ref.WeakReference;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class VideoCallingActivity extends AppCompatActivity implements Session.SessionListener, PublisherKit.PublisherListener {
+public class VideoCallingActivity extends AppCompatActivity implements Session.SessionListener,
+        PublisherKit.PublisherListener {
 
     private static final int RC_VIDEO_APP_PERM = 124;
-    private static String API_KEY = "46279932";
-    private static String SESSION_ID = "2_MX40NjI3OTkzMn5-MTU1MTY5MDk4OTY4OX5ZTWtQZGpSeWxteWJDWFB2eDMvc2xKU2x-fg";
-    private static String TOKEN = "T1==cGFydG5lcl9pZD00NjI3OTkzMiZzaWc9MjQ5ZWNjNjliOTU5N2JkM2ZhM2UzMDliNjJkZWI1ZDQ0NDExNjAzNDpzZXNzaW9uX2lkPTJfTVg0ME5qSTNPVGt6TW41LU1UVTFNVFk1TURrNE9UWTRPWDVaVFd0UVpHcFNlV3h0ZVdKRFdGQjJlRE12YzJ4S1UyeC1mZyZjcmVhdGVfdGltZT0xNTUxNjkxMDU0Jm5vbmNlPTAuNDE2Nzc5OTEyMzkxNjAyNSZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNTUxNzEyNzUwJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
+    private static String API_KEY;
+    private static String SESSION_ID;
+    private static String TOKEN;
     WeakReference<VideoCallingActivity> weakVideo;
+
     FrameLayout doc_frame, pat_frame;
+    TextInputEditText et_vidchat_msg;
+    Button bt_vidchat_send;
 
     private Session mSession;
     private Subscriber mSubscriber;
-
 
     //============================================ON CREATE=========================================
     @Override
@@ -49,6 +54,9 @@ public class VideoCallingActivity extends AppCompatActivity implements Session.S
 
         doc_frame = findViewById(R.id.doc_frame);
         pat_frame = findViewById(R.id.pat_frame);
+
+        et_vidchat_msg = findViewById(R.id.et_vidchat_msg);
+        bt_vidchat_send = findViewById(R.id.bt_vidchat_send);
 
         requestPermissions();
 

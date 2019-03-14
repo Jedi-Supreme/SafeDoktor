@@ -315,7 +315,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
             android:layout_weight="1"
-            android:background="@drawable/bio_button_back"
+            android:background="@drawable/blue_bt_back"
             android:text="@string/next"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"

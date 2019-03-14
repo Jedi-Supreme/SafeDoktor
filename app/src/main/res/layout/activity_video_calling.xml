@@ -10,16 +10,42 @@
         android:id="@+id/doc_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/deep_blue_grey" />
+        android:background="@color/black" />
 
     <FrameLayout
         android:id="@+id/pat_frame"
         android:layout_width="@dimen/logo_dimen"
-        android:layout_height="@dimen/profile_pic_size"
+        android:layout_height="@dimen/dash_card_height"
         android:layout_margin="@dimen/margin_tiny"
         android:background="@color/colorPrimary"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.TextInputEditText
+        android:inputType="textMultiLine"
+        android:theme="@style/dark_accent_style"
+        android:background="@drawable/vidchat_text_back"
+        android:id="@+id/et_vidchat_msg"
+        android:layout_width="0dp"
+        android:textSize="@dimen/med_text_size"
+        android:padding="@dimen/margin_small"
+        android:hint="@string/type_a_message"
+        app:layout_constraintRight_toLeftOf="@id/bt_vidchat_send"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:layout_marginEnd="@dimen/margin_small"
+        android:id="@+id/bt_vidchat_send"
+        android:layout_width="@dimen/margin_large"
+        android:layout_height="@dimen/margin_large"
+        android:background="@drawable/ic_send_grey_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/et_vidchat_msg"
+        app:layout_constraintLeft_toRightOf="@id/et_vidchat_msg"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

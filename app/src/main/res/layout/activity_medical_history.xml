@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_padding"
-        android:background="@drawable/bio_button_back"
+        android:background="@drawable/blue_bt_back"
         android:drawableStart="@drawable/ic_done_white_24dp"
         android:onClick="Save_history_data"
         android:paddingStart="@dimen/dash_card_height"

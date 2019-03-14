@@ -1,64 +1,5 @@
 <resources>
 
-    <string-array name="gender_Arr">
-        <item><i>Select</i></item>
-        <item>Male</item>
-        <item>Female</item>
-    </string-array>
-    <string-array name="marital_status">
-        <item><i>Select</i></item>
-        <item>Single</item>
-        <item>Married</item>
-        <item>Divorced</item>
-        <item>Widowed</item>
-    </string-array>
-    <string-array name="relations">
-        <item><i>Select</i></item>
-        <item>Mother</item>
-        <item>Father</item>
-        <item>Sister</item>
-        <item>Brother</item>
-        <item>Guardian</item>
-        <item>Friend</item>
-    </string-array>
-    <string-array name="blood_groups_arr">
-        <item><i>Select</i></item>
-        <item>A-</item>
-        <item>A+</item>
-        <item>B-</item>
-        <item>B+</item>
-        <item>AB-</item>
-        <item>AB+</item>
-        <item>O-</item>
-        <item>O+</item>
-    </string-array>
-
-    <string-array name="personal_qns">
-        <item>Do you have any allergies?</item>
-        <item>Are you currently taking any medications and/or supplements?</item>
-        <item>Have you ever been admitted to a hospital for a serious illness or injury (ie: stroke, heart attack, car accident, etc)?</item>
-    </string-array>
-    <string-array name="family_qns">
-        <item>Have any of your relatives had Inflammatory Bowel Disease?</item>
-        <item>Have any of your relatives had cancer?</item>
-    </string-array>
-    <string-array name="social_qns">
-        <item>Has anyone in your family or home ever physically or verbally hurt you?</item>
-        <item>Do you need assistance with getting around (ie: cane, wheel chair, etc.)?</item>
-        <item>Do you exercise?</item>
-        <item>How many children do you have?</item>
-        <item>Did you sustain any injury during delivery?</item>
-        <item>Do you smoke?</item>
-        <item>Have you ever smoked?</item>
-        <item>Do you take alcohol?</item>
-        <item>Do you take recreational drugs?</item>
-        <item>When last did you take a recreational drug?</item>
-    </string-array>
-    <string-array name="surgical_qns">
-        <item>Have you ever undergone surgery?</item>
-        <item>Have you ever had a colonoscopy></item>
-    </string-array>
-
     <string name="phone_valid_intro">Safe Doktor will send a one time SMS message to verify your phone number. Enter the <b>6-digit code</b> below</string>
 
     <string name="app_name">SafeDoktor</string>
@@ -228,4 +169,11 @@
     <string name="pat_care">Patient Care -</string>
     <string name="video">Video</string>
     <string name="review_topic_title">You are currently reviewing</string>
+    <string name="rev_lowest">Unacceptable</string>
+    <string name="rev_low">Improvement Needed</string>
+    <string name="rev_medium">Meets Expectation</string>
+    <string name="rev_high">Exceeds Expectations</string>
+    <string name="rev_highest">Exceptional</string>
+    <string name="doc_pro_txt">Doctor Profile</string>
+    <string name="type_a_message">Type a Message</string>
 </resources>

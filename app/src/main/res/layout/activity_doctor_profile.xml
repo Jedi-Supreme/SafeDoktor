@@ -252,6 +252,7 @@
             android:textSize="@dimen/normal_text_size" />
 
         <Button
+            android:drawablePadding="2dp"
             android:onClick="VideoChatDoc"
             style="?attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"

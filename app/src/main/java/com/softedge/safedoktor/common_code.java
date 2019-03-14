@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.softedge.safedoktor.models.PatientPackage.Biography;
+import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
 
 public class common_code {
 
