@@ -1,4 +1,4 @@
-package com.softedge.safedoktor.fireModels.PatientPackage;
+package com.softedge.safedoktor.models.fireModels.PatientPackage;
 
 public class Address {
 

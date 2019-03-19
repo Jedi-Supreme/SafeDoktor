@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;

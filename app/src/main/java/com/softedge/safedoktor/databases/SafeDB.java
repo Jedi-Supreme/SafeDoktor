@@ -12,15 +12,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.activities.DashboardActivity;
-import com.softedge.safedoktor.fireModels.HistoryPackage.FamilyHistory;
-import com.softedge.safedoktor.fireModels.HistoryPackage.History;
-import com.softedge.safedoktor.fireModels.HistoryPackage.PersonalHistory;
-import com.softedge.safedoktor.fireModels.HistoryPackage.SocialHistory;
-import com.softedge.safedoktor.fireModels.HistoryPackage.SurgicalHistory;
-import com.softedge.safedoktor.fireModels.PatientPackage.Address;
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
-import com.softedge.safedoktor.fireModels.PatientPackage.ContactPerson;
-import com.softedge.safedoktor.fireModels.PatientPackage.Physicals;
+import com.softedge.safedoktor.models.fireModels.HistoryPackage.FamilyHistory;
+import com.softedge.safedoktor.models.fireModels.HistoryPackage.History;
+import com.softedge.safedoktor.models.fireModels.HistoryPackage.PersonalHistory;
+import com.softedge.safedoktor.models.fireModels.HistoryPackage.SocialHistory;
+import com.softedge.safedoktor.models.fireModels.HistoryPackage.SurgicalHistory;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Address;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
 
 import java.util.ArrayList;
 
@@ -87,44 +87,17 @@ public class SafeDB extends SQLiteOpenHelper {
         db.execSQL(contactpersQuery);
 
         //Patient personal health history table
-        String medPersonal = "CREATE TABLE IF NOT EXISTS " + PersonalHistory.TABLE + "( " +
-                History.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                History.FIRE_ID + " TEXT UNIQUE, " +
-                History.LAST_UPDATED + " TEXT, " +
-                History.STATE + " TEXT, " +
-                History.REMARKS + " TEXT, " +
-                History.QN_NUMBER + " INTEGER );";
-        db.execSQL(medPersonal);
-
         //Patient family health history table
-        String medFamily = "CREATE TABLE IF NOT EXISTS " + FamilyHistory.TABLE + "( " +
-                History.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                History.FIRE_ID + " TEXT UNIQUE, " +
-                History.LAST_UPDATED + " TEXT, " +
-                History.STATE + " TEXT, " +
-                History.REMARKS + " TEXT, " +
-                History.QN_NUMBER + " INTEGER );";
-        db.execSQL(medFamily);
-
         //Patient social health history table
-        String medSocial = "CREATE TABLE IF NOT EXISTS " + SocialHistory.TABLE + "( " +
-                History.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                History.FIRE_ID + " TEXT UNIQUE, " +
-                History.LAST_UPDATED + " TEXT, " +
-                History.STATE + " TEXT, " +
-                History.REMARKS + " TEXT, " +
-                History.QN_NUMBER + " INTEGER );";
-        db.execSQL(medSocial);
-
         //Patient surgical history table
-        String medSurgical = "CREATE TABLE IF NOT EXISTS " + SurgicalHistory.TABLE + "( " +
+        /*String medSurgical = "CREATE TABLE IF NOT EXISTS " + SurgicalHistory.TABLE + "( " +
                 History.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                History.FIRE_ID + " TEXT UNIQUE, " +
+                History.FIRE_ID + " TEXT, " +
                 History.LAST_UPDATED + " TEXT, " +
                 History.STATE + " TEXT, " +
                 History.REMARKS + " TEXT, " +
-                History.QN_NUMBER + " INTEGER );";
-        db.execSQL(medSurgical);
+                History.QN_NUMBER + " INTEGER UNIQUE);";
+        db.execSQL(medSurgical);*/
     }
 
     @Override
@@ -440,48 +413,69 @@ public class SafeDB extends SQLiteOpenHelper {
     }
     //==========================================CONTACT=============================================
 
-    //==========================================HISTORY=============================================
+    //=======================================HEALTH HISTORY=========================================
+    public void createHistoryTable(String historyName, String fireUID){
+
+        SQLiteDatabase db = getWritableDatabase();
+        String tableName = historyName + "_" + fireUID;
+
+        String medHistory = "CREATE TABLE IF NOT EXISTS " + tableName + "( " +
+                History.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                History.FIRE_ID + " TEXT , " +
+                History.LAST_UPDATED + " TEXT, " +
+                History.STATE + " TEXT, " +
+                History.REMARKS + " TEXT, " +
+                History.QN_NUMBER + " INTEGER UNIQUE);";
+        db.execSQL(medHistory);
+    }
+
     //add medical history
-    public void addMedicalHistory(String Tablename, History history) {
+    public void addMedicalHistory(String historyName, History history) {
 
         ContentValues history_values = new ContentValues();
 
         history_values.put(History.FIRE_ID, history.getUser_fireID());
         history_values.put(History.STATE, history.getState());
         history_values.put(History.REMARKS, history.getRemarks());
+        history_values.put(History.LAST_UPDATED,history.getLastUpdated());
         history_values.put(History.QN_NUMBER, history.getQn_numb());
 
         SQLiteDatabase sqDB = getWritableDatabase();
 
+        String tableName = historyName + "_" + history.getUser_fireID();
+
         try {
-            sqDB.insertOrThrow(Tablename, null, history_values);
+            sqDB.insertOrThrow(tableName, null, history_values);
         } catch (Exception ignored) {
         }
     }
 
-    public void updateMedicalHistory(String Tablename, History history) {
+    public void updateMedicalHistory(String historyName, History history) {
 
         ContentValues history_values = new ContentValues();
 
         history_values.put(History.FIRE_ID, history.getUser_fireID());
         history_values.put(History.STATE, history.getState());
         history_values.put(History.REMARKS, history.getRemarks());
+        history_values.put(History.LAST_UPDATED,history.getLastUpdated());
         history_values.put(History.QN_NUMBER, history.getQn_numb());
 
         SQLiteDatabase sqDB = getWritableDatabase();
 
-        sqDB.update(Tablename, history_values, History.FIRE_ID + " = ? AND " + History.QN_NUMBER + " =? ",
+        String tableName = historyName + "_" + history.getUser_fireID();
+
+        sqDB.update(tableName, history_values, History.FIRE_ID + " = ? AND " + History.QN_NUMBER + " =? ",
                 new String[]{history.getUser_fireID(), String.valueOf(history.getQn_numb())});
     }
 
     //fetch list of answers per history type
-    public ArrayList<History> fetchAllHistory(String Tablename, String fire_id) {
+    public ArrayList<History> fetchAllHistory(String historyName, String fire_id) {
 
         ArrayList<History> allhistory = new ArrayList<>();
-
         SQLiteDatabase sqDB = getReadableDatabase();
+        String tableName = historyName + "_" + fire_id;
 
-        String query = "SELECT * FROM " + Tablename + " WHERE " + History.FIRE_ID + " = \"" + fire_id + "\"";
+        String query = "SELECT * FROM " + tableName;
 
         Cursor medCursor = sqDB.rawQuery(query, null);
 
@@ -502,6 +496,6 @@ public class SafeDB extends SQLiteOpenHelper {
 
         return allhistory;
     }
-    //==========================================HISTORY=============================================
+    //=======================================HEALTH HISTORY========================================= `
 
 }

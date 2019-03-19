@@ -29,8 +29,8 @@ import com.google.firebase.storage.UploadTask;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
-import com.softedge.safedoktor.fireModels.GlideApp;
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.GlideApp;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;

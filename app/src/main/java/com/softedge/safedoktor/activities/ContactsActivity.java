@@ -24,7 +24,7 @@ import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.adapters.contacts_recycler_Adapter;
 import com.softedge.safedoktor.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
-import com.softedge.safedoktor.fireModels.PatientPackage.ContactPerson;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

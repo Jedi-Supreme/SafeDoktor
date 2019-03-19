@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 public class common_code {
 
     //private static final int CAMERA_AUDIO_REQ_CODE = 434;
+
+    public static final String dateTimeformat = "dd/MMM/yyyy hh:mm:ss aa";
 
     public static Snackbar Mysnackbar(View parent_view, String message, int lenght) {
 

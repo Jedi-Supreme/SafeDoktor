@@ -1,10 +1,10 @@
-package com.softedge.safedoktor.fireModels;
+package com.softedge.safedoktor.models.fireModels;
 
-import com.softedge.safedoktor.fireModels.PatientPackage.Address;
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
-import com.softedge.safedoktor.fireModels.PatientPackage.ContactPerson;
-import com.softedge.safedoktor.fireModels.PatientPackage.MedicalHistory;
-import com.softedge.safedoktor.fireModels.PatientPackage.Physicals;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Address;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.MedicalHistory;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
 
 public class Patient {
 

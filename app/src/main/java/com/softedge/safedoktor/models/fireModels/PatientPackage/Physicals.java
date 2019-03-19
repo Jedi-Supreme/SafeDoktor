@@ -1,6 +1,6 @@
-package com.softedge.safedoktor.fireModels.PatientPackage;
+package com.softedge.safedoktor.models.fireModels.PatientPackage;
 
-import com.softedge.safedoktor.fireModels.HistoryPackage.History;
+import com.softedge.safedoktor.models.fireModels.HistoryPackage.History;
 
 public class Physicals {
 

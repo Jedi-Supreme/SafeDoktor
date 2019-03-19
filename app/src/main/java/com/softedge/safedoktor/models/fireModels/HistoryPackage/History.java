@@ -1,6 +1,6 @@
-package com.softedge.safedoktor.fireModels.HistoryPackage;
+package com.softedge.safedoktor.models.fireModels.HistoryPackage;
 
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 public class History {
 
@@ -18,6 +18,15 @@ public class History {
     private int qn_numb;
 
     History() {
+    }
+
+    public History(String state, String remarks, int question_number, String lastUpdated) {
+
+        this.state = state;
+        this.remarks = remarks;
+        this.qn_numb = question_number;
+        this.lastUpdated = lastUpdated;
+
     }
 
     public History(String user_fireID, String state, String remarks, int question_number, String lastUpdated) {

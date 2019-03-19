@@ -1,4 +1,4 @@
-package com.softedge.safedoktor;
+package com.softedge.safedoktor.service;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

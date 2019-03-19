@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.activities.ContactsActivity;
 import com.softedge.safedoktor.databases.SafeDB;
-import com.softedge.safedoktor.fireModels.PatientPackage.ContactPerson;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

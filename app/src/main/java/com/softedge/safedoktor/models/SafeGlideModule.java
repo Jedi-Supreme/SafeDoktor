@@ -1,4 +1,4 @@
-package com.softedge.safedoktor.fireModels;
+package com.softedge.safedoktor.models;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;

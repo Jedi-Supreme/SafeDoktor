@@ -14,13 +14,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
-import com.softedge.safedoktor.fireModels.PatientPackage.Biography;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    final long COUNTDOWN_TIME = 1500; // 1.5 seconds
+    final long COUNTDOWN_TIME = 2500; // 2.5 seconds
     final long SECS = 1000;
 
     String fireID;

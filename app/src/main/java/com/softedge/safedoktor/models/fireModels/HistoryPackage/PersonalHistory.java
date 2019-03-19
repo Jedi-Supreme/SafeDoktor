@@ -1,4 +1,4 @@
-package com.softedge.safedoktor.fireModels.HistoryPackage;
+package com.softedge.safedoktor.models.fireModels.HistoryPackage;
 
 public class PersonalHistory extends History {
 
