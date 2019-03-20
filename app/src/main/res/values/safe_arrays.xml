@@ -57,7 +57,7 @@
     </string-array>
     <string-array name="surgical_qns">
         <item>Have you ever undergone surgery?</item>
-        <item>Have you ever had a colonoscopy></item>
+        <item>Have you ever had a colonoscopy?</item>
     </string-array>
 
     <string-array name="review_qns">

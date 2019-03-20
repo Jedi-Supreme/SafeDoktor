@@ -336,6 +336,7 @@ public class SafeDB extends SQLiteOpenHelper {
             sqDB.insertOrThrow(ContactPerson.TABLE, null, contPers_val);
             return true;
         } catch (SQLiteConstraintException constraint) {
+            updateContact(contactPerson);
             return false;
         }
     }
@@ -353,9 +354,11 @@ public class SafeDB extends SQLiteOpenHelper {
         contPers_val.put(ContactPerson.MOBILE_NUMBER, contactPerson.getNumber());
 
         SQLiteDatabase sqDB = getWritableDatabase();
-        sqDB.update(ContactPerson.TABLE, contPers_val,
-                ContactPerson.FIRE_ID + " = ? AND " + ContactPerson.RELATION + " = ? ",
-                new String[]{contactPerson.getUser_fireID(), String.valueOf(contactPerson.getRelation())});
+        try {
+            sqDB.update(ContactPerson.TABLE, contPers_val,
+                    ContactPerson.FIRE_ID + " = ? AND " + ContactPerson.RELATION + " = ? ",
+                    new String[]{contactPerson.getUser_fireID(), String.valueOf(contactPerson.getRelation())});
+        }catch (Exception ignored){}
     }
 
     //delete contact
@@ -446,11 +449,12 @@ public class SafeDB extends SQLiteOpenHelper {
 
         try {
             sqDB.insertOrThrow(tableName, null, history_values);
-        } catch (Exception ignored) {
+        } catch (SQLiteConstraintException ignored) {
+            updateMedicalHistory(historyName,history);
         }
     }
 
-    public void updateMedicalHistory(String historyName, History history) {
+    private void updateMedicalHistory(String historyName, History history) {
 
         ContentValues history_values = new ContentValues();
 

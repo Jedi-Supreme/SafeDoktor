@@ -46,10 +46,11 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
         return contacts.size();
     }
 
-    public class contacts_list_holder extends RecyclerView.ViewHolder {
+    public class contacts_list_holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView tv_relation, tv_contact_fullname, tv_contact_delete;
         SafeDB safe_db;
+        ContactPerson conper;
 
         contacts_list_holder(View itemView) {
             super(itemView);
@@ -57,6 +58,7 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
             tv_relation = itemView.findViewById(R.id.tv_contact_rel);
             tv_contact_fullname = itemView.findViewById(R.id.tv_contact_fullname);
             tv_contact_delete = itemView.findViewById(R.id.tv_contact_delete);
+            itemView.setOnClickListener(this);
 
             WeakReference<Context> weak_mcontext = new WeakReference<>(itemView.getContext());
 
@@ -66,6 +68,7 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
 
         void bind_views(final ContactPerson contact) {
 
+            conper = contact;
             String[] rel_arr = weak_activity.get().getResources().getStringArray(R.array.relations);
 
             tv_relation.setText(rel_arr[contact.getRelation()]);
@@ -81,5 +84,9 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
 
         }
 
+        @Override
+        public void onClick(View v) {
+            ((ContactsActivity) weak_activity.get()).ContactPersonDialog(conper);
+        }
     }
 }

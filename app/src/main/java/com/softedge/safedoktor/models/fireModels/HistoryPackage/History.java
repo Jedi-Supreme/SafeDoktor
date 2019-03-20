@@ -20,15 +20,6 @@ public class History {
     History() {
     }
 
-    public History(String state, String remarks, int question_number, String lastUpdated) {
-
-        this.state = state;
-        this.remarks = remarks;
-        this.qn_numb = question_number;
-        this.lastUpdated = lastUpdated;
-
-    }
-
     public History(String user_fireID, String state, String remarks, int question_number, String lastUpdated) {
 
         this.user_fireID = user_fireID;

@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.safedoktor.R;
@@ -95,30 +97,61 @@ public class MedicalHistoryActivity extends AppCompatActivity implements
     //------------------------------------------DEFINED METHODS-------------------------------------
     void LoadByTag(String tag) {
 
+        ArrayList<History> historiesArraylist;
+
         switch (tag) {
 
             case PersonalHistory.TABLE:
+
                 safe_db.createHistoryTable(PersonalHistory.TABLE,fireid);
+                historiesArraylist = safe_db.fetchAllHistory(tag,fireid);
                 String[] personalQns_arr = getResources().getStringArray(R.array.personal_qns);
-                refreshRecycler(personalQns_arr,makeHistoryQns(personalQns_arr));
+
+                if (historiesArraylist != null && historiesArraylist.size() > 0){
+                    refreshRecycler(personalQns_arr,historiesArraylist);
+                }else {
+                    refreshRecycler(personalQns_arr,makeHistoryQns(personalQns_arr));
+                }
+
                 break;
 
             case FamilyHistory.TABLE:
+
                 safe_db.createHistoryTable(FamilyHistory.TABLE,fireid);
                 String[] familyQns_arr = getResources().getStringArray(R.array.family_qns);
-                refreshRecycler(familyQns_arr,makeHistoryQns(familyQns_arr));
+                historiesArraylist = safe_db.fetchAllHistory(tag,fireid);
+
+                if (historiesArraylist != null && historiesArraylist.size() > 0){
+                    refreshRecycler(familyQns_arr,historiesArraylist);
+                }else {
+                    refreshRecycler(familyQns_arr,makeHistoryQns(familyQns_arr));
+                }
                 break;
 
             case SocialHistory.TABLE:
+
                 safe_db.createHistoryTable(SocialHistory.TABLE,fireid);
                 String[] socialQns_arr = getResources().getStringArray(R.array.social_qns);
-                refreshRecycler(socialQns_arr,makeHistoryQns(socialQns_arr));
+                historiesArraylist = safe_db.fetchAllHistory(tag,fireid);
+
+                if (historiesArraylist != null && historiesArraylist.size() > 0){
+                    refreshRecycler(socialQns_arr,historiesArraylist);
+                }else {
+                    refreshRecycler(socialQns_arr,makeHistoryQns(socialQns_arr));
+                }
                 break;
 
             case SurgicalHistory.TABLE:
+
                 safe_db.createHistoryTable(SurgicalHistory.TABLE,fireid);
                 String[] surgicalQns_arr = getResources().getStringArray(R.array.surgical_qns);
-                refreshRecycler(surgicalQns_arr,makeHistoryQns(surgicalQns_arr));
+                historiesArraylist = safe_db.fetchAllHistory(tag,fireid);
+
+                if (historiesArraylist != null && historiesArraylist.size() > 0){
+                    refreshRecycler(surgicalQns_arr,historiesArraylist);
+                }else {
+                    refreshRecycler(surgicalQns_arr,makeHistoryQns(surgicalQns_arr));
+                }
                 break;
 
         }
@@ -147,6 +180,14 @@ public class MedicalHistoryActivity extends AppCompatActivity implements
 
         return histories;
     }
+
+    public void saveData(ArrayList<History> histories){
+
+        for (History history : histories){
+            safe_db.addMedicalHistory(history_tabhost.getCurrentTabTag(),history);
+        }
+
+    }
     //------------------------------------------DEFINED METHODS-------------------------------------
 
 
@@ -174,15 +215,25 @@ public class MedicalHistoryActivity extends AppCompatActivity implements
         super.onResume();
 
         if (history_tabhost.getCurrentTabTag() != null) {
-
             LoadByTag(history_tabhost.getCurrentTabTag());
         }
 
     }
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-OVERRIDE METHODS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+
+
     //-----------------------------------------BUTTON CLICK LISTENER--------------------------------
     public void Save_history_data(View view) {
+
+        try {
+            saveData(((historyQns_Adapter) his_recycler.getAdapter()).getHistories());
+            common_code.Mysnackbar(
+                    findViewById(R.id.const_medhistory_layout),
+                    history_tabhost.getCurrentTabTag() + " HISTORY SAVED", Snackbar.LENGTH_SHORT).show();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+        }
 
     }
     //-----------------------------------------BUTTON CLICK LISTENER--------------------------------

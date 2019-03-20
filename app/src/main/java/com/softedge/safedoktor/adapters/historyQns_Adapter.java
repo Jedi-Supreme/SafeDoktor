@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,11 @@ import java.util.ArrayList;
 public class historyQns_Adapter extends RecyclerView.Adapter {
 
     private String[] questions_arr;
+
+    public ArrayList<History> getHistories() {
+        return histories;
+    }
+
     private ArrayList<History> histories;
 
     public historyQns_Adapter(String[] questions_arr, ArrayList<History> histories) {
@@ -46,7 +53,8 @@ public class historyQns_Adapter extends RecyclerView.Adapter {
         return questions_arr.length;
     }
 
-    public class question_list_holder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
+    public class question_list_holder extends RecyclerView.ViewHolder
+            implements CompoundButton.OnCheckedChangeListener, TextWatcher {
 
         TextView tv_question;
         SafeDB safe_db;
@@ -58,6 +66,7 @@ public class historyQns_Adapter extends RecyclerView.Adapter {
 
             tv_question = itemView.findViewById(R.id.tv_history_qns);
             et_qn_remark = itemView.findViewById(R.id.et_qn_remarks);
+            et_qn_remark.addTextChangedListener(this);
             switchAnswers = itemView.findViewById(R.id.switch_answer);
             switchAnswers.setOnCheckedChangeListener(this);
 
@@ -79,10 +88,28 @@ public class historyQns_Adapter extends RecyclerView.Adapter {
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int adapterpos = getAdapterPosition();
 
+            int adapterpos = getAdapterPosition();
             histories.get(adapterpos).setState(String.valueOf(isChecked));
 
         }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            int adapterpos = getAdapterPosition();
+            histories.get(adapterpos).setRemarks(et_qn_remark.getText().toString());
+        }
     }
+
+
 }

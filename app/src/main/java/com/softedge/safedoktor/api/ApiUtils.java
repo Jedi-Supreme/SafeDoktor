@@ -10,7 +10,7 @@ public class ApiUtils {
         return RetroAppClient.getRetroClient(authrl).create(tokenUtils.class);
     }
 
-    public carewexClient getCarewexData() {
+    public carewexClient getData() {
         return RetroAppClient.getRetroClient(restURL).create(carewexClient.class);
     }
 }

@@ -30,6 +30,9 @@
             android:hapticFeedbackEnabled="true"
             android:textOff="@string/no"
             android:textOn="@string/yes"
+            app:showText="true"
+            app:thumbTint="@color/blue_grey"
+            android:textColor="@color/deep_blue_grey"
             android:theme="@style/switch_style"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

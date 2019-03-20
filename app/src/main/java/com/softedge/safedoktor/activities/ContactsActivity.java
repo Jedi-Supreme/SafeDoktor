@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -75,7 +76,7 @@ public class ContactsActivity extends AppCompatActivity {
         contacts_recycler.setAdapter(contactsAdapter);
     }
 
-    public void add_ContactDialog() {
+    public void ContactPersonDialog(@Nullable final ContactPerson contactPerson) {
 
         final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact.get()).create();
 
@@ -95,6 +96,14 @@ public class ContactsActivity extends AppCompatActivity {
 
         contactdialog.setView(contactView);
 
+        if (contactPerson !=null){
+            et_contact_fullname.setText(contactPerson.getFullname());
+            et_contact_email.setText(contactPerson.getEmail());
+            et_contact_number.setText(contactPerson.getNumber());
+            et_contact_address.setText(contactPerson.getAddress());
+            sp_contact_rel.setSelection(contactPerson.getRelation());
+        }
+
         bt_contact_submit.setOnClickListener(v -> {
 
             if (et_contact_fullname.getText().toString().isEmpty()) {
@@ -111,7 +120,7 @@ public class ContactsActivity extends AppCompatActivity {
                 sp_contact_rel.requestFocus();
             } else {
 
-                ContactPerson contactPerson = new ContactPerson(
+               ContactPerson contPers = new ContactPerson(
                         fireID,
                         et_contact_fullname.getText().toString(),
                         "",
@@ -120,11 +129,11 @@ public class ContactsActivity extends AppCompatActivity {
                         sp_contact_rel.getSelectedItemPosition());
 
                 if (!et_contact_email.getText().toString().isEmpty()) {
-                    contactPerson.setEmail(et_contact_email.getText().toString());
+                    contPers.setEmail(et_contact_email.getText().toString());
                 }
 
                 if (!et_contact_address.getText().toString().isEmpty()) {
-                    contactPerson.setAddress(et_contact_address.getText().toString());
+                    contPers.setAddress(et_contact_address.getText().toString());
                 }
 
                 if (safe_DB.addContact(contactPerson)) {
@@ -195,7 +204,7 @@ public class ContactsActivity extends AppCompatActivity {
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=BUTTON CLICK LISTENER-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     public void add_contact(View view) {
         if (contacts_recycler.getAdapter().getItemCount() < 3) {
-            add_ContactDialog();
+            ContactPersonDialog(null);
         } else {
             common_code.Mysnackbar(const_contact_layout, "Maximum of 3 Contacts allowed",
                     Snackbar.LENGTH_SHORT).show();

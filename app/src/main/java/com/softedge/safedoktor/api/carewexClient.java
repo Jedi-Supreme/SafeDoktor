@@ -14,8 +14,8 @@ public interface carewexClient {
     @GET("/patient/{patientId}")
     Call<retroPatient> patient(@Path("patientId") String patientId);
 
-    @GET("/patient/{patientId}")
-    Call<List<retroDoctor>> doctors();
+    @GET("/patient/{doctorID}")
+    Call<List<retroDoctor>> doctors(@Path("doctorID") String doctorID);
 
 
 
