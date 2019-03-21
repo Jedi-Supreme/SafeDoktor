@@ -39,7 +39,7 @@ public class historyQns_Adapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.history_row_item, parent, false);
+                .inflate(R.layout.row_history_list, parent, false);
         return new question_list_holder(view);
     }
 

@@ -11,6 +11,7 @@ public class common_code {
     //private static final int CAMERA_AUDIO_REQ_CODE = 434;
 
     public static final String dateTimeformat = "dd/MMM/yyyy hh:mm:ss aa";
+    public static final String daynameTimeformat = "E, dd MMM yyyy";
 
     public static Snackbar Mysnackbar(View parent_view, String message, int lenght) {
 

@@ -176,4 +176,8 @@
     <string name="rev_highest">Exceptional</string>
     <string name="doc_pro_txt">Doctor Profile</string>
     <string name="type_a_message">Type a Message</string>
+    <string name="ov_complaints_txt">Complaints</string>
+    <string name="ov_diagnosis_txt">Diagnoses</string>
+    <string name="ov_exams_txt">Exam Findings</string>
+    <string name="ov_prescriptions_txt">Prescriptions</string>
 </resources>

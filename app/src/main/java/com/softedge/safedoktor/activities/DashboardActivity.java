@@ -163,6 +163,14 @@ public class DashboardActivity extends AppCompatActivity implements
 
         tv_nav_help.setOnClickListener(v -> toVidecall());
 
+        //Calendar calendar = Calendar.getInstance();
+
+        //SimpleDateFormat dateFormat = new SimpleDateFormat(common_code.dateTimeformat, Locale.getDefault());
+
+        //String date = dateFormat.format(calendar.getTimeInMillis());
+
+        //common_code.Mysnackbar(findViewById(R.id.dash_drawer_layout),date, Snackbar.LENGTH_INDEFINITE).show();
+
     }
     //==========================================ON CREATE===========================================
 

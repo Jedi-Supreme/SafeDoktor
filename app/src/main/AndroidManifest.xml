@@ -21,14 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activities.OnlineVisits"></activity>
         <activity
-            android:label="@string/review"
-            android:name=".activities.ReviewActivity"/>
-
+            android:name=".activities.ReviewActivity"
+            android:label="@string/review" />
         <activity
-            android:label="@string/doc_pro_txt"
-            android:name=".activities.DoctorProfileActivity" />
+            android:name=".activities.DoctorProfileActivity"
+            android:label="@string/doc_pro_txt" />
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more.
@@ -45,57 +44,48 @@
             android:resource="@color/blue_highlight" />
 
         <activity
-            android:windowSoftInputMode="adjustPan"
             android:name=".activities.VideoCallingActivity"
-            android:theme="@style/darkAccent_noActionBar" />
-
+            android:theme="@style/darkAccent_noActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activities.ApptMake_Activity"
             android:label="@string/appt_make_lbl"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".activities.Appointments"
             android:label="@string/appointments_txt"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style" />
-
         <activity
             android:name=".activities.ContactsActivity"
             android:label="@string/contact_persons"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style" />
-
         <activity
             android:name=".activities.BiographyActivity"
             android:label="@string/biography"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".activities.MedicalHistoryActivity"
             android:label="@string/medical_history"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".activities.AccountActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:theme="@style/dark_accent_style"
             android:name=".activities.ProfileActivity"
             android:label="@string/edit_profile"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            android:theme="@style/dark_accent_style" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings_txt"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -106,7 +96,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.WelcomeActvity"
             android:label="@string/dash_welcome"
