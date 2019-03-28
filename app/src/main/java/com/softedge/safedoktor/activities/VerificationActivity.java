@@ -416,7 +416,7 @@ public class VerificationActivity extends AppCompatActivity {
         }
 
         if (!codebuilder.toString().isEmpty() && codebuilder.toString().length() == 6){
-            Toast.makeText(getApplicationContext(),codebuilder.toString(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),codebuilder.toString(),Toast.LENGTH_LONG).show();
             verifyVerificationCode(codebuilder.toString());
         }else {
             common_code.Mysnackbar(findViewById(R.id.const_verify_parentview),
@@ -439,7 +439,7 @@ public class VerificationActivity extends AppCompatActivity {
 
     void toDashboard(){
         probar_verify_code.setVisibility(View.GONE);
-        Intent dashboard_intent = new Intent(this,DashboardActivity.class);
+        Intent dashboard_intent = new Intent(getApplicationContext(),DashboardActivity.class);
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
         super.finish();

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true">
+
+    <ImageView
+        android:id="@+id/iv_ov_docpic"
+        android:layout_width="@dimen/avatar_dim"
+        android:layout_height="@dimen/avatar_dim"
+        android:contentDescription="@string/doc_pic_desc"
+        android:src="@drawable/generic_avatar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_ov_doc_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:padding="@dimen/margin_tiny"
+        android:text="@string/developer_name"
+        android:textColor="@color/blue_black"
+        android:textSize="@dimen/med_text_size"
+        app:layout_constraintBottom_toTopOf="@id/tv_ov_date"
+        app:layout_constraintLeft_toRightOf="@id/iv_ov_docpic"
+        app:layout_constraintTop_toTopOf="@id/iv_ov_docpic" />
+
+    <TextView
+        android:id="@+id/tv_ov_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_tiny"
+        android:text="Mon, 12th Jan 2019"
+        android:textSize="@dimen/normal_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/iv_ov_docpic"
+        app:layout_constraintLeft_toLeftOf="@id/tv_ov_doc_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_ov_doc_name" />
+
+    <View
+        android:id="@+id/view_online_status"
+        android:layout_width="@dimen/margin_tiny"
+        android:layout_height="@dimen/margin_tiny"
+        android:layout_marginStart="@dimen/margin_med"
+        android:background="@drawable/status_offline"
+        app:layout_constraintBottom_toBottomOf="@id/tv_ov_date"
+        app:layout_constraintLeft_toRightOf="@id/tv_ov_date"
+        app:layout_constraintTop_toTopOf="@id/tv_ov_date" />
+
+    <TextView
+        android:id="@+id/tv_ov_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:background="@drawable/ic_videocam_deepgrey_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_ov_date"
+        app:layout_constraintLeft_toRightOf="@id/view_online_status"
+        app:layout_constraintTop_toTopOf="@id/tv_ov_date" />
+
+    <TextView
+        android:id="@+id/tv_visit_toggle_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_tiny"
+        android:background="@drawable/ic_keyb_arrow_down_deepgrey_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_ov_date"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linear_ov_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_padding"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/iv_ov_docpic">
+
+        <TextView
+            android:id="@+id/tv_ov_complaints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ov_options_back"
+            android:padding="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_med"
+            android:paddingEnd="@dimen/margin_med"
+            android:text="@string/ov_complaints_txt"
+            android:textColor="@color/blue_black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_ov_diag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:background="@drawable/ov_options_back"
+            android:padding="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_med"
+            android:paddingEnd="@dimen/margin_med"
+            android:text="@string/ov_diagnosis_txt"
+            android:textColor="@color/blue_black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_ov_exams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:background="@drawable/ov_options_back"
+            android:padding="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_med"
+            android:paddingEnd="@dimen/margin_med"
+            android:text="@string/ov_exams_txt"
+            android:textColor="@color/blue_black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_ov_ref"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:background="@drawable/ov_options_back"
+            android:padding="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_med"
+            android:paddingEnd="@dimen/margin_med"
+            android:text="@string/referral_txt"
+            android:textColor="@color/blue_black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_ov_pres"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:background="@drawable/ov_options_back"
+            android:padding="@dimen/margin_small"
+            android:paddingStart="@dimen/margin_med"
+            android:paddingEnd="@dimen/margin_med"
+            android:text="@string/ov_prescriptions_txt"
+            android:textColor="@color/blue_black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider_view_style"
+        android:layout_marginTop="@dimen/margin_tiny"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear_ov_options" />
+
+</android.support.constraint.ConstraintLayout>

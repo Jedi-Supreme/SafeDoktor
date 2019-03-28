@@ -28,7 +28,7 @@
                 android:layout_width="@dimen/doc_pro_pic"
                 android:layout_height="@dimen/doc_pro_pic"
                 android:layout_marginTop="@dimen/margin_small"
-                android:src="@color/blue_grey"
+                android:src="@drawable/generic_avatar"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +114,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_awards"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
@@ -128,7 +128,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_certs"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
@@ -142,7 +142,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_skills"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
@@ -156,7 +156,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_accomp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
@@ -170,7 +170,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_facility"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
@@ -184,7 +184,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_specialties"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
@@ -198,7 +198,7 @@
 
             <TextView
                 android:id="@+id/tv_doc_lang"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_large"
                 android:padding="@dimen/margin_small"
