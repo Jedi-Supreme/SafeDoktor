@@ -23,6 +23,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.OnlineVisits"></activity>
         <activity
+            android:theme="@style/dark_accent_style"
+            android:windowSoftInputMode="adjustPan"
             android:name=".activities.ReviewActivity"
             android:label="@string/review" />
         <activity

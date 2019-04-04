@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,10 @@ public class ReviewActivity extends AppCompatActivity {
 
     TextView tv_rev_docfull_name;
     RecyclerView rev_recy_qns;
+    TextInputEditText et_rev_comment;
     Button bt_rev_submit;
+
+    String sup_doc;
 
     //===============================================ON CREATE======================================
     @Override
@@ -30,8 +34,11 @@ public class ReviewActivity extends AppCompatActivity {
         }
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
+        sup_doc = getResources().getString(R.string.whatsup_doc);
+
         tv_rev_docfull_name = findViewById(R.id.tv_docfull_name);
         rev_recy_qns = findViewById(R.id.rev_recy_qns);
+        et_rev_comment = findViewById(R.id.et_rev_comment);
         bt_rev_submit = findViewById(R.id.bt_rev_submit);
 
         //TODO review questions adapter

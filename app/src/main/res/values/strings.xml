@@ -180,4 +180,7 @@
     <string name="ov_diagnosis_txt">Diagnoses</string>
     <string name="ov_exams_txt">Exam Findings</string>
     <string name="ov_prescriptions_txt">Prescriptions</string>
+    <string name="answer">Answer…</string>
+    <string name="general_comment">Please add your general comment here</string>
+    <string name="whatsup_doc">"What do you think about the doctor's"</string>
 </resources>

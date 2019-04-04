@@ -25,7 +25,6 @@ public class DoctorProfileActivity extends AppCompatActivity {
         }
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
-
     }
     //========================================ON CREATE=============================================
 

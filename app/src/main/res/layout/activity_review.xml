@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="@dimen/activity_padding"
     android:id="@+id/const_rev_layout"
@@ -31,6 +32,25 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_weight="1" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_marginBottom="@dimen/margin_tiny"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:id="@+id/input_rev_comment"
+        android:layout_width="match_parent"
+        app:counterMaxLength="100"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+            android:maxLength="100"
+            android:id="@+id/et_rev_comment"
+            android:hint="@string/general_comment"
+            android:textSize="@dimen/normal_text_size"
+            android:inputType="textMultiLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/bt_rev_submit"

@@ -21,6 +21,7 @@ import com.softedge.safedoktor.models.fireModels.PatientPackage.Address;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
+import com.softedge.safedoktor.models.fireModels.Review_class;
 
 import java.util.ArrayList;
 
@@ -33,7 +34,6 @@ public class SafeDB extends SQLiteOpenHelper {
 
     public SafeDB(@Nullable Context context, @Nullable SQLiteDatabase.CursorFactory factory) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
-
         mContext = context;
     }
 
@@ -86,18 +86,11 @@ public class SafeDB extends SQLiteOpenHelper {
                 ContactPerson.RELATION + " INTEGER);";
         db.execSQL(contactpersQuery);
 
-        //Patient personal health history table
-        //Patient family health history table
-        //Patient social health history table
-        //Patient surgical history table
-        /*String medSurgical = "CREATE TABLE IF NOT EXISTS " + SurgicalHistory.TABLE + "( " +
-                History.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                History.FIRE_ID + " TEXT, " +
-                History.LAST_UPDATED + " TEXT, " +
-                History.STATE + " TEXT, " +
-                History.REMARKS + " TEXT, " +
-                History.QN_NUMBER + " INTEGER UNIQUE);";
-        db.execSQL(medSurgical);*/
+        String reviewQery = "CREATE TABLE IF NOT EXISTS " + Review_class.TABLE + "( " +
+                Review_class.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Review_class.DOCTOR_ID + " TEXT UNIQUE, " +
+                Review_class.COMMENT + " TEXT);";
+        db.execSQL(reviewQery);
     }
 
     @Override
@@ -107,11 +100,7 @@ public class SafeDB extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + Address.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + Physicals.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ContactPerson.TABLE);
-
-        db.execSQL("DROP TABLE IF EXISTS " + PersonalHistory.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + FamilyHistory.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + SocialHistory.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + SurgicalHistory.TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + Review_class.TABLE);
 
         onCreate(db);
     }
@@ -501,5 +490,107 @@ public class SafeDB extends SQLiteOpenHelper {
         return allhistory;
     }
     //=======================================HEALTH HISTORY========================================= `
+
+    //===========================================REVIEWS============================================
+
+    //add review
+    public void addReview(Review_class review) {
+
+        ContentValues review_values = new ContentValues();
+
+        review_values.put(Review_class.DOCTOR_ID, review.getDoctor_id());
+        review_values.put(Review_class.COMMENT, review.getComment());
+
+        SQLiteDatabase sqDB = getWritableDatabase();
+
+        try {
+            sqDB.insertOrThrow(Review_class.TABLE, null, review_values);
+            createDocRevTable(review.getDoctor_id());
+        } catch (SQLiteConstraintException ignored) {
+            updateReview(review);
+        }
+    }
+
+    private void updateReview(Review_class review) {
+
+        ContentValues review_values = new ContentValues();
+
+        review_values.put(Review_class.DOCTOR_ID, review.getDoctor_id());
+        review_values.put(Review_class.COMMENT, review.getComment());
+
+        SQLiteDatabase sqDB = getWritableDatabase();
+
+        sqDB.update(Review_class.TABLE, review_values, Review_class.DOCTOR_ID + " = ?",
+                new String[]{review.getDoctor_id()});
+    }
+
+    private void createDocRevTable(String doctor_id){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String docRev = "CREATE TABLE IF NOT EXISTS " + doctor_id + "( " +
+                Review_class.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Review_class.QNS_NUMBER + " INTEGER UNIQUE, " +
+                Review_class.RATING + " INTEGER);";
+        db.execSQL(docRev);
+    }
+
+    private void addDocRevAns(Review_class review){
+
+        ContentValues rev_ans_values = new ContentValues();
+
+        SQLiteDatabase db = getWritableDatabase();
+        rev_ans_values.put(Review_class.QNS_NUMBER, review.getQn_number());
+        rev_ans_values.put(Review_class.RATING, review.getReview_rating());
+
+        try {
+            db.insertOrThrow(review.getDoctor_id(),null,rev_ans_values);
+        }catch (SQLiteConstraintException ignored){
+            updateDocRevAns(review);
+        }
+
+    }
+
+    private void updateDocRevAns(Review_class review){
+
+        ContentValues rev_ans_values = new ContentValues();
+
+        SQLiteDatabase db = getWritableDatabase();
+        rev_ans_values.put(Review_class.QNS_NUMBER, review.getQn_number());
+        rev_ans_values.put(Review_class.RATING, review.getReview_rating());
+
+        db.update(Review_class.TABLE,rev_ans_values, Review_class.QNS_NUMBER + " = ?",
+                new String[]{String.valueOf(review.getQn_number())});
+    }
+
+    //fetch review answers per doctor
+    public ArrayList<History> fetchRevAnswers(String historyName, String fire_id) {
+
+        ArrayList<History> allhistory = new ArrayList<>();
+        SQLiteDatabase sqDB = getReadableDatabase();
+        String tableName = historyName + "_" + fire_id;
+
+        String query = "SELECT * FROM " + tableName;
+
+        Cursor medCursor = sqDB.rawQuery(query, null);
+
+        while (medCursor.moveToNext()) {
+
+            History history = new History(
+                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.FIRE_ID)),
+                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.STATE)),
+                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.REMARKS)),
+                    medCursor.getInt(medCursor.getColumnIndexOrThrow(History.QN_NUMBER)),
+                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.LAST_UPDATED))
+            );
+
+            allhistory.add(history);
+        }
+
+        medCursor.close();
+
+        return allhistory;
+    }
+    //===========================================REVIEWS============================================
 
 }
