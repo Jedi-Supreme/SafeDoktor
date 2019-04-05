@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/pop_cntc_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pop_header_lbl_back"
+        android:gravity="center"
+        android:padding="@dimen/margin_small"
+        android:text="@string/select_ans"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/largest_text"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:padding="@dimen/margin_small"
+        android:id="@+id/rdg_rev_answers"
+        app:layout_constraintTop_toBottomOf="@id/pop_cntc_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_rev_lowest"
+            android:text="@string/rev_lowest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/rb_rev_low"
+            android:text="@string/rev_low"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/rb_rev_med"
+            android:text="@string/rev_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/rb_rev_high"
+            android:text="@string/rev_high"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RadioButton
+            android:id="@+id/rb_rev_highest"
+            android:text="@string/rev_highest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_contact_footer"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/pop_footer_back"
+        app:layout_constraintTop_toBottomOf="@id/rdg_rev_answers" />
+
+    <Button
+        android:id="@+id/bt_pop_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/submit"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_black"
+        android:textSize="@dimen/largest_text"
+        app:layout_constraintBottom_toBottomOf="@id/tv_contact_footer"
+        app:layout_constraintLeft_toLeftOf="@id/tv_contact_footer"
+        app:layout_constraintRight_toRightOf="@id/tv_contact_footer"
+        app:layout_constraintTop_toBottomOf="@id/linear_pop_cntc_details"
+        app:layout_constraintTop_toTopOf="@id/tv_contact_footer" />
+
+
+</android.support.constraint.ConstraintLayout>

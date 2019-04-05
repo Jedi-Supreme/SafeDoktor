@@ -505,7 +505,7 @@ public class SafeDB extends SQLiteOpenHelper {
 
         try {
             sqDB.insertOrThrow(Review_class.TABLE, null, review_values);
-            createDocRevTable(review.getDoctor_id());
+            createDocRevTable(review);
         } catch (SQLiteConstraintException ignored) {
             updateReview(review);
         }
@@ -524,15 +524,17 @@ public class SafeDB extends SQLiteOpenHelper {
                 new String[]{review.getDoctor_id()});
     }
 
-    private void createDocRevTable(String doctor_id){
+    private void createDocRevTable(Review_class review){
 
         SQLiteDatabase db = getWritableDatabase();
 
-        String docRev = "CREATE TABLE IF NOT EXISTS " + doctor_id + "( " +
+        String docRev = "CREATE TABLE IF NOT EXISTS " + review.getDoctor_id() + "( " +
                 Review_class.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Review_class.QNS_NUMBER + " INTEGER UNIQUE, " +
                 Review_class.RATING + " INTEGER);";
         db.execSQL(docRev);
+
+        addDocRevAns(review);
     }
 
     private void addDocRevAns(Review_class review){
@@ -564,32 +566,22 @@ public class SafeDB extends SQLiteOpenHelper {
     }
 
     //fetch review answers per doctor
-    public ArrayList<History> fetchRevAnswers(String historyName, String fire_id) {
+    public ArrayList<Integer> fetchRevAnswers(String doctor_id) {
 
-        ArrayList<History> allhistory = new ArrayList<>();
+        ArrayList<Integer> allrev_ans = new ArrayList<>();
         SQLiteDatabase sqDB = getReadableDatabase();
-        String tableName = historyName + "_" + fire_id;
 
-        String query = "SELECT * FROM " + tableName;
+        String query = "SELECT * FROM " + doctor_id;
 
-        Cursor medCursor = sqDB.rawQuery(query, null);
+        Cursor rev_ansCursor = sqDB.rawQuery(query, null);
 
-        while (medCursor.moveToNext()) {
-
-            History history = new History(
-                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.FIRE_ID)),
-                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.STATE)),
-                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.REMARKS)),
-                    medCursor.getInt(medCursor.getColumnIndexOrThrow(History.QN_NUMBER)),
-                    medCursor.getString(medCursor.getColumnIndexOrThrow(History.LAST_UPDATED))
-            );
-
-            allhistory.add(history);
+        while (rev_ansCursor.moveToNext()) {
+            allrev_ans.add(rev_ansCursor.getInt(rev_ansCursor.getColumnIndexOrThrow(Review_class.RATING)));
         }
 
-        medCursor.close();
+        rev_ansCursor.close();
 
-        return allhistory;
+        return allrev_ans;
     }
     //===========================================REVIEWS============================================
 

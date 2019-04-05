@@ -15,7 +15,7 @@
 
         <TextView
             android:textColor="@color/black"
-            android:textSize="@dimen/large_text"
+            android:textSize="@dimen/med_text_size"
             android:id="@+id/tv_review_qn"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:id="@+id/et_review_answer"
                 android:focusable="false"
                 android:longClickable="false"
-                android:hint="@string/answer"
+                android:hint="@string/choose_answer"
                 android:textSize="@dimen/med_text_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

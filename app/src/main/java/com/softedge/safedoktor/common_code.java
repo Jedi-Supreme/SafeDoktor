@@ -10,6 +10,12 @@ public class common_code {
 
     //private static final int CAMERA_AUDIO_REQ_CODE = 434;
 
+    public static final int REV_LOWEST = 0;
+    public static final int REV_LOW = 25;
+    public static final int REV_MEDIUM = 50;
+    public static final int REV_HIGH = 75;
+    public static final int REV_HIGHEST = 100;
+
     public static final String dateTimeformat = "dd/MMM/yyyy hh:mm:ss aa";
     public static final String daynameTimeformat = "E, dd MMM yyyy";
 

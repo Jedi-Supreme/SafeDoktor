@@ -61,15 +61,14 @@
     </string-array>
 
     <string-array name="review_qns">
-        <item>" communication level?"</item>
-        <item>" patient care?"</item>
-        <item>" confidence level?"</item>
-        <item>" empathy towards you?"</item>
-        <item>" humane nature?"</item>
-        <item>" respect towards you?"</item>
-        <item>" thoroughness level?"</item>
+        <item>communication level?</item>
+        <item>patient care?</item>
+        <item>confidence level?</item>
+        <item>empathy towards you?</item>
+        <item>humane nature?</item>
+        <item>respect towards you?</item>
+        <item>thoroughness level?</item>
     </string-array>
-
 
     <string-array name="intro_texts_arr">
         <item>"Bringing health care to your doorstep.\n\n Speak to qualified doctors, get first aid tips and much more"</item>

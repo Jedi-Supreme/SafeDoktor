@@ -169,18 +169,20 @@
     <string name="pat_care">Patient Care -</string>
     <string name="video">Video</string>
     <string name="review_topic_title">You are currently reviewing</string>
-    <string name="rev_lowest">Unacceptable</string>
-    <string name="rev_low">Improvement Needed</string>
-    <string name="rev_medium">Meets Expectation</string>
-    <string name="rev_high">Exceeds Expectations</string>
-    <string name="rev_highest">Exceptional</string>
     <string name="doc_pro_txt">Doctor Profile</string>
     <string name="type_a_message">Type a Message</string>
     <string name="ov_complaints_txt">Complaints</string>
     <string name="ov_diagnosis_txt">Diagnoses</string>
     <string name="ov_exams_txt">Exam Findings</string>
     <string name="ov_prescriptions_txt">Prescriptions</string>
-    <string name="answer">Answer…</string>
+    <string name="choose_answer">Choose Answer…</string>
     <string name="general_comment">Please add your general comment here</string>
-    <string name="whatsup_doc">"What do you think about the doctor's"</string>
+    <string name="whatsup_doc">"What do you think about the doctor\'s"</string>
+
+    <string name="rev_lowest">Unacceptable</string>
+    <string name="rev_low">Improvement Needed</string>
+    <string name="rev_medium">Meets Expectation</string>
+    <string name="rev_high">Exceeds Expectations</string>
+    <string name="rev_highest">Exceptional</string>
+    <string name="select_ans">Select Answer</string>
 </resources>
