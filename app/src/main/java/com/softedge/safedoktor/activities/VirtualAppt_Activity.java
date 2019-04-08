@@ -14,14 +14,14 @@ import com.softedge.safedoktor.R;
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 
-public class ApptMake_Activity extends AppCompatActivity implements TabHost.OnTabChangeListener{
+public class VirtualAppt_Activity extends AppCompatActivity implements TabHost.OnTabChangeListener{
 
     TabHost appt_tabhost;
     final static String INFO_TAG = "Info";
     final static String PAYMENT_TAG = "Payment";
     final static String SUMMARY_TAG = "Summary";
 
-    WeakReference<ApptMake_Activity> weak_apptmake;
+    WeakReference<VirtualAppt_Activity> weak_apptmake;
 
     CalendarView appt_Calendar;
 

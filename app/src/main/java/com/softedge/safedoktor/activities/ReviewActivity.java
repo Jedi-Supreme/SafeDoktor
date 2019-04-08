@@ -43,7 +43,6 @@ public class ReviewActivity extends AppCompatActivity {
         bt_rev_submit = findViewById(R.id.bt_rev_submit);
 
         rev_qns = getResources().getStringArray(R.array.review_qns);
-        //TODO review questions adapter
 
         try {
             refresh_list();

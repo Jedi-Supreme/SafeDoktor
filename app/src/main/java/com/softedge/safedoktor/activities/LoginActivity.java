@@ -85,17 +85,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                         common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Valid Mobile number",
-                                Snackbar.LENGTH_SHORT);
+                                Snackbar.LENGTH_SHORT).show();
                     }
                 } catch (Exception ignored) {
                     common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Mobile number or Email Address",
-                            Snackbar.LENGTH_LONG);
+                            Snackbar.LENGTH_LONG).show();
                 }
             }
         }
 
         if (et_login_password.getText().toString().isEmpty() || et_login_password.getText().toString().equals("")) {
-            common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Password", Snackbar.LENGTH_SHORT);
+            common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Password", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         reset_dialog.setCancelable(true);
 
         View reset_view = LayoutInflater.from(weak_login.get())
-                .inflate(R.layout.frag_pass_reset, const_login_layout, false);
+                .inflate(R.layout.diag_pass_reset, const_login_layout, false);
         Button bt_reset_send = reset_view.findViewById(R.id.bt_reset_send);
         final TextInputEditText et_reset_email = reset_view.findViewById(R.id.et_reset_email);
         reset_dialog.setView(reset_view);

@@ -185,4 +185,9 @@
     <string name="rev_high">Exceeds Expectations</string>
     <string name="rev_highest">Exceptional</string>
     <string name="select_ans">Select Answer</string>
+    <string name="appt_type">Appointment Type</string>
+    <string name="appt_physical">Physical</string>
+    <string name="appt_virtual">Virtual</string>
+    <string name="physical_desc_text"><b><u>Physical:</u></b> Have a face to face consultation with any of our doctors.</string>
+    <string name="virtual_desc_text"><b><u>Virtual:</u></b> Have an online consultation from the comfort of your home or office.</string>
 </resources>

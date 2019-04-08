@@ -1,7 +1,6 @@
 package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,7 +32,6 @@ import java.util.ArrayList;
 public class ContactsActivity extends AppCompatActivity {
 
     RecyclerView contacts_recycler;
-    FloatingActionButton fab_add_contact;
     ConstraintLayout const_contact_layout;
 
     WeakReference<ContactsActivity> weakcontact;
@@ -63,7 +61,6 @@ public class ContactsActivity extends AppCompatActivity {
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
         contacts_recycler = findViewById(R.id.contacts_recycler);
-        fab_add_contact = findViewById(R.id.fab_add_contact);
         const_contact_layout = findViewById(R.id.const_contact_layout);
 
     }
@@ -76,14 +73,15 @@ public class ContactsActivity extends AppCompatActivity {
         contacts_recycler.setAdapter(contactsAdapter);
     }
 
-    public void ContactPersonDialog(@Nullable final ContactPerson contactPerson) {
+
+    public void ContactPersonDialog(final ContactPerson contactPerson) {
 
         final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact.get()).create();
 
         contactdialog.setCancelable(true);
 
         View contactView = LayoutInflater.from(weakcontact.get())
-                .inflate(R.layout.frag_add_contact, const_contact_layout, false);
+                .inflate(R.layout.diag_add_contact, const_contact_layout, false);
 
         final TextInputEditText
                 et_contact_fullname = contactView.findViewById(R.id.et_cntc_name),
@@ -92,7 +90,7 @@ public class ContactsActivity extends AppCompatActivity {
                 et_contact_address = contactView.findViewById(R.id.et_cntc_hadd);
 
         final Spinner sp_contact_rel = contactView.findViewById(R.id.sp_pop_contact_rel);
-        Button bt_contact_submit = contactView.findViewById(R.id.bt_pop_submit);
+        Button bt_contact_submit = contactView.findViewById(R.id.bt_cntc_submit);
 
         contactdialog.setView(contactView);
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,11 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.common_code;
-import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 import com.softedge.safedoktor.models.fireModels.Review_class;
 
 import java.lang.ref.WeakReference;
@@ -123,12 +120,12 @@ public class review_Adapter extends RecyclerView.Adapter {
             rev_builder.setCancelable(true);
 
             View rev_ansView = LayoutInflater.from(weak_mcontext.get())
-                    .inflate(R.layout.frag_rev_ans, view_group, false);
+                    .inflate(R.layout.diag_rev_ans, view_group, false);
 
             RadioGroup rdg_revans = rev_ansView.findViewById(R.id.rdg_rev_answers);
 
 
-            Button bt_ans_submit = rev_ansView.findViewById(R.id.bt_pop_submit);
+            Button bt_ans_submit = rev_ansView.findViewById(R.id.bt_rev_submit);
 
             rev_builder.setView(rev_ansView);
 

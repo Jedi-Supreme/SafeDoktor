@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/pop_cntc_heading"
+        android:id="@+id/tv_cntc_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/pop_header_lbl_back"
@@ -21,7 +21,7 @@
     <RadioGroup
         android:padding="@dimen/margin_small"
         android:id="@+id/rdg_rev_answers"
-        app:layout_constraintTop_toBottomOf="@id/pop_cntc_heading"
+        app:layout_constraintTop_toBottomOf="@id/tv_cntc_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -65,14 +65,14 @@
         app:layout_constraintTop_toBottomOf="@id/rdg_rev_answers" />
 
     <Button
-        android:id="@+id/bt_pop_submit"
+        android:id="@+id/bt_rev_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
         android:text="@string/submit"
         android:textAllCaps="false"
         android:textColor="@color/blue_black"
-        android:textSize="@dimen/largest_text"
+        android:textSize="@dimen/large_text"
         app:layout_constraintBottom_toBottomOf="@id/tv_contact_footer"
         app:layout_constraintLeft_toLeftOf="@id/tv_contact_footer"
         app:layout_constraintRight_toRightOf="@id/tv_contact_footer"

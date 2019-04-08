@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_cntc_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/pop_header_lbl_back"
+        android:gravity="center"
+        android:padding="@dimen/margin_small"
+        android:text="@string/appt_type"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/largest_text"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:text="@string/physical_desc_text"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:padding="@dimen/margin_small"
+        android:id="@+id/tv_pop_physical_desc"
+        app:layout_constraintTop_toBottomOf="@id/tv_cntc_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="@string/virtual_desc_text"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:padding="@dimen/margin_small"
+        android:id="@+id/tv_pop_virtual_desc"
+        app:layout_constraintTop_toBottomOf="@id/tv_pop_physical_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:id="@+id/tv_contact_footer"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/pop_footer_back"
+        app:layout_constraintTop_toBottomOf="@id/tv_pop_virtual_desc" />
+
+    <Button
+        android:layout_marginEnd="@dimen/margin_small"
+        android:id="@+id/bt_pop_physical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/appt_physical"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_black"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintBottom_toBottomOf="@id/tv_contact_footer"
+        app:layout_constraintLeft_toLeftOf="@id/tv_contact_footer"
+        app:layout_constraintRight_toLeftOf="@id/bt_pop_virtual"
+        app:layout_constraintTop_toTopOf="@id/tv_contact_footer" />
+
+    <Button
+        android:id="@+id/bt_pop_virtual"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/appt_virtual"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_black"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintBottom_toBottomOf="@id/tv_contact_footer"
+        app:layout_constraintLeft_toRightOf="@id/bt_pop_physical"
+        app:layout_constraintRight_toRightOf="@id/tv_contact_footer"
+        app:layout_constraintTop_toTopOf="@id/tv_contact_footer" />
+
+
+</android.support.constraint.ConstraintLayout>

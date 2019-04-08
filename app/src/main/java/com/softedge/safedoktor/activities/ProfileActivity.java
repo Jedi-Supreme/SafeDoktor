@@ -258,7 +258,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         final AlertDialog authdialog = new AlertDialog.Builder(weak_profile.get()).create();
 
         View authview = LayoutInflater.from(weak_profile.get())
-                .inflate(R.layout.frag_re_auth, const_profile_layout, false);
+                .inflate(R.layout.diag_re_auth, const_profile_layout, false);
 
         final TextInputEditText et_authpass = authview.findViewById(R.id.et_auth_pass);
 
@@ -293,7 +293,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         pic_dialog_builder = new AlertDialog.Builder(weak_profile.get()).create();
 
         View propic_view = LayoutInflater.from(weak_profile.get())
-                .inflate(R.layout.frag_propic, const_profile_layout, false);
+                .inflate(R.layout.diag_propic, const_profile_layout, false);
 
         pic_dialog_builder.setCancelable(true);
         pic_dialog_builder.setView(propic_view);
@@ -331,7 +331,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         final AlertDialog preview_dialog_builder = new AlertDialog.Builder(weak_profile.get()).create();
 
         View propic_view = LayoutInflater.from(weak_profile.get())
-                .inflate(R.layout.frag_pic_preview, const_profile_layout, false);
+                .inflate(R.layout.diag_pic_preview, const_profile_layout, false);
 
         preview_dialog_builder.setCancelable(true);
         preview_dialog_builder.setView(propic_view);
@@ -365,7 +365,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         final AlertDialog preview_dialog_builder = new AlertDialog.Builder(weak_profile.get()).create();
 
-        View propic_view = LayoutInflater.from(weak_profile.get()).inflate(R.layout.frag_pic_preview, const_profile_layout,
+        View propic_view = LayoutInflater.from(weak_profile.get()).inflate(R.layout.diag_pic_preview, const_profile_layout,
                 false);
 
         preview_dialog_builder.setCancelable(true);
