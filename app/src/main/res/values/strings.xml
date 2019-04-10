@@ -188,6 +188,7 @@
     <string name="appt_type">Appointment Type</string>
     <string name="appt_physical">Physical</string>
     <string name="appt_virtual">Virtual</string>
-    <string name="physical_desc_text"><b><u>Physical:</u></b> Have a face to face consultation with any of our doctors.</string>
+    <string name="physical_desc_text"><b><u>Physical:</u></b> Consult in person with any of our doctors at any of our facilities.</string>
     <string name="virtual_desc_text"><b><u>Virtual:</u></b> Have an online consultation from the comfort of your home or office.</string>
+    <string name="pick_fac_lbl">Choose Facility</string>
 </resources>

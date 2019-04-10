@@ -167,7 +167,6 @@ public class MedicalHistoryActivity extends AppCompatActivity implements
 
     ArrayList<History> makeHistoryQns(String[] qns_arr){
 
-
         ArrayList<History> histories = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat(common_code.dateTimeformat, Locale.getDefault());
 

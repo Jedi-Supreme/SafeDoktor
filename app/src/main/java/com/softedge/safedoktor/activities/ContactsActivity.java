@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -74,7 +75,7 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
 
-    public void ContactPersonDialog(final ContactPerson contactPerson) {
+    public void ContactPersonDialog(@Nullable final ContactPerson contactPerson) {
 
         final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact.get()).create();
 
@@ -134,7 +135,7 @@ public class ContactsActivity extends AppCompatActivity {
                     contPers.setAddress(et_contact_address.getText().toString());
                 }
 
-                if (safe_DB.addContact(contactPerson)) {
+                if (safe_DB.addContact(contPers)) {
 
                     ArrayList<ContactPerson> contacts_list = safe_DB.contactsList(fireID);
                     save_Online(contacts_list);

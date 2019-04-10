@@ -4,6 +4,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/activity_padding"
     tools:context=".activities.PhysicalAppt_Activity">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_phys_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="wrap_content"
+            android:focusable="false"
+            android:longClickable="false"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_date_range_black_18dp"
+            android:ems="15"
+            android:hint="@string/date_txt"
+            android:textSize="@dimen/normal_text_size" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_phys_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_phys_date">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="wrap_content"
+            android:focusable="false"
+            android:longClickable="false"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_access_time_black_18dp"
+            android:ems="15"
+            android:hint="@string/time_txt"
+            android:textSize="@dimen/normal_text_size" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_spec_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/margin_tiny"
+        android:text="@string/pick_spec_lbl"
+        android:textSize="@dimen/med_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input_phys_time" />
+
+    <TextView
+        android:id="@+id/tv_specs_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_tiny"
+        android:text="@string/view_all"
+        android:textColor="@color/deep_blue_grey"
+        android:textSize="@dimen/med_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/tv_spec_label"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_phys_specialty"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/avatar_dim"
+        android:layout_marginTop="@dimen/margin_tiny"
+        app:layout_constraintTop_toBottomOf="@id/tv_spec_label" />
+
+    <TextView
+        android:id="@+id/tv_facility_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/margin_tiny"
+        android:text="@string/pick_fac_lbl"
+        android:textSize="@dimen/med_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recy_phys_specialty" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_phys_facility"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_tiny"
+        android:layout_marginBottom="@dimen/margin_small"
+        app:layout_constraintBottom_toTopOf="@id/bt_phys_next"
+        app:layout_constraintTop_toBottomOf="@id/tv_facility_label" />
+
+    <Button
+        android:id="@+id/bt_phys_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_bt_back"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/large_text"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
