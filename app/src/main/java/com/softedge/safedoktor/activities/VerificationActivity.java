@@ -35,6 +35,8 @@ import java.util.concurrent.TimeUnit;
 
 public class VerificationActivity extends AppCompatActivity {
 
+    //TODO register patient over carewex api
+
     final long COUNTDOWN_TIME = 30000; // 30 seconds
     final long SECS = 1000;
     TextInputEditText et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6;

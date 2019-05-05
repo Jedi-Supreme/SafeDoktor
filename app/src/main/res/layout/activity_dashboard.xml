@@ -84,16 +84,16 @@
                                     android:layout_width="@dimen/margin_small"
                                     android:layout_height="match_parent"
                                     android:background="@drawable/dash_view_design"
-                                    app:layout_constraintBottom_toBottomOf="@id/const_appointment_body"
+                                    app:layout_constraintBottom_toBottomOf="@id/const_appt_body"
                                     app:layout_constraintLeft_toLeftOf="parent"
-                                    app:layout_constraintTop_toTopOf="@id/const_appointment_body" />
+                                    app:layout_constraintTop_toTopOf="@id/const_appt_body" />
 
                                 <!--Appointment Constraint view-->
                                 <android.support.constraint.ConstraintLayout
-                                    android:id="@+id/const_appointment_body"
+                                    android:id="@+id/const_appt_body"
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:onClick="appt_clicked"
+                                    android:onClick="dashView_clicked"
                                     android:padding="@dimen/margin_small"
                                     app:layout_constraintLeft_toRightOf="@id/tv_appt_design"
                                     app:layout_constraintRight_toRightOf="parent"
@@ -178,6 +178,7 @@
                                     android:id="@+id/const_ov_body"
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
+                                    android:onClick="dashView_clicked"
                                     android:padding="@dimen/margin_small"
                                     app:layout_constraintLeft_toRightOf="@id/tv_ov_design"
                                     app:layout_constraintRight_toRightOf="parent"

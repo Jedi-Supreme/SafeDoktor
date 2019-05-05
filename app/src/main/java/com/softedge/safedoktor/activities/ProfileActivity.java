@@ -88,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bt_profile_medhis = findViewById(R.id.bt_profile_medhistory);
 
         iv_profile_pic_bt.setOnClickListener(this);
+        iv_profile_pic.setOnClickListener(this);
 
         bt_profile_acc.setOnClickListener(this);
         bt_profile_bio.setOnClickListener(this);
@@ -293,7 +294,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         pic_dialog_builder = new AlertDialog.Builder(weak_profile.get()).create();
 
         View propic_view = LayoutInflater.from(weak_profile.get())
-                .inflate(R.layout.diag_propic, const_profile_layout, false);
+                .inflate(R.layout.diag_propic_src, const_profile_layout, false);
 
         pic_dialog_builder.setCancelable(true);
         pic_dialog_builder.setView(propic_view);

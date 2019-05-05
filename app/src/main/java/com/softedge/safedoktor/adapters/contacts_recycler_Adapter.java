@@ -89,4 +89,5 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
             ((ContactsActivity) weak_activity.get()).ContactPersonDialog(conper);
         }
     }
+
 }
