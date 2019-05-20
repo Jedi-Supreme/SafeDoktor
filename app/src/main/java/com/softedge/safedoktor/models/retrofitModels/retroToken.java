@@ -8,24 +8,31 @@ public class retroToken {
         @SerializedName("access_token")
         @Expose
         private String accessToken;
+
         @SerializedName("expires_in")
         @Expose
         private int expiresIn;
+
         @SerializedName("refresh_expires_in")
         @Expose
         private int refreshExpiresIn;
+
         @SerializedName("refresh_token")
         @Expose
         private String refreshToken;
+
         @SerializedName("token_type")
         @Expose
         private String tokenType;
+
         @SerializedName("id_token")
         @Expose
         private String idToken;
+
         @SerializedName("not-before-policy")
         @Expose
         private int notBeforePolicy;
+
         @SerializedName("session-state")
         @Expose
         private String sessionState;

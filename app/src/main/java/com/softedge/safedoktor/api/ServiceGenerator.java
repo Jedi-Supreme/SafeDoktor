@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    private static final String BASEURL = "http://carewex.newcrystalhealth.org:";
+    private static final String BASEURL = "http://carewex.newcrystalhealth.org:8180/carewex/rest";
 
     private static Retrofit.Builder retroBuilder =
             new Retrofit.Builder()

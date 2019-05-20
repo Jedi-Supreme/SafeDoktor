@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -26,8 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.api.SafeClient;
-import com.softedge.safedoktor.api.ServiceGenerator;
+import com.softedge.safedoktor.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.fragments.chats_fragment;
 import com.softedge.safedoktor.fragments.library_fragment;
@@ -35,15 +33,10 @@ import com.softedge.safedoktor.fragments.partners_fragment;
 import com.softedge.safedoktor.models.GlideApp;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
-import com.softedge.safedoktor.models.retrofitModels.retroToken;
-import com.softedge.safedoktor.models.retrofitModels.token_ReqBody;
 
 import java.lang.ref.WeakReference;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity implements
         TabHost.OnTabChangeListener{
@@ -200,6 +193,9 @@ public class DashboardActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
+        //fetch token
+        common_code.get_access_token(getApplicationContext());
 
         if (dash_drawer_layout.isDrawerOpen(GravityCompat.START)){
             dash_drawer_layout.closeDrawer(GravityCompat.START);
@@ -451,39 +447,9 @@ public class DashboardActivity extends AppCompatActivity implements
                 break;
 
             case R.id.const_ov_body:
-                try{
-                    SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
-
-                    token_ReqBody body = new token_ReqBody("nchadmin","mtnpadi");
-
-                    Call<retroToken> tokencall = safeClient.getToken(
-                            body.getPassword(),
-                            body.getUsername(),
-                            body.getGrant_type(),
-                            body.getClient_secret(),
-                            body.getClient_id());
-
-                    tokencall.enqueue(new Callback<retroToken>() {
-                        @Override
-                        public void onResponse(@NonNull Call<retroToken> call, @NonNull Response<retroToken> response) {
-                            retroToken token = response.body();
-
-                            if (token != null) {
-                                Toast.makeText(getApplicationContext(),"Access Token = " + token.getAccessToken(),Toast.LENGTH_LONG).show();
-                            }else {
-                                Toast.makeText(getApplicationContext(),"Access Token = empty " + response.raw().toString(),Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getApplicationContext(),"body " + body.getGrant_type(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<retroToken> call, @NonNull Throwable t) {
-                            Toast.makeText(getApplicationContext(),"Access Token = failed "  + t.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_LONG).show();
-                }
+                SharedPreferences tokenpref = common_code.appPref(getApplicationContext());
+                String token = tokenpref.getString("access_token","empty token");
+                Toast.makeText(getApplicationContext(),token,Toast.LENGTH_LONG).show();
                 break;
         }
 
