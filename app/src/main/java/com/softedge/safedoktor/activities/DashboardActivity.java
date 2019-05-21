@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.api.CarewexCalls;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.fragments.chats_fragment;
 import com.softedge.safedoktor.fragments.library_fragment;
@@ -33,6 +32,7 @@ import com.softedge.safedoktor.fragments.partners_fragment;
 import com.softedge.safedoktor.models.GlideApp;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
+import com.softedge.safedoktor.models.retrofitModels.retro_patSearch;
 
 import java.lang.ref.WeakReference;
 
@@ -65,6 +65,8 @@ public class DashboardActivity extends AppCompatActivity implements
     SafeDB safe_db;
 
     ActionBar actionBar;
+
+    Biography app_userBio;
 
     //==========================================ON CREATE===========================================
     @Override
@@ -173,8 +175,7 @@ public class DashboardActivity extends AppCompatActivity implements
 
         //common_code.Mysnackbar(findViewById(R.id.dash_drawer_layout),date, Snackbar.LENGTH_INDEFINITE).show();
 
-
-
+        app_userBio = fetchfromLocalDB();
     }
     //==========================================ON CREATE===========================================
 
@@ -195,7 +196,7 @@ public class DashboardActivity extends AppCompatActivity implements
         super.onResume();
 
         //fetch token
-        common_code.get_access_token(getApplicationContext());
+        CarewexCalls.get_access_token(getApplicationContext());
 
         if (dash_drawer_layout.isDrawerOpen(GravityCompat.START)){
             dash_drawer_layout.closeDrawer(GravityCompat.START);
@@ -345,8 +346,6 @@ public class DashboardActivity extends AppCompatActivity implements
 
     public void loadLocal_data(){
 
-        Biography app_userBio = fetchfromLocalDB();
-
         String username = app_userBio.getFirstname() + " " + app_userBio.getLastname();
         String usernumber = "+" + app_userBio.getCountry_code() + app_userBio.getMobile_number();
 
@@ -369,6 +368,18 @@ public class DashboardActivity extends AppCompatActivity implements
 
     Biography fetchfromLocalDB(){
         return safe_db.local_appUser(fireID);
+    }
+
+    private void findpatient(){
+        String[] genderArr = getResources().getStringArray(R.array.gender_Arr);
+        retro_patSearch searchObj = new retro_patSearch(
+                app_userBio.getFirstname(),
+                app_userBio.getLastname(),
+                "",
+                genderArr[app_userBio.getGender()]
+                );
+
+        CarewexCalls.getPatientsResult(searchObj,weakDash.get());
     }
 
     //logout user
@@ -447,9 +458,12 @@ public class DashboardActivity extends AppCompatActivity implements
                 break;
 
             case R.id.const_ov_body:
-                SharedPreferences tokenpref = common_code.appPref(getApplicationContext());
-                String token = tokenpref.getString("access_token","empty token");
-                Toast.makeText(getApplicationContext(),token,Toast.LENGTH_LONG).show();
+                findpatient();
+                break;
+
+            case R.id.const_cv_body:
+
+
                 break;
         }
 

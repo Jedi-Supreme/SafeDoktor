@@ -1,17 +1,31 @@
 package com.softedge.safedoktor.models.retrofitModels;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class retro_patSearch {
 
+    @SerializedName("firstName")
+    @Expose
     private String firstName;
+
+    @SerializedName("lastName")
+    @Expose
     private String lastName;
+
+    @SerializedName("gender")
+    @Expose
     private String gender;
+
+    @SerializedName("patientId")
+    @Expose
     private String patientId;
 
-    public retro_patSearch(String firstName, String lastName, String gender, String patientId) {
+    public retro_patSearch(String firstName, String lastName, String patientId, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.gender = gender;
         this.patientId = patientId;
+        this.gender = gender;
     }
 
     public String getFirstName() {

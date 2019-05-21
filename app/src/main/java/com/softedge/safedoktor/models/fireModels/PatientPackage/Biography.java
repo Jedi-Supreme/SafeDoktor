@@ -27,6 +27,7 @@ public class Biography {
 
     private String country_code;
     private Address user_address;
+    private String patientId;
 
     private String date_of_birth;
     private int gender;

@@ -8,6 +8,7 @@ import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
 
 public class Patient {
 
+    private String patientId;
     private Biography biography;
     private Address address;
     private Physicals physicals;
