@@ -134,6 +134,7 @@ public class BiographyActivity extends AppCompatActivity {
 
                 Biography bio = new Biography(
                         fireUser.getUid(),
+                        "",
                         et_bio_fn.getText().toString(),
                         et_bio_ln.getText().toString(),
                         sp_bio_gender.getSelectedItemPosition(),

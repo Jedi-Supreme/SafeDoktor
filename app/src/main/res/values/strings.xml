@@ -191,4 +191,13 @@
     <string name="physical_desc_text"><b><u>Physical:</u></b> Consult in person with any of our doctors at any of our facilities.</string>
     <string name="virtual_desc_text"><b><u>Virtual:</u></b> Have an online consultation from the comfort of your home or office.</string>
     <string name="pick_fac_lbl">Choose Facility</string>
+    <string name="nchs_logo">New crystal hospital Logo</string>
+    <string name="tank_u_note">Thank you for registering.</string>
+    <string name="patient_id">Patient ID:</string>
+    <string name="nchs_moto">Growing together in good health</string>
+    <string name="promo_text">Visit any of our service Centers to receive a <u><b>50%</b></u> discount on all medical consultations</string>
+    <string name="centers_label">Our Service Centers</string>
+    <string name="get_directions">Get Directions</string>
+    <string name="service_centers">Service Centers</string>
+    <string name="nearest_facility_lbl">Nearest Facility</string>
 </resources>

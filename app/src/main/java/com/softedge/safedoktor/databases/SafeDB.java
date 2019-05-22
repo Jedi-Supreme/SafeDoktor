@@ -176,6 +176,7 @@ public class SafeDB extends SQLiteOpenHelper {
 
         app_user_bio = new Biography(
                 c.getString(c.getColumnIndexOrThrow(Biography.FIREBASE_ID)),
+                "",
                 c.getString(c.getColumnIndexOrThrow(Biography.FIRSTNAME)),
                 c.getString(c.getColumnIndexOrThrow(Biography.LASTNAME)),
                 c.getInt(c.getColumnIndexOrThrow(Biography.GENDER)),

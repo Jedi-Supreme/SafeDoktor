@@ -59,7 +59,7 @@ public class Biography {
     }
 
     //Firebase patient constructor
-    public Biography(String firebase_Uid, String fn, String ln, int gender, String country_code,
+    public Biography(String firebase_Uid, String patientId, String fn, String ln, int gender, String country_code,
                      String mobile_number, String email, String date_of_birth){
 
         firstname = fn;
@@ -70,10 +70,11 @@ public class Biography {
         this.mobile_number = mobile_number;
         this.date_of_birth = date_of_birth;
         this.email = email;
+        this.patientId = patientId;
     }
 
     //Firebase married patient constructor
-    public Biography(String firebase_Uid, String fn, String ln, int gender, String country_code,
+    public Biography(String firebase_Uid, String patientId, String fn, String ln, int gender, String country_code,
                      String mobile_number, String email, String date_of_birth, int marital_state){
 
         firstname = fn;
@@ -85,10 +86,11 @@ public class Biography {
         this.date_of_birth = date_of_birth;
         this.email = email;
         this.marital_state = marital_state;
+        this.patientId = patientId;
     }
 
     //full patient bio constructor
-    public Biography(String firebase_Uid, String fn, String ln, int gender, String country_code,
+    public Biography(String firebase_Uid, String patientId, String fn, String ln, int gender, String country_code,
                      String mobile_number, String email, String date_of_birth, int marital_state, String propic_url){
 
         firstname = fn;
@@ -101,6 +103,7 @@ public class Biography {
         this.email = email;
         this.marital_state = marital_state;
         this.propic_url = propic_url;
+        this.patientId = patientId;
     }
 
 
@@ -190,5 +193,13 @@ public class Biography {
 
     public void setMarital_state(int marital_state) {
         this.marital_state = marital_state;
+    }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 }

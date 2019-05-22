@@ -446,6 +446,11 @@ public class DashboardActivity extends AppCompatActivity implements
         Intent videoIntent = new Intent(getApplicationContext(), VideoCallingActivity.class);
         startActivity(videoIntent);
     }
+
+    void toOpdCard(){
+        Intent opdcared_intent = new Intent(getApplicationContext(), OpdCardActivity.class);
+        startActivity(opdcared_intent);
+    }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
     //-------------------------------------------CLICK LISTENERS------------------------------------
@@ -462,8 +467,11 @@ public class DashboardActivity extends AppCompatActivity implements
                 break;
 
             case R.id.const_cv_body:
+                toOpdCard();
+                break;
 
-
+            case R.id.const_rmds_body:
+                toOpdCard();
                 break;
         }
 

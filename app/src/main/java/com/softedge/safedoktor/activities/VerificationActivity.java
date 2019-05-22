@@ -228,6 +228,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         Biography firebase_biography = common_code.patientFromBundle(registration_bundle);
         firebase_biography.setFirebase_Uid(firebase_id);
+        firebase_biography.setPatientId("");
         String cell_number = "0"+String.valueOf(firebase_biography.getMobile_number());
         records_ref.child(cell_number).child("email").setValue(firebase_biography.getEmail());
 

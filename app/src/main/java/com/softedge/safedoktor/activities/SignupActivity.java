@@ -176,6 +176,8 @@ public class SignupActivity extends AppCompatActivity {
 
         startActivity(verification_intent);
 
+        //todo use carewex api to register patient and get opd number for user profile
+
     }
 
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-

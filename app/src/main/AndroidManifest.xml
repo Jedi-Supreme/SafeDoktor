@@ -21,14 +21,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.OpdCardActivity"></activity>
         <activity
-            android:windowSoftInputMode="adjustPan"
+            android:name=".activities.PhysicalAppt_Activity"
             android:theme="@style/dark_accent_style"
-            android:name=".activities.PhysicalAppt_Activity"/>
-
-        <activity
-            android:name=".activities.OnlineVisits" />
-
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activities.OnlineVisits" />
         <activity
             android:name=".activities.ReviewActivity"
             android:label="@string/review"

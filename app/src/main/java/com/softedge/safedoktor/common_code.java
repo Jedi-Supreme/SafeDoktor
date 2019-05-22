@@ -1,13 +1,16 @@
 package com.softedge.safedoktor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.safedoktor.api.SafeClient;
 import com.softedge.safedoktor.api.ServiceGenerator;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
@@ -63,6 +66,32 @@ public class common_code {
 
     public static SharedPreferences appPref(Context context){
         return context.getSharedPreferences("safedoktor",Context.MODE_PRIVATE);
+    }
+
+    public static void getNearest_Affiliate(Context context){
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=New+Crystal");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+        //Uri gmmIntentUri = Uri.parse("http://plus.codes/MXR8+48," + Uri.encode(" Ashaiman, Tema"));
+        //Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+        if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(mapIntent);
+        }else {
+            Toast.makeText(context, "Map Application Not Found", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void getreq_Affiliate(String[] plusCode,Context context){
+
+        Uri gmmIntentUri = Uri.parse("http://plus.codes/" + plusCode[0]+ "," + Uri.encode(plusCode[1]));
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+        if (mapIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(mapIntent);
+        }else {
+            Toast.makeText(context, "Map Application Not Found", Toast.LENGTH_LONG).show();
+        }
     }
 
     /*private boolean checkPermissionForCameraAndMicrophone(Context context) {

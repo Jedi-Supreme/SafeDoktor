@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string-array name="facilities_Arr">
+        <item>Adjei-Kojo</item>
+        <item>Afenyo</item>
+        <item>Ashaiman</item>
+        <item>Michel Camp</item>
+        <item>Takoradi</item>
+        <item>Tema</item>
+    </string-array>
+
+    <string-array name="plusCodes_arr">
+        <item>"MWMW+G3-Ashaiman, Tema"</item>
+        <item>"MXR8+48-Ashaiman, Tema"</item>
+        <item>"MXP8+PP-Ashaiman, Tema"</item>
+        <item>"PXPP+J8-Sebrepor"</item>
+        <item>"W69H+H2-Takoradi"</item>
+        <item>"MX8P+88-Sraha, Tema"</item>
+    </string-array>
+
     <string-array name="gender_Arr">
         <item><i>Select</i></item>
         <item>Male</item>

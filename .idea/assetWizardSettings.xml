@@ -136,7 +136,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/device/ic_access_time_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/maps/ic_pin_drop_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -146,11 +146,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="height" value="18" />
-                            <entry key="outputName" value="ic_access_time_black_18dp" />
+                            <entry key="color" value="c31f14" />
+                            <entry key="outputName" value="ic_pin_drop_red_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\Jedi_Supreme" />
-                            <entry key="width" value="18" />
                           </map>
                         </option>
                       </PersistentState>
