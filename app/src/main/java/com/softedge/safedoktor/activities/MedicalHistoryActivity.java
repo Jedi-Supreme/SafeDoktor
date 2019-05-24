@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.adapters.historyQns_Adapter;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.fireModels.HistoryPackage.FamilyHistory;
 import com.softedge.safedoktor.models.fireModels.HistoryPackage.History;

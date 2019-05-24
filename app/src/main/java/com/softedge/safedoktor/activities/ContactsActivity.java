@@ -3,7 +3,6 @@ package com.softedge.safedoktor.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
@@ -23,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.adapters.contacts_recycler_Adapter;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 

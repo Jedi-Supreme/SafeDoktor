@@ -1,7 +1,6 @@
 package com.softedge.safedoktor.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -25,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.api.CarewexCalls;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.fragments.chats_fragment;
 import com.softedge.safedoktor.fragments.library_fragment;
@@ -40,8 +40,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashboardActivity extends AppCompatActivity implements
         TabHost.OnTabChangeListener{
-
-    SharedPreferences safe_pref;
 
     DrawerLayout dash_drawer_layout;
     NavigationView dash_nav_view;
@@ -138,14 +136,13 @@ public class DashboardActivity extends AppCompatActivity implements
         }
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
-        safe_pref = getSharedPreferences(getResources().getString(R.string.safe_pref_name),MODE_PRIVATE);
         // if user is new show intro, else if not logged in show login screen
-        if (isFirstRun()){
+        if (common_code.isFirstRun(weakDash.get())){
             //show account creation instructions
             toIntro();
         }else {
 
-            if (!isUserLogged_in()){
+            if (!common_code.isUserLogged_in()){
                 //go to login screen
                 tologin();
             }else {
@@ -175,7 +172,7 @@ public class DashboardActivity extends AppCompatActivity implements
 
         //common_code.Mysnackbar(findViewById(R.id.dash_drawer_layout),date, Snackbar.LENGTH_INDEFINITE).show();
 
-        app_userBio = fetchfromLocalDB();
+        app_userBio = common_code.appuser(weakDash.get());
     }
     //==========================================ON CREATE===========================================
 
@@ -254,10 +251,6 @@ public class DashboardActivity extends AppCompatActivity implements
     //--------------------------------------OVERRIDE METHODS----------------------------------------
 
     //------------------------------------------DEFINED METHODS-------------------------------------
-    //test if user is logged in
-    boolean isUserLogged_in(){
-        return FirebaseAuth.getInstance().getCurrentUser() != null;
-    }
 
     void saveDeviceToken(){
 
@@ -359,15 +352,6 @@ public class DashboardActivity extends AppCompatActivity implements
                     .into(iv_nav_avatarpic);
         }
 
-    }
-
-    //test if user is new user
-    boolean isFirstRun(){
-        return safe_pref.getBoolean(getResources().getString(R.string.first_run_prefkey),true);
-    }
-
-    Biography fetchfromLocalDB(){
-        return safe_db.local_appUser(fireID);
     }
 
     private void findpatient(){

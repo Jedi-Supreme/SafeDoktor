@@ -14,7 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.models.fireModels.Review_class;
 
 import java.lang.ref.WeakReference;

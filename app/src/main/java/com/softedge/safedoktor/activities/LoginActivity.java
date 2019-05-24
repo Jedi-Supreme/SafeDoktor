@@ -23,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 
 import java.lang.ref.WeakReference;
 

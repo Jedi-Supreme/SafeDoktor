@@ -16,7 +16,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 
 public class WelcomeActvity extends AppCompatActivity {
 

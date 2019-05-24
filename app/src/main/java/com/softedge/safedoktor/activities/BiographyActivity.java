@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 

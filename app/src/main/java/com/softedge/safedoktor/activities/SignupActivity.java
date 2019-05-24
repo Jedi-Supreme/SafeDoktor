@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 import com.hbb20.CountryCodePicker;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;

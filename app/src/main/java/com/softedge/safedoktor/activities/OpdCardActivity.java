@@ -6,16 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.adapters.Affiliates_adapter;
-import com.softedge.safedoktor.common_code;
-import com.softedge.safedoktor.databases.SafeDB;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 
 import java.lang.ref.WeakReference;
@@ -23,11 +20,10 @@ import java.lang.ref.WeakReference;
 public class OpdCardActivity extends AppCompatActivity {
 
     ListView lv_affiliates;
-    TextView tv_opd_username, tv_opd_number, tv_promo;
+    TextView tv_opd_username, tv_opd_number;
     WeakReference<OpdCardActivity> weakOpd;
     ConstraintLayout const_opd_layout;
 
-    SafeDB safedb;
     Biography appUserbio;
 
     //==========================================ON CREATE===========================================
@@ -37,14 +33,13 @@ public class OpdCardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opd_card);
 
         weakOpd = new WeakReference<>(this);
-        safedb = new SafeDB(weakOpd.get(),null);
 
         const_opd_layout = findViewById(R.id.const_opd_layout);
         tv_opd_number = findViewById(R.id.tv_opd_number);
         tv_opd_username = findViewById(R.id.tv_opd_username);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            appUserbio = safedb.local_appUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            appUserbio = common_code.appuser(weakOpd.get());
         }
 
         if (appUserbio != null){

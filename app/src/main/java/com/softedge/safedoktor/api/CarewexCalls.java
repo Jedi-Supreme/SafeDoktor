@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.common_code;
+import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.models.retrofitModels.retroToken;
 import com.softedge.safedoktor.models.retrofitModels.retro_patSearch;
@@ -76,14 +75,14 @@ public class CarewexCalls {
 
                     }
                 }else {
-                    Toast.makeText(context,"list empty" + response.raw().message(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Search response: " + response.raw().message(),Toast.LENGTH_LONG).show();
                 }
 
             }
 
             @Override
             public void onFailure(@NonNull Call<searchResults> call, @NonNull Throwable t) {
-                Toast.makeText(context,"on failure: " + t.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Search failed with error: " + t.toString(),Toast.LENGTH_LONG).show();
             }
         });
 

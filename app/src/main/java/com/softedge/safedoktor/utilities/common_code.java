@@ -1,4 +1,4 @@
-package com.softedge.safedoktor;
+package com.softedge.safedoktor.utilities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.api.SafeClient;
 import com.softedge.safedoktor.api.ServiceGenerator;
+import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.models.retrofitModels.retroToken;
@@ -94,45 +96,66 @@ public class common_code {
         }
     }
 
+    //====================================LOGIN TESTS===============================================
+    //test if user is logged in
+    public static boolean isUserLogged_in(){
+        return FirebaseAuth.getInstance().getCurrentUser() != null;
+    }
+
+    //test if user is new user
+    public static boolean isFirstRun(Context activity_ctx){
+        SharedPreferences safe_pref = activity_ctx.getSharedPreferences(
+                activity_ctx.getResources().getString(R.string.safe_pref_name), Context.MODE_PRIVATE);
+        return safe_pref.getBoolean(activity_ctx.getResources().getString(R.string.first_run_prefkey),true);
+    }
+    //====================================LOGIN TESTS===============================================
+
+    public static Biography appuser(Context activity_ctx){
+
+        SafeDB safe_db = new SafeDB(activity_ctx,null);
+        String fireID ;
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            return safe_db.local_appUser(fireID);
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*private boolean checkPermissionForCameraAndMicrophone(Context context) {
         int resultCamera = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
         int resultMic = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO);
         return (resultCamera == PackageManager.PERMISSION_GRANTED) && (resultMic == PackageManager.PERMISSION_GRANTED);
     }
-
-    try{
-                    SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
-
-                    token_ReqBody body = new token_ReqBody("safedoktor","doktor@softedge_carewex.2019");
-
-                    Call<retroToken> tokencall = safeClient.getToken(
-                            body.getPassword(),
-                            body.getUsername(),
-                            body.getGrant_type(),
-                            body.getClient_secret(),
-                            body.getClient_id());
-
-                    tokencall.enqueue(new Callback<retroToken>() {
-                        @Override
-                        public void onResponse(@NonNull Call<retroToken> call, @NonNull Response<retroToken> response) {
-                            retroToken token = response.body();
-
-                            if (token != null) {
-                                Toast.makeText(getApplicationContext(),"Access Token = " + token.getAccessToken(),Toast.LENGTH_LONG).show();
-                            }else {
-                                Toast.makeText(getApplicationContext(),"Access Token = empty " + response.raw().toString(),Toast.LENGTH_LONG).show();
-                                //Toast.makeText(getApplicationContext(),"body " + body.getGrant_type(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<retroToken> call, @NonNull Throwable t) {
-                            Toast.makeText(getApplicationContext(),"Access Token = failed "  + t.getMessage(),Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }catch (Exception e){
-                    Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_LONG).show();
-                }
 
     private void requestPermissionForCameraAndMicrophone(Activity activity) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)
