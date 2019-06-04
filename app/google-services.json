@@ -1,52 +1,45 @@
 {
   "project_info": {
-    "project_number": "852907818008",
-    "firebase_url": "https://safedoktor-trial.firebaseio.com",
-    "project_id": "safedoktor-trial",
-    "storage_bucket": "safedoktor-trial.appspot.com"
+    "project_number": "947115610812",
+    "firebase_url": "https://nchs-care-assistant.firebaseio.com",
+    "project_id": "nchs-care-assistant",
+    "storage_bucket": "nchs-care-assistant.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:852907818008:android:0f7648c6d53d8a7a",
+        "mobilesdk_app_id": "1:947115610812:android:df46de806dd6c65a",
         "android_client_info": {
-          "package_name": "com.softedge.safedoktor"
+          "package_name": "com.softedge.care_assist"
         }
       },
       "oauth_client": [
         {
-          "client_id": "852907818008-ruots1tqbrq3llfr4uf230eu2c3ub7nq.apps.googleusercontent.com",
+          "client_id": "947115610812-srbgvv23kk5ll7ka3jfv54fang18o1ej.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.softedge.safedoktor",
+            "package_name": "com.softedge.care_assist",
             "certificate_hash": "eaa5688a904a7c363ec2bf03ca0d541cc1e3eb63"
           }
         },
         {
-          "client_id": "852907818008-cmaat2836snn27t5fek02l6keos85pr3.apps.googleusercontent.com",
+          "client_id": "947115610812-hpb72p83croshkeklrvepl3vvphm1afh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDAaW3UIst1zZ8l2jYVTEaXrpia6KTNBCA"
+          "current_key": "AIzaSyAJ3ItUrILmbvTbQnlDrvrRLh1XMfC9Fd0"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "852907818008-cmaat2836snn27t5fek02l6keos85pr3.apps.googleusercontent.com",
+              "client_id": "947115610812-hpb72p83croshkeklrvepl3vvphm1afh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:padding="@dimen/activity_padding"
-    tools:context=".activities.AccountActivity">
+    tools:context="com.softedge.care_assist.activities.AccountActivity">
 
     <LinearLayout
         android:id="@+id/linear_buttons_list"

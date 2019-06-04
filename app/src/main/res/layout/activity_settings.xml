@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/activity_padding"
-    tools:context=".activities.SettingsActivity">
+    tools:context="com.softedge.care_assist.activities.SettingsActivity">
 
     <TextView
         android:id="@+id/tv_sett_profile"

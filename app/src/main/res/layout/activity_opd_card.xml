@@ -1,157 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/const_opdrawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:padding="@dimen/activity_padding"
-    android:id="@+id/const_opd_layout"
-    tools:context=".activities.OpdCardActivity">
+    tools:context="com.softedge.care_assist.activities.OpdCardActivity">
 
-    <ImageView
-        android:id="@+id/iv_nchs_logo"
-        android:src="@drawable/nchs_logo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="@dimen/profile_pic_size"
-        android:layout_height="@dimen/profile_pic_size"
-        android:contentDescription="@string/nchs_logo" />
-
-    <TextView
-        android:id="@+id/tv_opd_username"
-        android:textStyle="bold"
-        android:textSize="@dimen/largest_text"
-        android:padding="@dimen/margin_tiny"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_reg_thank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tv_reg_thank"
-        android:text="@string/tank_u_note"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_nchs_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:textStyle="bold"
-        android:textSize="@dimen/normal_text_size"
-        android:layout_marginTop="@dimen/margin_small"
-        android:id="@+id/tv_reg_opdnumber"
-        android:text="@string/patient_id"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_reg_thank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.CardView
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        android:id="@+id/card_opdnumber"
-        app:cardElevation="@dimen/margin_tiny"
-        app:cardCornerRadius="@dimen/margin_tiny"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_reg_opdnumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_opd_number"
-            android:textColor="#ffffff"
-            android:layout_margin="@dimen/margin_tiny"
-            android:padding="@dimen/margin_tiny"
-            android:textStyle="bold"
-            android:textSize="@dimen/large_text"
-            android:text="EP002-0000047-19"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </android.support.v7.widget.CardView>
-
-    <TextView
-        android:id="@+id/tv_promo"
-        android:textAlignment="center"
-        android:text="@string/promo_text"
-        android:layout_marginTop="@dimen/margin_tiny"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_opdnumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <android.support.design.widget.TextInputEditText
-        android:id="@+id/et_opd_list"
-        android:focusable="false"
-        android:longClickable="false"
-        android:onClick="direction_services"
-        android:textAlignment="center"
-        android:text="@string/centers_label"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-        android:textSize="@dimen/med_text_size"
-        app:layout_constraintTop_toBottomOf="@id/tv_promo"
-        app:layout_constraintBottom_toTopOf="@id/near_dir_v"
-        android:layout_width="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_height="wrap_content" />
-
+    <!-- main layout. drawer covers this-->
     <android.support.constraint.ConstraintLayout
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tv_nchs_moto"
-        app:layout_constraintTop_toBottomOf="@id/et_opd_list"
-        android:id="@+id/near_dir_v"
-        android:padding="@dimen/margin_tiny"
+        android:id="@+id/const_opd_lay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_opdnchs_logo"
+            android:layout_width="@dimen/profile_pic_size"
+            android:layout_height="@dimen/profile_pic_size"
+            android:contentDescription="@string/nchs_logo"
+            android:src="@drawable/nchs_logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/tv_nearest"
-            android:textStyle="italic"
+            android:id="@+id/tv_opd_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="@dimen/margin_tiny"
+            android:textSize="@dimen/largest_text"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_reg_thank"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_reg_thank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tank_u_note"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_opdnchs_logo" />
+
+        <TextView
+            android:id="@+id/tv_patId_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/patient_id"
             android:textSize="@dimen/normal_text_size"
-            android:text="@string/nearest_facility_lbl"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:onClick="direction_services"
-            android:id="@+id/bt_opd_directions"
-            android:drawablePadding="@dimen/med_text_size"
-            android:drawableEnd="@drawable/ic_directions_white_24dp"
-            android:text="@string/get_directions"
-            style="@style/app_buttons_style"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_nearest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            app:layout_constraintTop_toBottomOf="@id/tv_reg_thank" />
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_opdnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
+            app:cardCornerRadius="@dimen/margin_tiny"
+            app:cardElevation="@dimen/margin_tiny"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_patId_label">
+
+            <TextView
+                android:id="@+id/tv_opd_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_tiny"
+                android:padding="@dimen/margin_tiny"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold" />
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_promo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:text="@string/promo_text"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_opdnumber" />
+
+        <ListView
+            android:id="@+id/lv_opd_affiliates"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            app:layout_constraintBottom_toTopOf="@id/tv_nchs_moto"
+            app:layout_constraintTop_toBottomOf="@id/tv_promo" />
+
+        <!--Growing together in good health-->
+
+
+        <TextView
+            android:id="@+id/tv_nchs_moto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_tiny"
+            android:text="@string/nchs_moto"
+            android:textSize="@dimen/normal_text_size"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
+    <!--navigation drawer menu-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/opd_nav_view"
+        android:layout_width="@dimen/propic_set"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="false">
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/opdnav_const_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <!--Growing together in good health-->
+            <include
+                android:id="@+id/opdnav_header"
+                layout="@layout/dashboard_drawer_header"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_opd_vitals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/vitalstatistics_txt"
+                app:layout_constraintTop_toBottomOf="@id/opdnav_header" />
 
-    <TextView
-        android:id="@+id/tv_nchs_moto"
-        android:padding="@dimen/margin_tiny"
-        android:textSize="@dimen/normal_text_size"
-        android:textStyle="italic"
-        android:text="@string/nchs_moto"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_opd_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/settings_txt"
+                app:layout_constraintTop_toBottomOf="@id/tv_opd_vitals" />
 
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_opdnav_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="@string/help"
+                app:layout_constraintBottom_toTopOf="@id/tv_opdnav_terms" />
+
+            <TextView
+                android:id="@+id/tv_opdnav_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="@string/terms_of_service"
+                app:layout_constraintBottom_toTopOf="@id/tv_opdnav_logout" />
+
+            <TextView
+                android:id="@+id/tv_opdnav_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:text="@string/logout"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

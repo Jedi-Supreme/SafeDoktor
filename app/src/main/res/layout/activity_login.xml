@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_login_Activity"
@@ -7,11 +8,10 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/colorPrimary"
-    tools:context=".activities.LoginActivity">
+    tools:context="com.softedge.care_assist.activities.LoginActivity">
 
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -28,7 +28,7 @@
             android:layout_height="@dimen/dash_card_height"
             android:layout_marginBottom="@dimen/dash_card_height"
             android:contentDescription="@string/login_logo_pic"
-            android:src="@drawable/safedoktor_rebirth"
+            android:src="@drawable/nchs_app_logo"
             app:layout_constraintBottom_toTopOf="@id/view_middle"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

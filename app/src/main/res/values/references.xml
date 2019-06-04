@@ -6,7 +6,7 @@
     <string name="first_run_prefkey">first_run</string>
     <string name="records_ref">Account_Records</string>
     <string name="all_users">All_Users</string>
-    <string name="default_email_suffix">"@safedoktorusers.com"</string>
+    <string name="default_email_suffix">"@care_assistusers.com"</string>
     <string name="bio_ref">Biography</string>
     <string name="contacts_ref">Contacts</string>
     <string name="booked">Booked</string>

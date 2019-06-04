@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.VideoCallingActivity">
+    tools:context="com.softedge.care_assist.activities.VideoCallingActivity">
 
     <FrameLayout
         android:id="@+id/doc_frame"

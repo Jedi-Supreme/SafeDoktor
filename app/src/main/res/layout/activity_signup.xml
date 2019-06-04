@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".activities.SignupActivity">
+    tools:context="com.softedge.care_assist.activities.SignupActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_marginTop="@dimen/dash_card_icons"
@@ -156,7 +156,7 @@
             style="@style/input_textview_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email"
+            android:text="@string/email_opt"
             app:layout_constraintBottom_toTopOf="@id/input_reg_email"
             app:layout_constraintLeft_toLeftOf="@id/input_reg_email"
             app:layout_constraintTop_toTopOf="@id/input_reg_email" />
@@ -190,20 +190,50 @@
             style="@style/input_textview_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_tiny"
             android:text="@string/dob_txt"
             app:layout_constraintBottom_toTopOf="@id/input_reg_dob"
             app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
             app:layout_constraintTop_toTopOf="@id/input_reg_dob" />
 
         <TableRow
-            android:id="@+id/sp_tbr"
+            android:id="@+id/tbr_marital_state"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_med"
             android:background="@drawable/input_rounded_border"
             app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
+            app:layout_constraintRight_toLeftOf="@id/tbr_gender"
+            app:layout_constraintTop_toBottomOf="@id/input_reg_dob">
+
+            <Spinner
+                android:backgroundTint="@color/colorPrimary"
+                android:id="@+id/sp_reg_marital_State"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/marital_status"
+                android:padding="@dimen/margin_small"
+                />
+
+        </TableRow>
+
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/marital_status"
+            app:layout_constraintBottom_toTopOf="@id/tbr_gender"
+            app:layout_constraintLeft_toLeftOf="@id/tbr_marital_state"
+            app:layout_constraintTop_toTopOf="@id/tbr_marital_state" />
+
+        <TableRow
+            android:id="@+id/tbr_gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_med"
+            android:background="@drawable/input_rounded_border"
             app:layout_constraintRight_toRightOf="@id/input_reg_dob"
+            android:layout_marginStart="@dimen/margin_small"
+            app:layout_constraintLeft_toRightOf="@id/tbr_marital_state"
             app:layout_constraintTop_toBottomOf="@id/input_reg_dob">
 
             <Spinner
@@ -213,12 +243,18 @@
                 android:layout_height="wrap_content"
                 android:entries="@array/gender_Arr"
                 android:padding="@dimen/margin_small"
-                app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
-                app:layout_constraintRight_toRightOf="@id/input_reg_dob"
-                app:layout_constraintTop_toBottomOf="@id/input_reg_dob"
                 />
 
         </TableRow>
+
+        <TextView
+            style="@style/input_textview_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gender_lbl"
+            app:layout_constraintBottom_toTopOf="@id/tbr_gender"
+            app:layout_constraintLeft_toLeftOf="@id/tbr_gender"
+            app:layout_constraintTop_toTopOf="@id/tbr_gender" />
 
         <android.support.design.widget.TextInputLayout
             app:hintEnabled="false"
@@ -229,7 +265,7 @@
             android:background="@drawable/input_rounded_border"
             app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
-            app:layout_constraintTop_toBottomOf="@id/sp_tbr">
+            app:layout_constraintTop_toBottomOf="@id/tbr_gender">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_reg_password"
@@ -288,7 +324,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_med"
             android:drawableStart="@drawable/ic_arrow_forward_white_24dp"
-            android:text="@string/register"
+            android:text="@string/submit"
             app:layout_constraintRight_toRightOf="@id/input_reg_conf_pass"
             app:layout_constraintTop_toBottomOf="@id/input_reg_conf_pass" />
 
@@ -299,6 +335,8 @@
             app:layout_constraintTop_toBottomOf="@id/bt_reg_reg" />
 
         <TextView
+            android:textAlignment="center"
+            android:id="@+id/tv_reg_tos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

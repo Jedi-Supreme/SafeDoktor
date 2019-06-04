@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_padding"
-    tools:context=".activities.ContactsActivity">
+    tools:context="com.softedge.care_assist.activities.ContactsActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/contacts_recycler"

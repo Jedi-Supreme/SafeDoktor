@@ -5,7 +5,7 @@
     android:id="@+id/const_profile_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.ProfileActivity">
+    tools:context="com.softedge.care_assist.activities.ProfileActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/const_pro_pic"

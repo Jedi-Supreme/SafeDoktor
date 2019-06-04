@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     android:background="#FFFFFF"
     android:padding="@dimen/activity_padding"
-    tools:context=".activities.WelcomeActvity">
+    tools:context="com.softedge.care_assist.activities.WelcomeActvity">
 
 
     <ImageSwitcher

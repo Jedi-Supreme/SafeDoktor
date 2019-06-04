@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.softedge.safedoktor">
+    package="com.softedge.care_assist">
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -21,19 +22,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.OpdCardActivity"></activity>
         <activity
-            android:name=".activities.PhysicalAppt_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/darkAccent_noActionBar"
+            android:name="com.softedge.care_assist.activities.TOS_Activity"/>
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.softedge.care_assist.activities.OpdCardActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.softedge.care_assist.activities.PhysicalAppt_Activity"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activities.OnlineVisits" />
         <activity
-            android:name=".activities.ReviewActivity"
+            android:screenOrientation="portrait"
+            android:name="com.softedge.care_assist.activities.OnlineVisits" />
+
+        <activity
+            android:screenOrientation="portrait"
+            android:name="com.softedge.care_assist.activities.ReviewActivity"
             android:label="@string/review"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.DoctorProfileActivity"
+            android:screenOrientation="portrait"
+            android:name="com.softedge.care_assist.activities.DoctorProfileActivity"
             android:label="@string/doc_pro_txt" />
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -51,50 +64,52 @@
             android:resource="@color/blue_highlight" />
 
         <activity
-            android:name=".activities.VideoCallingActivity"
+            android:name="com.softedge.care_assist.activities.VideoCallingActivity"
             android:theme="@style/darkAccent_noActionBar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.VirtualAppt_Activity"
+            android:name="com.softedge.care_assist.activities.VirtualAppt_Activity"
             android:label="@string/appt_make_lbl"
             android:theme="@style/dark_accent_style"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.Appointments"
+            android:name="com.softedge.care_assist.activities.Appointments"
             android:label="@string/appointments_txt"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style" />
         <activity
-            android:name=".activities.ContactsActivity"
+            android:name="com.softedge.care_assist.activities.ContactsActivity"
             android:label="@string/contact_persons"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style" />
         <activity
-            android:name=".activities.BiographyActivity"
+            android:name="com.softedge.care_assist.activities.BiographyActivity"
             android:label="@string/biography"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.MedicalHistoryActivity"
+            android:name="com.softedge.care_assist.activities.MedicalHistoryActivity"
             android:label="@string/medical_history"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.AccountActivity"
+            android:name="com.softedge.care_assist.activities.AccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.ProfileActivity"
+            android:name="com.softedge.care_assist.activities.ProfileActivity"
             android:label="@string/edit_profile"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.softedge.care_assist.activities.SettingsActivity"
             android:label="@string/settings_txt"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name="com.softedge.care_assist.activities.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -104,30 +119,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.WelcomeActvity"
+            android:name="com.softedge.care_assist.activities.WelcomeActvity"
             android:label="@string/dash_welcome"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name="com.softedge.care_assist.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.SignupActivity"
+            android:name="com.softedge.care_assist.activities.SignupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".activities.VerificationActivity"
+            android:name="com.softedge.care_assist.activities.VerificationActivity"
             android:label="@string/verifyCode"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.DashboardActivity"
+            android:name="com.softedge.care_assist.activities.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <service android:name=".service.CloudMessaging">
+        <service android:name="com.softedge.care_assist.service.CloudMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
