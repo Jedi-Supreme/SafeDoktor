@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -79,9 +80,13 @@ public class LoginActivity extends AppCompatActivity {
                     number = Integer.parseInt(et_login_identification.getText().toString());
 
                     if (String.valueOf(number).length() == 9) {
-                        //its a valid number
-                        fetch_email(et_login_identification.getText().toString(), et_login_password.getText().toString());
 
+                        try {
+                            //its a valid number
+                            fetch_email(et_login_identification.getText().toString(), et_login_password.getText().toString());
+                        }catch (Exception e){
+                            Toast.makeText(getApplicationContext(),"Error logging in: " + e.toString(),Toast.LENGTH_LONG).show();
+                        }
 
                     } else {
                         common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Valid Mobile number",
@@ -190,7 +195,11 @@ public class LoginActivity extends AppCompatActivity {
                          public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                            String email = dataSnapshot.getValue(String.class);
 
-                             login_with_credentials(email, password);
+                             if (email != null){
+                                 login_with_credentials(email, password);
+                             }else {
+                                 Toast.makeText(getApplicationContext(),"No account records found for " + mobilenumber, Toast.LENGTH_LONG).show();
+                             }
                              records_ref.removeEventListener(this);
 
                          }
@@ -215,13 +224,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void ResetPassword(View view) {
+
         passwordReset_dialog();
+
     }
     //---------------------------------------Click Listeners----------------------------------------
 
     //dashboard intent
     void toDashboard() {
-        Intent dashboard_intent = new Intent(this, DashboardActivity.class);
+        Intent dashboard_intent = new Intent(this, OpdCardActivity.class);
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
         super.finish();

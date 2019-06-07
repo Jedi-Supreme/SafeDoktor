@@ -29,4 +29,15 @@ public class regResult {
         return patientId;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
 }

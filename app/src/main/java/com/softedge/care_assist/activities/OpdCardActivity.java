@@ -1,16 +1,17 @@
 package com.softedge.care_assist.activities;
 
-
-import android.support.constraint.ConstraintLayout;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.care_assist.api.CarewexCalls;
@@ -30,7 +31,6 @@ public class OpdCardActivity extends AppCompatActivity {
     ListView lv_affiliates;
     TextView tv_opd_username, tv_opd_number;
     WeakReference<OpdCardActivity> weakOpd;
-    ConstraintLayout const_opd_layout;
 
     Biography appUserbio;
 
@@ -40,8 +40,8 @@ public class OpdCardActivity extends AppCompatActivity {
 
     TextView
             tv_opd_logout, tv_opd_settings,
-            tv_opd_fullname,
-            tv_opdnav_usernumber, tv_opdnav_help, tv_opdnav_tos;
+            tv_opd_fullname, tv_opd_mobNumb,
+            tv_opdnav_help, tv_opdnav_tos;
 
     String fireID;
 
@@ -51,10 +51,10 @@ public class OpdCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opd_card);
 
-        //todo create drawer view
         weakOpd = new WeakReference<>(this);
         String[] pluscodes_arr = getResources().getStringArray(R.array.plusCodes_arr);
 
+        Toolbar opd_toolbar = findViewById(R.id.opd_toolbar);
         opd_drawer_layout = findViewById(R.id.const_opdrawer_layout);
         opd_nav_view = findViewById(R.id.opd_nav_view);
 
@@ -62,13 +62,18 @@ public class OpdCardActivity extends AppCompatActivity {
 
         tv_opd_number = findViewById(R.id.tv_opd_number);
         tv_opd_username = findViewById(R.id.tv_opd_username);
-        tv_opd_logout = opd_nav_view.findViewById(R.id.tv_nav_logout);
-        tv_opd_settings = opd_nav_view.findViewById(R.id.tv_nav_settings);
+        tv_opd_logout = opd_nav_view.findViewById(R.id.tv_opdnav_logout);
+        tv_opd_settings = opd_nav_view.findViewById(R.id.tv_opd_settings);
 
         tv_opd_fullname = opd_nav_view.findViewById(R.id.dash_header_fullname);
-        tv_opd_username = opd_nav_view.findViewById(R.id.dash_header_usernumber);
+        tv_opd_mobNumb = opd_nav_view.findViewById(R.id.dash_header_usernumber);
         tv_opdnav_help = opd_nav_view.findViewById(R.id.tv_nav_help);
-        tv_opdnav_tos = opd_nav_view.findViewById(R.id.tv_nav_terms);
+        tv_opdnav_tos = opd_nav_view.findViewById(R.id.tv_opdnav_terms);
+
+        if (opd_toolbar != null){
+            opd_toolbar.setElevation(5);
+            setSupportActionBar(opd_toolbar);
+        }
 
         lv_affiliates = findViewById(R.id.lv_opd_affiliates);
 
@@ -77,6 +82,15 @@ public class OpdCardActivity extends AppCompatActivity {
             fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
         //---------------------------------------get user id----------------------------------------
+
+        //--------------------------------------HOME BUTTON ON APP BAR------------------------------
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        }
+        //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
         // if user is new show intro, else if not logged in show login screen
         if (common_code.isFirstRun(weakOpd.get())){
@@ -98,10 +112,6 @@ public class OpdCardActivity extends AppCompatActivity {
 
         }
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            appUserbio = common_code.appuser(weakOpd.get());
-        }
-
         //set list view adapter
         Affiliates_adapter affAdapter = new Affiliates_adapter(getApplicationContext()
                 ,getResources().getStringArray(R.array.facilities_Arr));
@@ -114,6 +124,9 @@ public class OpdCardActivity extends AppCompatActivity {
 
         });
 
+        tv_opd_settings.setOnClickListener(v -> common_code.toProfile(weakOpd.get()));
+        tv_opdnav_tos.setOnClickListener(v -> common_code.toTOS(weakOpd.get()));
+        tv_opd_logout.setOnClickListener(v -> logout());
     }
     //==========================================ON CREATE===========================================
 
@@ -121,14 +134,18 @@ public class OpdCardActivity extends AppCompatActivity {
     //load data into navigation views
     public void loadLocal_data(){
 
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            appUserbio = common_code.appuser(weakOpd.get());
+        }
+
         if (appUserbio != null){
             String username = appUserbio.getFirstname() + " " + appUserbio.getLastname();
             String usernumber = "+" + appUserbio.getCountry_code() + appUserbio.getMobile_number();
 
             tv_opd_username.setText(username);
             tv_opd_fullname.setText(username);
+            tv_opd_mobNumb.setText(usernumber);
             tv_opd_number.setText(appUserbio.getOpd_Id());
-            tv_opdnav_usernumber.setText(usernumber);
 
             if (!appUserbio.getPropic_url().isEmpty() || !appUserbio.getPropic_url().equals("")) {
                 GlideApp.with(weakOpd.get())
@@ -136,6 +153,8 @@ public class OpdCardActivity extends AppCompatActivity {
                         .into(iv_opdnav_avatarpic);
             }
 
+        }else {
+            Toast.makeText(getApplicationContext(),"App user empty",Toast.LENGTH_SHORT).show();
         }
 
 
@@ -145,15 +164,52 @@ public class OpdCardActivity extends AppCompatActivity {
 
 
     }
+
+    //logout user
+    void logout(){
+        FirebaseAuth.getInstance().signOut();
+        tologin();
+    }
+
+    void tologin(){
+        Intent login_intent = new Intent(getApplicationContext(), LoginActivity.class);
+        login_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(login_intent);
+        super.finish();
+    }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-DEFINED METHODS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
     //----===-==-=-===-==-===-==-===-===-====-===-===-OVERRIDE METHODS===-==-==--==--==-=-=--==--==-
-
     @Override
     protected void onResume() {
         super.onResume();
         //fetch token
         CarewexCalls.get_access_token(getApplicationContext());
+
+        if (opd_drawer_layout.isDrawerOpen(GravityCompat.START)){
+            opd_drawer_layout.closeDrawer(GravityCompat.START);
+        }
+
+        init_code.loadBioData_online(weakOpd.get(),fireID);
+        init_code.saveDeviceToken();
+
+        try{
+            loadLocal_data();
+        }catch (Exception ignored){}
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (opd_drawer_layout.isDrawerOpen(GravityCompat.START)){
+            opd_drawer_layout.closeDrawer(GravityCompat.START);
+        }else {
+            opd_drawer_layout.openDrawer(GravityCompat.START);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    //----===-==-=-===-==-===-==-===-===-====-===-===-OVERRIDE METHODS===-==-==--==--==-=-=--==--==-
+
+
 
 }

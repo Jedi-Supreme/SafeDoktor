@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.care_assist.activities.Appointments;
 import com.softedge.care_assist.activities.OpdCardActivity;
+import com.softedge.care_assist.activities.ProfileActivity;
 import com.softedge.care_assist.activities.SettingsActivity;
 import com.softedge.care_assist.activities.TOS_Activity;
 import com.softedge.care_assist.activities.VideoCallingActivity;
@@ -144,6 +145,11 @@ public class common_code {
     public static void toVidecall(Context context) {
         Intent videoIntent = new Intent(context, VideoCallingActivity.class);
         context.startActivity(videoIntent);
+    }
+
+    public static void toProfile(Context context) {
+        Intent profile_intent = new Intent(context, ProfileActivity.class);
+        context.startActivity(profile_intent);
     }
 
     public static void toOpdCard(Context context){

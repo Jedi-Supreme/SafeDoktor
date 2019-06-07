@@ -202,4 +202,5 @@
     <string name="service_centers">Service Centers</string>
     <string name="nearest_facility_lbl">Nearest Facility</string>
     <string name="gender_lbl">Gender</string>
+    <string name="profile_settings_txt">Profile Settings</string>
 </resources>

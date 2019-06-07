@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
+import com.softedge.care_assist.activities.VerificationActivity;
 import com.softedge.care_assist.models.retrofitModels.regResult;
 import com.softedge.care_assist.models.retrofitModels.retroEmployee;
 import com.softedge.care_assist.models.retrofitModels.retroPatient;
@@ -48,8 +48,8 @@ public class CarewexCalls {
                 retroToken token = response.body();
 
                 if (token != null) {
-                    token_editor.putString("access_token",token.getAccessToken()).apply();
 
+                    token_editor.putString("access_token",token.getAccessToken()).apply();
                     getEmployeeId(ctx);
                 }
             }
@@ -97,13 +97,11 @@ public class CarewexCalls {
 
     }
 
-    public static Biography register_patient(retroPatient pat, Context context, String employeeId){
-
-        //Todo register patient call
-        SharedPreferences tokenpref = common_code.appPref(context);
-        String token = tokenpref.getString("access_token",null);
-
-        Biography careBio = new Biography();
+    public static void register_patient(retroPatient pat, Context context){
+        
+        SharedPreferences app_pref = common_code.appPref(context);
+        String token = app_pref.getString("access_token",null);
+        String employeeId = app_pref.getString("employeeID",null);
 
         SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
 
@@ -116,7 +114,14 @@ public class CarewexCalls {
                 if (response.body() != null) {
 
                     regResult resp = response.body();
-                    careBio.setOpd_Id(resp.getPatientId());
+
+                    try {
+                        //create user account with email
+                        if (resp.getStatus().equals("Success")){
+                            ((VerificationActivity) context).create_firebase_account(resp.getPatientId());
+                            //Toast.makeText(context,resp.getPatientId(),Toast.LENGTH_LONG).show();
+                        }
+                    }catch (Exception ignored){}
 
                 }else {
                     Toast.makeText(context,"Registration response: " + response.raw().message(),Toast.LENGTH_LONG).show();
@@ -130,7 +135,7 @@ public class CarewexCalls {
             }
         });
 
-        return careBio;
+
     }
 
     private static void getEmployeeId(Context ctx){
@@ -166,5 +171,7 @@ public class CarewexCalls {
             }
         });
     }
+
+    //verifiy code -> register patient on carewex -> link email credentials -> login user
 
 }

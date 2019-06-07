@@ -31,7 +31,7 @@ public class retroPatient {
 
     @SerializedName("currentOccupation")
     @Expose
-    private String occupation;
+    private String currentOccupation;
 
     @SerializedName("nationality")
     @Expose
@@ -68,6 +68,27 @@ public class retroPatient {
     @SerializedName("religion")
     @Expose
     private String religion;
+
+    public retroPatient(String id, String title, String firstname, String lastName, String phoneNumber,
+                        String email, String currentOccupation, String nationality, String dateOfBirth,
+                        String gender, String maritalStatus, String birthplace, String maidenName,
+                        String middleName, String patientId) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastName = lastName;
+        this.title = title;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.currentOccupation = currentOccupation;
+        this.nationality = nationality;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender.toUpperCase();
+        this.maritalStatus = maritalStatus.toUpperCase();
+        this.birthplace = birthplace;
+        this.maidenName = maidenName;
+        this.middleName = middleName;
+        this.patientId = patientId;
+    }
 
     public String getId() {
         return id;
@@ -117,12 +138,12 @@ public class retroPatient {
         this.email = email;
     }
 
-    public String getOccupation() {
-        return occupation;
+    public String getCurrentOccupation() {
+        return currentOccupation;
     }
 
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
+    public void setCurrentOccupation(String currentOccupation) {
+        this.currentOccupation = currentOccupation;
     }
 
     public String getNationality() {

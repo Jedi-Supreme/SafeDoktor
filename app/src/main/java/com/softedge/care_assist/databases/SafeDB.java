@@ -49,8 +49,8 @@ public class SafeDB extends SQLiteOpenHelper {
                 Biography.MOBILE_NUMBER + " TEXT, " +
                 Biography.EMAIL + " TEXT, " +
                 Biography.DATE_OF_BIRTH + " TEXT, " +
-                Biography.PROFILE_PIC_URL + " TEXT, " + //updated later
-                Biography.MARITAL_STATUS + " TEXT DEFAULT 1 );"; // updated later
+                Biography.PROFILE_PIC_URL + " TEXT DEFAULT \"\", " + //updated later
+                Biography.MARITAL_STATUS + " TEXT);"; // updated later
         db.execSQL(bioQuery);
 
         //Patient address table
@@ -117,6 +117,7 @@ public class SafeDB extends SQLiteOpenHelper {
         bio_values.put(Biography.COUNTRY_CODE, biography.getCountry_code());
         bio_values.put(Biography.MOBILE_NUMBER, biography.getMobile_number());
         bio_values.put(Biography.EMAIL, biography.getEmail());
+        bio_values.put(Biography.MARITAL_STATUS,biography.getMarital_state());
         bio_values.put(Biography.DATE_OF_BIRTH, biography.getDate_of_birth());
         bio_values.put(Biography.PROFILE_PIC_URL, biography.getPropic_url());
 

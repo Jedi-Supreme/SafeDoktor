@@ -1,5 +1,7 @@
 package com.softedge.care_assist.api;
 
+import android.support.annotation.RawRes;
+
 import com.softedge.care_assist.models.retrofitModels.regResult;
 import com.softedge.care_assist.models.retrofitModels.retroEmployee;
 import com.softedge.care_assist.models.retrofitModels.retroPatient;

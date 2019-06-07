@@ -40,12 +40,12 @@ public class VerificationActivity extends AppCompatActivity {
 
     //verify number -> create carewex account -> link credentials -> save online -> login user
 
-    //TODO register patient over carewex api
-
     final long COUNTDOWN_TIME = 30000; // 30 seconds
     final long SECS = 1000;
     TextInputEditText et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6;
     CountDownTimer countDownTimer;
+
+    PhoneAuthCredential credential;
 
     TextInputEditText[] code_input_Array;
 
@@ -128,6 +128,12 @@ public class VerificationActivity extends AppCompatActivity {
     }
     //============================================ON CREATE=========================================
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CarewexCalls.get_access_token(weakverification.get());
+    }
+
     //--------------------------------------------METHODS-------------------------------------------
 
     void start_timer(){
@@ -183,13 +189,14 @@ public class VerificationActivity extends AppCompatActivity {
     //create user email account
 
     //--------------------------------------CREATE ACCOUNT------------------------------------------
-    void create_firebase_account(final PhoneAuthCredential credential){
+    public void create_firebase_account(String patid){
 
         final String email = registration_bundle.getString(Biography.EMAIL,null);
         String password = registration_bundle.getString(Biography.PASSWORD,null);
 
         //show status text
         tv_verify_status.setText(getResources().getString(R.string.creating_account));
+        //tv_verify_status.setText(email);
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(weakverification.get(), task -> {
@@ -199,12 +206,11 @@ public class VerificationActivity extends AppCompatActivity {
                         email_fire_user = FirebaseAuth.getInstance().getCurrentUser();
                         if (email_fire_user != null) {
                             try {
-                                //Todo call this when carewex registration is successful
-                                save_Online(email_fire_user.getUid());
+
                                 email_fire_user.linkWithCredential(credential).addOnCompleteListener(weakverification.get(),
                                         task1 -> {
                                             if (task1.isSuccessful()) {
-                                                login_with_email();
+                                                save_Online(email_fire_user.getUid(), patid);
                                             }
                                         });
                             } catch (Exception e) {
@@ -218,6 +224,9 @@ public class VerificationActivity extends AppCompatActivity {
                     } else {
                         // If sign in fails, display a message to the user.
                         //Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        tv_verify_status.setText("");
+                        Toast.makeText(getApplicationContext(), "Account Creation failed: " + task.getException(),
+                                Toast.LENGTH_LONG).show();
                         probar_verify_code.clearAnimation();
                         probar_verify_code.setVisibility(View.INVISIBLE);
                         //updateUI(null);
@@ -228,49 +237,68 @@ public class VerificationActivity extends AppCompatActivity {
     //--------------------------------------CREATE ACCOUNT------------------------------------------
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
-    void save_Online(String firebase_id){
+    void save_Online(String firebase_id, String patID){
 
         DatabaseReference records_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.records_ref));
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
-        //todo register user on carewex here
-
         Biography firebase_biography = common_code.patientFromBundle(registration_bundle);
         firebase_biography.setFirebase_Uid(firebase_id);
-        firebase_biography.setOpd_Id(carewex_patID(firebase_biography));
+        firebase_biography.setOpd_Id(patID);
+        firebase_biography.setPropic_url("");
         String cell_number = "0"+ firebase_biography.getMobile_number();
         records_ref.child(cell_number).child("email").setValue(firebase_biography.getEmail());
 
         //save user details to All_Users/Biography/Uid
-        all_users_ref.child(getResources().getString(R.string.bio_ref)).child(firebase_id).setValue(firebase_biography);
+        all_users_ref.child(getResources().getString(R.string.bio_ref))
+                .child(firebase_id).setValue(firebase_biography);
+
+        login_with_email();
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
     //Register user on carewex and return OPD number
-    String carewex_patID(Biography basicUser){
-
-        //todo use carewex api to register patient and get opd number for user profile
-
-        SharedPreferences emppref = common_code.appPref(weakverification.get());
-        String employeeID = emppref.getString("employeeID",null);
+    void carewex_patID(Biography basicUser){
 
         String[] gender_arr = getResources().getStringArray(R.array.gender_Arr);
         String[] marital_arr = getResources().getStringArray(R.array.marital_status);
-        retroPatient pat = new retroPatient();
 
-        pat.setFirstname(basicUser.getFirstname());
-        pat.setLastName(basicUser.getLastname());
+        String title,email = "", nationality = "Ghanaian";
 
-        pat.setGender(gender_arr[basicUser.getGender()]);
-        pat.setPhoneNumber(basicUser.getMobile_number());
-
-        if (!basicUser.getEmail().contains(getString(R.string.default_email_suffix))){
-            pat.setEmail(basicUser.getEmail());
+        //if user is male set title Mr
+        if (basicUser.getGender() == 1){
+            title = "Mr";
+        }else {
+            //else if female and married set title Mrs
+            if (basicUser.getMarital_state() == 2){
+               title = "Mrs";
+            }else {
+                //else set title Miss
+                title = "Miss";
+            }
         }
 
-        pat.setMaritalStatus(marital_arr[basicUser.getMarital_state()]);
+        if (!basicUser.getEmail().contains(getString(R.string.default_email_suffix))){
+            email = basicUser.getEmail();
+        }
 
-        return CarewexCalls.register_patient(pat,weakverification.get(),employeeID).getOpd_Id();
+        retroPatient pat = new retroPatient(
+                "",
+                title,
+                basicUser.getFirstname(),
+                basicUser.getLastname(),
+                basicUser.getMobile_number(),
+                email,
+                "",
+                nationality,
+                basicUser.getDate_of_birth(),
+                gender_arr[basicUser.getGender()],
+                marital_arr[basicUser.getMarital_state()],
+                "","","",""
+                );
+
+        // register patient on carewex
+        CarewexCalls.register_patient(pat,weakverification.get());
     }
 
     void loadBioData_online(String fireID){
@@ -390,13 +418,14 @@ public class VerificationActivity extends AppCompatActivity {
 
         try {
             //creating the credential
-            final PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, code);
+            credential = PhoneAuthProvider.getCredential(verification_id, code);
 
-            //create user account with email
-            create_firebase_account(credential);
+            //register patient on carewex step 2 0f 4
+            carewex_patID(common_code.patientFromBundle(registration_bundle));
 
         }catch (Exception e){
-            Toast.makeText(getApplicationContext(), e.toString(),Toast.LENGTH_LONG).show();
+            //probar_verify_code.setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(),"Verification failed with error: " + e.toString(),Toast.LENGTH_LONG).show();
         }
 
 

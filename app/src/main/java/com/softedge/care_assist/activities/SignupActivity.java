@@ -53,8 +53,6 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        //todo edit ui to add marital status option
-
         weak_signup = new WeakReference<>(SignupActivity.this);
 
         et_reg_fn = findViewById(R.id.et_reg_fn);
@@ -98,7 +96,6 @@ public class SignupActivity extends AppCompatActivity {
         super.onResume();
         CarewexCalls.get_access_token(weak_signup.get());
     }
-
     //--------------------------------------DEFINED METHODS-----------------------------------------
 
     void test_userinputs(){

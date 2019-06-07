@@ -172,12 +172,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,10 +186,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String fullname = appUser_bio.getFirstname() + " " + appUser_bio.getLastname();
             tv_profile_fullname.setText(fullname);
 
-            if (!appUser_bio.getPropic_url().isEmpty() || !appUser_bio.getPropic_url().equals("")) {
-                GlideApp.with(weak_profile.get())
-                        .load(appUser_bio.getPropic_url())
-                        .into(iv_profile_pic);
+            if (appUser_bio.getPropic_url() != null ) {
+
+                if (!appUser_bio.getPropic_url().isEmpty() || !appUser_bio.getPropic_url().equals("")){
+                    GlideApp.with(weak_profile.get())
+                            .load(appUser_bio.getPropic_url())
+                            .into(iv_profile_pic);
+                }
+
             }
         }
 
