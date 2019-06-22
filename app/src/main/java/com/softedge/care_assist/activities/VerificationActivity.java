@@ -1,7 +1,6 @@
 package com.softedge.care_assist.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -40,7 +39,7 @@ public class VerificationActivity extends AppCompatActivity {
 
     //verify number -> create carewex account -> link credentials -> save online -> login user
 
-    final long COUNTDOWN_TIME = 30000; // 30 seconds
+    final long COUNTDOWN_TIME = 60000; // 60 seconds
     final long SECS = 1000;
     TextInputEditText et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6;
     CountDownTimer countDownTimer;
@@ -55,7 +54,7 @@ public class VerificationActivity extends AppCompatActivity {
     ProgressBar probar_verify_code;
     Button bt_verify_code;
 
-    String verification_id;
+    String verification_id, patient_ID = "";
     PhoneAuthProvider.ForceResendingToken resendingToken;
     Bundle registration_bundle;
 
@@ -117,8 +116,11 @@ public class VerificationActivity extends AppCompatActivity {
         if (registration_bundle != null) {
             String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
             String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
+            patient_ID = registration_bundle.getString(Biography.OPD_ID);
             String usernumber = "+" + country_code + mobile_number;
             send_Code_Method(usernumber);
+            //fakeverify(usernumber,testcode);
+            //Toast.makeText(getApplicationContext(),usernumber,Toast.LENGTH_LONG).show();
         }else {
             Toast.makeText(getApplicationContext(),"bundle is empty",Toast.LENGTH_LONG).show();
         }
@@ -138,6 +140,7 @@ public class VerificationActivity extends AppCompatActivity {
 
     void start_timer(){
         tv_verify_downtime.setVisibility(View.VISIBLE);
+        tv_verify_resend.setEnabled(false);
         countDownTimer.start();
     }
 
@@ -260,45 +263,10 @@ public class VerificationActivity extends AppCompatActivity {
     //Register user on carewex and return OPD number
     void carewex_patID(Biography basicUser){
 
-        String[] gender_arr = getResources().getStringArray(R.array.gender_Arr);
-        String[] marital_arr = getResources().getStringArray(R.array.marital_status);
-
-        String title,email = "", nationality = "Ghanaian";
-
-        //if user is male set title Mr
-        if (basicUser.getGender() == 1){
-            title = "Mr";
-        }else {
-            //else if female and married set title Mrs
-            if (basicUser.getMarital_state() == 2){
-               title = "Mrs";
-            }else {
-                //else set title Miss
-                title = "Miss";
-            }
-        }
-
-        if (!basicUser.getEmail().contains(getString(R.string.default_email_suffix))){
-            email = basicUser.getEmail();
-        }
-
-        retroPatient pat = new retroPatient(
-                "",
-                title,
-                basicUser.getFirstname(),
-                basicUser.getLastname(),
-                basicUser.getMobile_number(),
-                email,
-                "",
-                nationality,
-                basicUser.getDate_of_birth(),
-                gender_arr[basicUser.getGender()],
-                marital_arr[basicUser.getMarital_state()],
-                "","","",""
-                );
+        basicUser.setOpd_Id(patient_ID);
 
         // register patient on carewex
-        CarewexCalls.register_patient(pat,weakverification.get());
+        CarewexCalls.register_patient(common_code.carewex_pat(basicUser,weakverification.get()),weakverification.get());
     }
 
     void loadBioData_online(String fireID){
@@ -342,7 +310,7 @@ public class VerificationActivity extends AppCompatActivity {
                 mobile_number,
                 COUNTDOWN_TIME,
                 TimeUnit.MILLISECONDS,
-                weakverification.get(),
+                this,
                 verificationCallbacks);
         start_timer();
     }
@@ -356,6 +324,7 @@ public class VerificationActivity extends AppCompatActivity {
                 weakverification.get(),
                 verificationCallbacks,
                 token);
+        start_timer();
     }
 
     //the callback to detect the verification status
@@ -390,9 +359,12 @@ public class VerificationActivity extends AppCompatActivity {
 
                 @Override
                 public void onVerificationFailed(FirebaseException e) {
+                    probar_verify_code.setVisibility(View.GONE);
+                    tv_verify_status.setText("");
                     Toast.makeText(getApplicationContext(),"Verification failed with error: "
                             + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
+
 
                 @Override
                 public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
@@ -404,6 +376,24 @@ public class VerificationActivity extends AppCompatActivity {
                 }
 
             };
+
+    //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    //FirebaseAuthSettings firebaseAuthSettings = firebaseAuth.getFirebaseAuthSettings();
+
+    /*void fakeverify(String phoneNumber, String smsCode){
+
+// Configure faking the auto-retrieval with the whitelisted numbers.
+        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNumber, smsCode);
+
+        PhoneAuthProvider phoneAuthProvider = PhoneAuthProvider.getInstance();
+        phoneAuthProvider.verifyPhoneNumber(
+                phoneNumber,
+                COUNTDOWN_TIME,
+                TimeUnit.MILLISECONDS,
+                this, // activity
+                verificationCallbacks
+                );
+    }*/
 
     //verify code
     private void verifyVerificationCode(String code) {
@@ -424,8 +414,9 @@ public class VerificationActivity extends AppCompatActivity {
             carewex_patID(common_code.patientFromBundle(registration_bundle));
 
         }catch (Exception e){
-            //probar_verify_code.setVisibility(View.GONE);
-            Toast.makeText(getApplicationContext(),"Verification failed with error: " + e.toString(),Toast.LENGTH_LONG).show();
+            probar_verify_code.setVisibility(View.GONE);
+            tv_verify_status.setText("");
+            Toast.makeText(getApplicationContext(),"Verification code invalid: " + verification_id,Toast.LENGTH_LONG).show();
         }
 
 

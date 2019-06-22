@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.softedge.care_assist.activities.RegSearch;
 import com.softedge.care_assist.activities.VerificationActivity;
 import com.softedge.care_assist.models.retrofitModels.regResult;
 import com.softedge.care_assist.models.retrofitModels.retroEmployee;
@@ -77,14 +78,14 @@ public class CarewexCalls {
             public void onResponse(@NonNull Call<pat_List> call, @NonNull Response<pat_List> response) {
 
                 if (response.body() != null) {
+
                     List<retroPatient> patientsList = response.body().getPatientslist();
 
-                    for (retroPatient pat: patientsList){
-                        Toast.makeText(context,pat.getPatientId(),Toast.LENGTH_LONG).show();
+                    ((RegSearch)context).pop_reslt(patientsList);
 
-                    }
-                }else {
-                    Toast.makeText(context,"Search response: " + response.raw().message(),Toast.LENGTH_LONG).show();
+                }else if (response.raw().message().equals("Unauthorized")){
+                    CarewexCalls.get_access_token(context);
+                    getPatientsResult(search,context);
                 }
 
             }
@@ -94,6 +95,47 @@ public class CarewexCalls {
                 Toast.makeText(context,"Search failed with error: " + t.toString(),Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+
+    public static void update_patient(retroPatient pat, Context context){
+
+        SharedPreferences app_pref = common_code.appPref(context);
+        String token = app_pref.getString("access_token",null);
+        String employeeId = app_pref.getString("employeeID",null);
+
+        SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
+
+        Call<regResult> callPatients = safeClient.patReg("Bearer " + token,pat, employeeId);
+
+        callPatients.enqueue(new Callback<regResult>() {
+            @Override
+            public void onResponse(@NonNull Call<regResult> call, @NonNull Response<regResult> response) {
+
+                if (response.body() != null) {
+
+                    regResult resp = response.body();
+
+                    try {
+                        //create user account with email
+                        if (resp.getStatus().equals("Success")){
+                            //((VerificationActivity) context).create_firebase_account(resp.getPatientId());
+                            Toast.makeText(context,"Patient Data update successful",Toast.LENGTH_LONG).show();
+                        }
+                    }catch (Exception ignored){}
+
+                }else {
+                    Toast.makeText(context,"Patient update response: " + response.raw().message(),Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<regResult> call,@NonNull Throwable t) {
+                Toast.makeText(context,"Patient update failed with error: " + t.toString(),Toast.LENGTH_LONG).show();
+            }
+        });
+
 
     }
 

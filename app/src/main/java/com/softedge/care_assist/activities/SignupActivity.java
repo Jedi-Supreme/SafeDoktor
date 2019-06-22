@@ -9,6 +9,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,16 +37,24 @@ public class SignupActivity extends AppCompatActivity {
     TextInputEditText
             et_reg_fn, et_reg_ln,
             et_reg_mobile, et_reg_email,
-            et_reg_dob, et_reg_pass, et_reg_confpass;
+            et_reg_dob, et_reg_pass,
+            et_reg_confpass;
+
+    ProgressBar probar_reg_check;
 
     CountryCodePicker country_code;
     ConstraintLayout signup_layout;
 
     DatePickerDialog datePickerDialog;
 
+    Bundle existing_pat;
+
     Spinner sp_reg_gender, sp_marital_status;
 
     TextView tv_reg_tos;
+    String opd_ID;
+
+    Biography reg_biography;
 
     //============================================ON CREATE=========================================
     @Override
@@ -55,6 +64,8 @@ public class SignupActivity extends AppCompatActivity {
 
         weak_signup = new WeakReference<>(SignupActivity.this);
 
+        existing_pat = getIntent().getExtras();
+
         et_reg_fn = findViewById(R.id.et_reg_fn);
         et_reg_ln = findViewById(R.id.et_reg_ln);
         et_reg_mobile = findViewById(R.id.et_reg_mobile_number);
@@ -62,6 +73,8 @@ public class SignupActivity extends AppCompatActivity {
         et_reg_dob = findViewById(R.id.et_reg_dob);
         et_reg_pass = findViewById(R.id.et_reg_password);
         et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
+
+        probar_reg_check = findViewById(R.id.probar_reg_check);
 
         tv_reg_tos = findViewById(R.id.tv_reg_tos);
 
@@ -84,8 +97,12 @@ public class SignupActivity extends AppCompatActivity {
         et_reg_confpass.setOnFocusChangeListener((v, hasFocus) -> input_reg_confpass.setPasswordVisibilityToggleEnabled(hasFocus));
 
         Calendar calendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(this, R.style.DatePickerTheme, dateSetListener,
+        datePickerDialog = new DatePickerDialog(weak_signup.get(), R.style.DatePickerTheme, dateSetListener,
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        if (existing_pat != null){
+            loadExistingData(existing_pat);
+        }
 
 
     }
@@ -94,7 +111,12 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        CarewexCalls.get_access_token(weak_signup.get());
+
+        if (common_code.isInternetConnected(weak_signup.get())){
+            CarewexCalls.get_access_token(weak_signup.get());
+        }else {
+            common_code.connection_toast(getApplicationContext());
+        }
     }
     //--------------------------------------DEFINED METHODS-----------------------------------------
 
@@ -103,15 +125,17 @@ public class SignupActivity extends AppCompatActivity {
         if (et_reg_fn.getText().toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Enter First name", Snackbar.LENGTH_LONG).show();
+            et_reg_fn.requestFocus();
 
         }else if(et_reg_ln.getText().toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Enter Last name", Snackbar.LENGTH_LONG).show();
+            et_reg_ln.requestFocus();
 
         }else if (et_reg_mobile.getText().toString().isEmpty()){
-
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Enter mobile number", Snackbar.LENGTH_LONG).show();
+            et_reg_mobile.requestFocus();
 
         }else if (et_reg_dob.getText().toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
@@ -128,14 +152,18 @@ public class SignupActivity extends AppCompatActivity {
         }else if (et_reg_pass.getText().toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Enter Password", Snackbar.LENGTH_LONG).show();
+            et_reg_pass.requestFocus();
 
         }else if (et_reg_pass.getText().toString().length() < 6){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Enter Minimum of six characters", Snackbar.LENGTH_LONG).show();
+            et_reg_pass.requestFocus();
 
         }else if (!et_reg_confpass.getText().toString().equals(et_reg_pass.getText().toString())){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Passwords do not match", Snackbar.LENGTH_LONG).show();
+            et_reg_confpass.requestFocus();
+
         }else {
 
             try {
@@ -148,7 +176,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 }else {
 
-                    Biography reg_biography = new Biography(
+                    reg_biography = new Biography(
                             et_reg_fn.getText().toString(),
                             et_reg_ln.getText().toString(),
                             sp_reg_gender.getSelectedItemPosition(),
@@ -158,9 +186,12 @@ public class SignupActivity extends AppCompatActivity {
                             sp_marital_status.getSelectedItemPosition()
                     );
 
-                    pass_dataTo_verification(reg_biography,et_reg_confpass.getText().toString());
-
+                    //pass_dataTo_verification();
+                    String mobile = "0"+ mob_numb;
+                    probar_reg_check.setVisibility(View.VISIBLE);
+                    common_code.emailAvailability_fetch(mobile,weak_signup.get());
                 }
+
             }catch (Exception mobilenumb_error){
                 common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                         "Enter valid mobile number", Snackbar.LENGTH_LONG).show();
@@ -169,7 +200,22 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    void pass_dataTo_verification(Biography reg_biography, String password){
+    void loadExistingData(Bundle existing_pat){
+
+                et_reg_fn.setText(existing_pat.getString(Biography.FIRSTNAME));
+                et_reg_ln.setText(existing_pat.getString(Biography.LASTNAME));
+                sp_reg_gender.setSelection(existing_pat.getInt(Biography.GENDER));
+                et_reg_mobile.setText(existing_pat.getString(Biography.MOBILE_NUMBER));
+                et_reg_email.setText(existing_pat.getString(Biography.EMAIL));
+                et_reg_dob.setText(existing_pat.getString(Biography.DATE_OF_BIRTH));
+                sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
+
+                opd_ID = existing_pat.getString(Biography.OPD_ID);
+    }
+
+    public void pass_dataTo_verification(){
+
+        hideProbar();
         Intent verification_intent = new Intent(getApplicationContext(), VerificationActivity.class);
 
         if (!et_reg_email.getText().toString().isEmpty() &&
@@ -183,10 +229,14 @@ public class SignupActivity extends AppCompatActivity {
             verification_intent.putExtra(Biography.EMAIL, default_email);
         }
 
+        if (opd_ID != null){
+            verification_intent.putExtra(Biography.OPD_ID, opd_ID);
+        }
+
         verification_intent.putExtra(Biography.FIRSTNAME, reg_biography.getFirstname());
         verification_intent.putExtra(Biography.LASTNAME, reg_biography.getLastname());
         verification_intent.putExtra(Biography.GENDER, reg_biography.getGender());
-        verification_intent.putExtra(Biography.PASSWORD,password);
+        verification_intent.putExtra(Biography.PASSWORD,et_reg_confpass.getText().toString());
 
         verification_intent.putExtra(Biography.MOBILE_NUMBER, reg_biography.getMobile_number());
         verification_intent.putExtra(Biography.COUNTRY_CODE, reg_biography.getCountry_code());
@@ -194,9 +244,6 @@ public class SignupActivity extends AppCompatActivity {
         verification_intent.putExtra(Biography.MARITAL_STATUS,reg_biography.getMarital_state());
 
         startActivity(verification_intent);
-
-
-
     }
 
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
@@ -207,8 +254,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void showDate(int year, int month, int day) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-        SimpleDateFormat parseDateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(common_code.regDateformat, Locale.getDefault());
+        SimpleDateFormat parseDateFormat = new SimpleDateFormat(common_code.regDateformat, Locale.getDefault());
         String userdate;
         Date date;
 
@@ -235,11 +282,25 @@ public class SignupActivity extends AppCompatActivity {
     }
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
 
+    public void number_verification(){
+
+        if (!common_code.isInternetConnected(weak_signup.get())){
+            common_code.connection_toast(getApplicationContext());
+        }else {
+            test_userinputs();
+        }
+
+    }
+
+    public void hideProbar(){
+        probar_reg_check.setVisibility(View.GONE);
+    }
+
     //--------------------------------------DEFINED METHODS-----------------------------------------
 
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENER-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=
     public void toVerification(View view) {
-        test_userinputs();
+        number_verification();
     }
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENER-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=
 }

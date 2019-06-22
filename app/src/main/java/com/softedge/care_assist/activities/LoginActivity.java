@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     ProgressBar probar_login;
 
     ConstraintLayout const_login_layout;
+    AlertDialog alertDialog;
 
     WeakReference<LoginActivity> weak_login;
 
@@ -55,8 +56,27 @@ public class LoginActivity extends AppCompatActivity {
         const_login_layout = findViewById(R.id.main_login_Activity);
 
         et_login_password.setOnFocusChangeListener((v, hasFocus) -> input_login_password.setPasswordVisibilityToggleEnabled(hasFocus));
+
+        alertDialog = new AlertDialog.Builder(weak_login.get()).create();
+
+        View searchView = LayoutInflater.from(weak_login.get()).inflate(R.layout.diag_reg_choice,const_login_layout,false);
+
+        Button bt_pos = searchView.findViewById(R.id.bt_positive),
+                bt_neg = searchView.findViewById(R.id.bt_negative);
+
+        bt_neg.setOnClickListener(v -> common_code.toSignup(weak_login.get()));
+        bt_pos.setOnClickListener(v -> toSearch());
+
+        alertDialog.setView(searchView);
     }
     //=============================================ON CREATE========================================
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        alertDialog.dismiss();
+    }
 
     //------------^^^^^----------^^^^---------Defined Methods------^^^^^------^^^^^-------^^^^^-----
     void testInputs() {
@@ -211,16 +231,22 @@ public class LoginActivity extends AppCompatActivity {
         );
 
     }
+
     //------------^^^^^----------^^^^---------Defined Methods------^^^^^------^^^^^-------^^^^^-----
 
     //---------------------------------------Click Listeners----------------------------------------
     public void loginToDashboard(View view) {
-        testInputs();
+
+        if (!common_code.isInternetConnected(weak_login.get())){
+            common_code.connection_toast(getApplicationContext());
+        }else {
+            testInputs();
+        }
+
     }
 
     public void UserSignup(View view) {
-        Intent signup_intent = new Intent(getApplicationContext(), SignupActivity.class);
-        startActivity(signup_intent);
+        alertDialog.show();
     }
 
     public void ResetPassword(View view) {
@@ -236,6 +262,11 @@ public class LoginActivity extends AppCompatActivity {
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
         super.finish();
+    }
+
+    void toSearch(){
+        Intent search_intent = new Intent(getApplicationContext(), RegSearch.class);
+        startActivity(search_intent);
     }
 
 }

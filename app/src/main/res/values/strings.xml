@@ -5,7 +5,7 @@
     <string name="app_name">Care Assistant</string>
     <string name="adverts">Advertisements</string>
     <string name="chad">Comm. Health Desk</string>
-    <string name="reg_text">Dont have an account? <u><b>Sign Up</b></u></string>
+    <string name="reg_text">Don\'t have an account? <u><b>Sign Up</b></u></string>
     <string name="login">Login</string>
     <string name="sign_up">Sign up</string>
     <string name="app_logo">Care Assistant logo</string>
@@ -77,7 +77,7 @@
     <string name="phone_number">Phone Number</string>
     <string name="conf_pass">Confirm Password</string>
     <string name="register">Register</string>
-    <string name="terms_and_privacy">"By clicking <b>\"Submit\"</b> You agree to our \n <u><![CDATA[Terms of Service & Privacy]]></u>"</string>
+    <string name="terms_and_privacy">"By clicking <b>\"Submit\"</b> You agree to our \n <u><![CDATA[Terms of Service & Privacy Policy]]></u>"</string>
     <string name="password">Password</string>
     <string name="login_logo_pic">Main app icon</string>
     <string name="phone_email">Phone or Email</string>
@@ -199,8 +199,14 @@
     <string name="promo_text">Visit any of our Service Centers below to receive a <u><b>50%</b></u> discount on all medical consultations</string>
     <string name="centers_label">Our Service Centers</string>
     <string name="get_directions">Get Directions</string>
-    <string name="service_centers">Service Centers</string>
+    <string name="patient_id_lbl">Patient ID</string>
     <string name="nearest_facility_lbl">Nearest Facility</string>
     <string name="gender_lbl">Gender</string>
     <string name="profile_settings_txt">Profile Settings</string>
+    <string name="opdcard_qn_txt">Do you already have an O.P.D. Card from any of our facilities?</string>
+    <string name="opd_format">O.P.D Number (XXXXX-XX)</string>
+    <string name="registration_facility">Registration Facility</string>
+    <string name="search">Search</string>
+    <string name="patSearch">Patient Search</string>
+    <string name="connection_error">Please check your internet connection and try again</string>
 </resources>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/const_srch_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegSearch">
+
+    <ProgressBar
+        android:id="@+id/probar_srch"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/blue_black"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_reg_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/margin_tiny"
+        app:cardElevation="@dimen/margin_tiny"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toBottomOf="@id/probar_srch">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_padding">
+
+            <TextView
+                android:id="@+id/tv_reg_fac_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_tiny"
+                android:text="@string/registration_facility"
+                android:textSize="@dimen/med_text_size"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/sp_srch_facilities"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:entries="@array/fac_srch_Arr"
+                app:layout_constraintBottom_toBottomOf="@id/tv_reg_fac_lbl"
+                app:layout_constraintLeft_toRightOf="@id/tv_reg_fac_lbl"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_reg_fac_lbl" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_srch_opd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                app:layout_constraintTop_toBottomOf="@id/tv_reg_fac_lbl">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/et_srch_opd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/opd_format"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:longClickable="false"
+                    android:maxEms="8"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/normal_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                style="@style/app_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:background="@drawable/blue_bt_back"
+                android:drawableEnd="@drawable/ic_search_white_24dp"
+                android:onClick="Search_Method"
+                android:text="@string/search"
+                app:layout_constraintTop_toBottomOf="@id/input_srch_opd" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/card_srch_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/card_reg_search">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/margin_tiny"
+            app:cardElevation="@dimen/margin_tiny"
+            app:cardUseCompatPadding="true">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/activity_padding">
+
+                <!--firstname-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_fn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/input_srch_ln"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_srch_fn"
+                        style="@style/disabled_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/firstname"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--lastname-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_ln"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toRightOf="@id/input_srch_fn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/et_srch_ln"
+                        style="@style/disabled_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/Lastname"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--DOB-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    app:layout_constraintLeft_toRightOf="@id/input_srch_fn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input_srch_fn">
+
+                    <android.support.design.widget.TextInputEditText
+                        style="@style/disabled_et"
+                        android:id="@+id/et_srch_dob"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/dob"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--Email-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    app:layout_constraintLeft_toRightOf="@id/input_srch_fn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input_srch_dob">
+
+                    <android.support.design.widget.TextInputEditText
+                        style="@style/disabled_et"
+                        android:id="@+id/et_srch_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--gender-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/input_srch_ln"
+                    app:layout_constraintTop_toBottomOf="@id/input_srch_email">
+
+                    <android.support.design.widget.TextInputEditText
+                        style="@style/disabled_et"
+                        android:id="@+id/et_srch_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/gender_lbl"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--marital status-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_marital"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/input_srch_gender"
+                    app:layout_constraintLeft_toRightOf="@id/input_srch_fn"
+                    app:layout_constraintRight_toRightOf="parent">
+
+                    <android.support.design.widget.TextInputEditText
+                        style="@style/disabled_et"
+                        android:id="@+id/et_srch_marital"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/marital_status"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--Phone number-->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_srch_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    app:layout_constraintLeft_toRightOf="@id/input_srch_fn"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/input_srch_gender">
+
+                    <android.support.design.widget.TextInputEditText
+                        style="@style/disabled_et"
+                        android:id="@+id/et_srch_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/phone_number"
+                        android:textSize="@dimen/normal_text_size" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <!--Confirm button-->
+                <Button
+                    android:id="@+id/bt_srch_confirm"
+                    style="@style/app_buttons_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:background="@drawable/blue_bt_back"
+                    android:drawableEnd="@drawable/ic_done_white_24dp"
+                    android:onClick="Confirm_method"
+                    android:text="@string/confirm"
+                    app:layout_constraintTop_toBottomOf="@id/input_srch_phone" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

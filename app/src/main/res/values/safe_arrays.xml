@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="facilities_Arr">
+    <string-array name="fac_srch_Arr">
+        <item><i>Select</i></item>
         <item>Adjei-Kojo</item>
         <item>Afenyo</item>
         <item>Ashaiman</item>
         <item>Michel Camp</item>
         <item>Takoradi</item>
         <item>Tema</item>
+    </string-array>
+
+    <string-array name="fac_map_Arr">
+        <item>Adjei-Kojo</item>
+        <item>Afenyo</item>
+        <item>Ashaiman</item>
+        <item>Michel Camp</item>
+        <item>Takoradi</item>
+        <item>Tema</item>
+    </string-array>
+
+    <string-array name="facCodes_arr">
+        <item>blank</item>
+        <item>EG001</item>
+        <item>EP003</item>
+        <item>EP002</item>
+        <item>EP005</item>
+        <item>JP008</item>
+        <item>EP004</item>
     </string-array>
 
     <string-array name="plusCodes_arr">

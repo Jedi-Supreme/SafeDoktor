@@ -34,18 +34,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        //TODO change safe doctor splash screen image and app logo to care assistant
-
         weahSplash = new WeakReference<>(this);
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        /*if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
         try {
             loadBioData_online();
         } catch (Exception ignored) {
-        }
+        }*/
 
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
         CountDownTimer countDownTimer = new CountDownTimer(COUNTDOWN_TIME, SECS) {
@@ -103,7 +101,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     //dashboard intent
     void toDashboard() {
-        Intent dashboard_intent = new Intent(weahSplash.get(), OpdCardActivity.class);
+        Intent dashboard_intent = new Intent(getApplicationContext(), OpdCardActivity.class);
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
         super.finish();

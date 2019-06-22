@@ -46,6 +46,7 @@
                 android:id="@+id/input_acc_mobile_number"
                 style="@style/inputlayout_style"
                 android:layout_width="wrap_content"
+                android:layout_weight="2"
                 android:layout_marginStart="@dimen/margin_small"
                 android:background="@drawable/input_rounded_border"
                 app:hintEnabled="false"

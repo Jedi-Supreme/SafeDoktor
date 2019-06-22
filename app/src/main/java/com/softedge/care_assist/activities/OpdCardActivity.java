@@ -1,6 +1,7 @@
 package com.softedge.care_assist.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -41,7 +42,7 @@ public class OpdCardActivity extends AppCompatActivity {
     TextView
             tv_opd_logout, tv_opd_settings,
             tv_opd_fullname, tv_opd_mobNumb,
-            tv_opdnav_help, tv_opdnav_tos;
+            tv_opdnav_help, tv_opdnav_tos, tv_promo;
 
     String fireID;
 
@@ -64,6 +65,7 @@ public class OpdCardActivity extends AppCompatActivity {
         tv_opd_username = findViewById(R.id.tv_opd_username);
         tv_opd_logout = opd_nav_view.findViewById(R.id.tv_opdnav_logout);
         tv_opd_settings = opd_nav_view.findViewById(R.id.tv_opd_settings);
+        tv_promo = findViewById(R.id.tv_promo);
 
         tv_opd_fullname = opd_nav_view.findViewById(R.id.dash_header_fullname);
         tv_opd_mobNumb = opd_nav_view.findViewById(R.id.dash_header_usernumber);
@@ -114,7 +116,7 @@ public class OpdCardActivity extends AppCompatActivity {
 
         //set list view adapter
         Affiliates_adapter affAdapter = new Affiliates_adapter(getApplicationContext()
-                ,getResources().getStringArray(R.array.facilities_Arr));
+                ,getResources().getStringArray(R.array.fac_map_Arr));
         lv_affiliates.setAdapter(affAdapter);
 
         //list view item click listener
@@ -134,6 +136,11 @@ public class OpdCardActivity extends AppCompatActivity {
     //load data into navigation views
     public void loadLocal_data(){
 
+        SharedPreferences promoPref = common_code.appPref(weakOpd.get());
+        String promotion = promoPref.getString("promo","");
+
+        tv_promo.setText(promotion);
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             appUserbio = common_code.appuser(weakOpd.get());
         }
@@ -146,6 +153,7 @@ public class OpdCardActivity extends AppCompatActivity {
             tv_opd_fullname.setText(username);
             tv_opd_mobNumb.setText(usernumber);
             tv_opd_number.setText(appUserbio.getOpd_Id());
+
 
             if (!appUserbio.getPropic_url().isEmpty() || !appUserbio.getPropic_url().equals("")) {
                 GlideApp.with(weakOpd.get())
@@ -196,6 +204,16 @@ public class OpdCardActivity extends AppCompatActivity {
         try{
             loadLocal_data();
         }catch (Exception ignored){}
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent startmain = new Intent(Intent.ACTION_MAIN);
+        startmain.addCategory(Intent.CATEGORY_HOME);
+        startmain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startmain);
+
     }
 
     @Override

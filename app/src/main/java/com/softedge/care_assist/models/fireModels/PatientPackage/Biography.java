@@ -49,8 +49,7 @@ public class Biography {
     }
 
     //2nd account creation constructor with email
-    public Biography(
-            String fn, String ln,int gender, String country_code,
+    public Biography(String fn, String ln,int gender, String country_code,
             String mobile_number, String email, String date_of_birth, int marital_state){
         firstname = fn;
         lastname = ln;

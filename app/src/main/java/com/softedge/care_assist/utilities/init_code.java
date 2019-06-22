@@ -3,7 +3,9 @@ package com.softedge.care_assist.utilities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -55,9 +57,14 @@ public class init_code {
         String biography = activity.getResources().getString(R.string.bio_ref);
         String contacts = activity.getResources().getString(R.string.contacts_ref);
 
+        String promo = "Promotions";
+        SharedPreferences promoPref = common_code.appPref(activity);
+        SharedPreferences.Editor proEditor = promoPref.edit();
+
         SafeDB safe_db = new SafeDB(activity,null);
 
         final DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users).child(biography);
+        final DatabaseReference promo_ref = FirebaseDatabase.getInstance().getReference(promo);
         final DatabaseReference contacts_ref = FirebaseDatabase.getInstance().getReference(all_users).child(contacts);
 
         bio_ref.child(fireID).addValueEventListener(new ValueEventListener() {
@@ -76,6 +83,24 @@ public class init_code {
                 }
 
                 bio_ref.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        promo_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String promotxt = dataSnapshot.getValue(String.class);
+
+                if (promotxt != null){
+                    proEditor.putString("promo",promotxt).apply();
+                }
+
+                promo_ref.removeEventListener(this);
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -105,6 +106,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     //=============================================ON CREATE========================================
 
     //--=--=--=--=--=--=--=--=--=--=--=--=--=--=--OVERRIDE METHODS=--=--=--=--=--=--=--=--=--=--=--=
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == common_code.CAMERA_AUDIO_REQ_CODE){
+
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -303,23 +315,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Button bt_gallery = propic_view.findViewById(R.id.bt_set_gallery);
 
         bt_camera.setOnClickListener(v -> {
-
-            Intent start_camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-            if (start_camera.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(start_camera, GET_FROM_CAMERA);
+            if (common_code.checkPermissionForCameraAndMicrophone(weak_profile.get())){
+                cameraPic();
+            }else {
+                common_code.requestPermissionForCameraAndMicrophone(weak_profile.get());
             }
         });
 
         bt_gallery.setOnClickListener(v -> {
-
-            Intent gallery_pic = new Intent(Intent.ACTION_PICK,
-                    MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-
-            if (gallery_pic.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(gallery_pic, GET_FROM_GALLERY);
-            }
-
+            galleryPic();
         });
 
         pic_dialog_builder.show();
@@ -495,6 +499,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Intent contact_intent = new Intent(getApplicationContext(), ContactsActivity.class);
         startActivity(contact_intent);
+    }
+
+    void cameraPic(){
+        Intent start_camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        if (start_camera.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(start_camera, GET_FROM_CAMERA);
+        }
+    }
+
+    void galleryPic(){
+        Intent gallery_pic = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+
+        if (gallery_pic.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(gallery_pic, GET_FROM_GALLERY);
+        }
     }
 
     /*void toMedHistory(){

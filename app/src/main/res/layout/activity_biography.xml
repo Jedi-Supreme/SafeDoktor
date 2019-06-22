@@ -54,6 +54,7 @@
                 android:layout_marginTop="@dimen/margin_tiny">
 
                 <android.support.design.widget.TextInputEditText
+                    android:maxLines="1"
                     android:id="@+id/et_bio_fn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
                 android:layout_marginTop="@dimen/margin_small">
 
                 <android.support.design.widget.TextInputEditText
+                    android:maxLines="1"
                     android:id="@+id/et_bio_ln"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -188,6 +190,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="5"
+                        android:maxLines="1"
                         android:hint="@string/height_cm"
                         android:inputType="numberDecimal"
                         android:textSize="@dimen/med_text_size" />
@@ -205,6 +208,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="5"
+                        android:maxLines="1"
                         android:hint="@string/weight_kg"
                         android:inputType="numberDecimal"
                         android:textSize="@dimen/med_text_size" />

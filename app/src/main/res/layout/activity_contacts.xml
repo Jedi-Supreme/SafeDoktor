@@ -18,9 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_med"
-        android:backgroundTint="@color/colorPrimaryDark"
         android:onClick="add_contact"
         android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 

@@ -12,6 +12,12 @@
         <item name="colorAccent">@color/black</item>
     </style>
 
+    <style name="disabled_et">
+        <item name="android:focusable">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:longClickable">false</item>
+    </style>
+
     <style name="calendar_style" parent="AppTheme">
         <item name="colorPrimary">@color/deep_blue_grey</item>
         <item name="colorAccent">@color/blue_highlight</item>
@@ -112,7 +118,7 @@
         <item name="android:textSize">@dimen/normal_text_size</item>
         <item name="android:layout_marginStart">@dimen/margin_med</item>
         <item name="android:background">@color/deep_blue_grey</item>
-        <item name="android:padding">@dimen/margin_tiny</item>
+        <item name="android:padding">2dp</item>
         <item name="android:textColor">@color/black</item>
     </style>
 

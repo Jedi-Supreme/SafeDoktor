@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/const_profile_layout"
@@ -103,6 +104,7 @@
             <View style="@style/divider_view_style" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/bt_profile_medication"
                 style="@style/list_buttons_style"
                 android:layout_width="match_parent"
@@ -113,6 +115,7 @@
             <View style="@style/divider_view_style" />
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/bt_profile_medhistory"
                 style="@style/list_buttons_style"
                 android:layout_width="match_parent"

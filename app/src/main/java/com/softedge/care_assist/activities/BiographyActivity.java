@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.softedge.care_assist.api.CarewexCalls;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.utilities.common_code;
@@ -33,7 +34,9 @@ public class BiographyActivity extends AppCompatActivity {
 
     Spinner sp_bio_marry, sp_bio_gender, sp_bio_bloodgrp;
 
-    TextInputEditText et_bio_fn, et_bio_ln, et_bio_dob, et_bio_Address, et_bio_height, et_bio_weight;
+    TextInputEditText
+            et_bio_fn, et_bio_ln, et_bio_dob,
+            et_bio_Address, et_bio_height, et_bio_weight;
 
     ProgressBar probar_bio_update;
     Biography loadBio;
@@ -134,7 +137,7 @@ public class BiographyActivity extends AppCompatActivity {
 
                 Biography bio = new Biography(
                         fireUser.getUid(),
-                        "",
+                        loadBio.getOpd_Id(),
                         et_bio_fn.getText().toString(),
                         et_bio_ln.getText().toString(),
                         sp_bio_gender.getSelectedItemPosition(),
@@ -142,8 +145,8 @@ public class BiographyActivity extends AppCompatActivity {
                         loadBio.getMobile_number(),
                         fireUser.getEmail(),
                         et_bio_dob.getText().toString(),
-                        sp_bio_marry.getSelectedItemPosition()
-
+                        sp_bio_marry.getSelectedItemPosition(),
+                        loadBio.getPropic_url()
                 );
 
                 //save online and update local db
@@ -158,7 +161,6 @@ public class BiographyActivity extends AppCompatActivity {
 
 
     }
-
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
     DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
 
@@ -173,7 +175,7 @@ public class BiographyActivity extends AppCompatActivity {
         Date date;
 
         if (month+1<10){
-            userdate =  "0" + String.valueOf(month+1)+ "/" + String.valueOf(day) +  "/" +  String.valueOf(year) ;
+            userdate =  "0" + (month + 1) + "/" + day +  "/" + year;
             try {
                 date = parseDateFormat.parse(userdate);
                 et_bio_dob.setText(simpleDateFormat.format(date));
@@ -182,7 +184,7 @@ public class BiographyActivity extends AppCompatActivity {
             }
 
         }else{
-            userdate = String.valueOf(month+1)+ "/" + String.valueOf(day) +  "/" +  String.valueOf(year) ;
+            userdate = (month + 1) + "/" + day +  "/" + year;
             try {
                 date = parseDateFormat.parse(userdate);
                 et_bio_dob.setText(simpleDateFormat.format(date));
@@ -195,20 +197,28 @@ public class BiographyActivity extends AppCompatActivity {
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
     void save_Online(Biography fireBio) {
+
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
-        //save user details to All_Users/Biography/Uid
-        all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid())
-                .setValue(fireBio).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                probar_bio_update.setVisibility(View.GONE);
-                common_code.Mysnackbar(const_bio_layout, "Biography Updated Successfully", Snackbar.LENGTH_SHORT).show();
-            } else {
-                probar_bio_update.setVisibility(View.GONE);
-                common_code.Mysnackbar(const_bio_layout, "Biography Update Failed, Please Try again later",
-                        Snackbar.LENGTH_SHORT).show();
-            }
-        });
+        try {
+
+            CarewexCalls.update_patient(common_code.carewex_pat(fireBio,weakBio.get()),weakBio.get());
+
+            //save user details to All_Users/Biography/Uid
+            all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid())
+                    .setValue(fireBio).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    probar_bio_update.setVisibility(View.GONE);
+                    common_code.Mysnackbar(const_bio_layout, "Biography Updated Successfully", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    probar_bio_update.setVisibility(View.GONE);
+                    common_code.Mysnackbar(const_bio_layout, "Biography Update Failed, Please Try again later",
+                            Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception ignored){}
+
+
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
@@ -218,12 +228,8 @@ public class BiographyActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                super.onBackPressed();
-                break;
-
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
