@@ -21,18 +21,13 @@ public class Patient {
         this.biography = biography;
     }
 
-    Patient(Biography biography, Address address){
-        this.biography = biography;
-        this.address = address;
-    }
-
-    Patient(Biography biography, Address address, Physicals physicals){
+    public Patient(Biography biography, Address address, Physicals physicals){
         this.biography = biography;
         this.address = address;
         this.physicals = physicals;
     }
 
-    Patient(Biography biography, Address address, Physicals physicals, ContactPerson contactPerson){
+    public Patient(Biography biography, Address address, Physicals physicals, ContactPerson contactPerson){
         this.biography = biography;
         this.address = address;
         this.physicals = physicals;

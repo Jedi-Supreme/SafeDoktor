@@ -284,6 +284,11 @@ public class common_code {
 
                         if (email != null){
                             accountAvailability(email,context);
+                        }else {
+
+                            if (context instanceof SignupActivity){
+                                ((SignupActivity) context).pass_dataTo_verification();
+                            }
                         }
                         records_ref.removeEventListener(this);
                     }

@@ -108,29 +108,89 @@ public class RegSearch extends AppCompatActivity {
             String[] opd_arr = userOPD.split("-");
             probar_srch.setVisibility(View.VISIBLE);
 
-            if (opd_arr[0].length() != 5 || opd_arr[1].length() != 2){
+            String opdnumber;
+
+            switch (opd_arr[1].length()){
+
+                case 4:
+                    opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
+                            + "-000"
+                            + opd_arr[0] + "-"
+                            + opd_arr[1];
+
+                    getpatResult(opdnumber);
+                    break;
+
+                case 5:
+
+                    opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
+                            + "-00"
+                            + opd_arr[0] + "-"
+                            + opd_arr[1];
+
+                    getpatResult(opdnumber);
+                    break;
+
+                case 6:
+                    opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
+                            + "-0"
+                            + opd_arr[0] + "-"
+                            + opd_arr[1];
+
+                    getpatResult(opdnumber);
+                    break;
+
+                case 7:
+                    opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
+                            + "-"
+                            + opd_arr[0] + "-"
+                            + opd_arr[1];
+
+                    getpatResult(opdnumber);
+                    break;
+
+                    default:
+                        probar_srch.setVisibility(View.GONE);
+                        common_code.Mysnackbar(const_srch_layout,"Invalid O.P.D number, Please Check and try again",
+                                Snackbar.LENGTH_LONG).show();
+
+            }
+
+            /*if (opd_arr[0].length() == 5 && opd_arr[1].length() == 2){
+
+                opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
+                        + "-00"
+                        + opd_arr[0] + "-"
+                        + opd_arr[1];
+
+                getpatResult(opdnumber);
+
+            } else if (opd_arr[0].length() == 7 && opd_arr[1].length() == 2){
+
+                opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
+                        + opd_arr[0] + "-"
+                        + opd_arr[1];
+
+                getpatResult(opdnumber);
+
+            }else {
+
                 probar_srch.setVisibility(View.GONE);
                 common_code.Mysnackbar(const_srch_layout,"Invalid O.P.D number, Please Check and try again",
                         Snackbar.LENGTH_LONG).show();
-            }else {
+            }*/
 
-                String opdnumber =
-                        fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
-                                + "-00"
-                                + opd_arr[0] + "-"
-                                + opd_arr[1];
-
-                //common_code.Mysnackbar(const_srch_layout,opdnumber, Snackbar.LENGTH_INDEFINITE).show();
-
-                retro_patSearch search = new retro_patSearch("","",opdnumber,"");
-                CarewexCalls.getPatientsResult(search,weakSearch.get());
-            }
         }catch (Exception ignored){
             probar_srch.setVisibility(View.GONE);
             common_code.Mysnackbar(const_srch_layout,"Invalid O.P.D number, Please Check and try again",
                     Snackbar.LENGTH_LONG).show();
         }
 
+    }
+
+    void getpatResult(String opdnumber){
+        retro_patSearch search = new retro_patSearch("","",opdnumber,"");
+        CarewexCalls.getPatientsResult(search,weakSearch.get());
     }
 
     //Populate fields with user data

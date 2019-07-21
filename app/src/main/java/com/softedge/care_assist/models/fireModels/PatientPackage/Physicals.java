@@ -14,14 +14,14 @@ public class Physicals {
 
     private String user_fireID;
     private String lastUpdated;
-    private int blood_group;
+    private String blood_group;
     private double height;
     private double weight;
 
-    Physicals() {
+    public Physicals() {
     }
 
-    public Physicals(String user_fireID, int blood_group, double height, double weight, String lastUpdated) {
+    public Physicals(String user_fireID, String blood_group, double height, double weight, String lastUpdated) {
         this.user_fireID = user_fireID;
         this.blood_group = blood_group;
         this.height = height;
@@ -37,11 +37,11 @@ public class Physicals {
         this.user_fireID = user_fireID;
     }
 
-    public int getBlood_group() {
+    public String getBlood_group() {
         return blood_group;
     }
 
-    public void setBlood_group(int blood_group) {
+    public void setBlood_group(String blood_group) {
         this.blood_group = blood_group;
     }
 

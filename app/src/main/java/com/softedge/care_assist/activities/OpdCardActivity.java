@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.softedge.care_assist.models.GlideApp;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.adapters.Affiliates_adapter;
+import com.softedge.care_assist.models.fireModels.PatientPackage.Physicals;
 import com.softedge.care_assist.utilities.common_code;
 import com.softedge.care_assist.utilities.init_code;
 
@@ -42,7 +44,8 @@ public class OpdCardActivity extends AppCompatActivity {
     TextView
             tv_opd_logout, tv_opd_settings,
             tv_opd_fullname, tv_opd_mobNumb,
-            tv_opdnav_help, tv_opdnav_tos, tv_promo;
+            tv_opdnav_help, tv_opdnav_tos,
+            tv_promo, tv_header_bg, tv_header_bmi;
 
     String fireID;
 
@@ -65,6 +68,10 @@ public class OpdCardActivity extends AppCompatActivity {
         tv_opd_username = findViewById(R.id.tv_opd_username);
         tv_opd_logout = opd_nav_view.findViewById(R.id.tv_opdnav_logout);
         tv_opd_settings = opd_nav_view.findViewById(R.id.tv_opd_settings);
+
+        tv_header_bg = opd_nav_view.findViewById(R.id.tv_header_bg);
+        tv_header_bmi = opd_nav_view.findViewById(R.id.tv_header_bmi);
+
         tv_promo = findViewById(R.id.tv_promo);
 
         tv_opd_fullname = opd_nav_view.findViewById(R.id.dash_header_fullname);
@@ -139,11 +146,41 @@ public class OpdCardActivity extends AppCompatActivity {
         SharedPreferences promoPref = common_code.appPref(weakOpd.get());
         String promotion = promoPref.getString("promo","");
 
+        int height = promoPref.getInt(Physicals.HEIGHT,0);
+        int weight = promoPref.getInt(Physicals.WEIGHT,0);
+        String bg = promoPref.getString(Physicals.BLOOD_GROUP,"");
+
+        //-------------------------------SHOW BLOOD GROUP----------------------------------------
+        if (!bg.equals("")){
+            tv_header_bg.setText(bg);
+            tv_header_bg.setVisibility(View.VISIBLE);
+        }else {
+            tv_header_bg.setVisibility(View.GONE);
+        }
+        //-------------------------------SHOW BLOOD GROUP----------------------------------------
+
+        //-------------------------------SHOW BMI----------------------------------------
+        if (height != 0 && weight != 0){
+            double x = height/100.0;
+            double bmi = weight/Math.pow(x,2);
+
+
+            String bmi_txt = getResources().getString(R.string.bmi_lbl) + " " + Math.round(bmi);
+            tv_header_bmi.setText(bmi_txt);
+
+            tv_header_bmi.setVisibility(View.VISIBLE);
+        }else {
+            tv_header_bmi.setVisibility(View.GONE);
+        }
+        //-------------------------------SHOW BMI----------------------------------------
+
         tv_promo.setText(promotion);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             appUserbio = common_code.appuser(weakOpd.get());
         }
+
+
 
         if (appUserbio != null){
             String username = appUserbio.getFirstname() + " " + appUserbio.getLastname();

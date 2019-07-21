@@ -10,10 +10,8 @@ import android.support.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.softedge.care_assist.activities.DashboardActivity;
 import com.softedge.care_assist.activities.OpdCardActivity;
 import com.softedge.care_assist.models.fireModels.HistoryPackage.History;
-import com.softedge.care_assist.models.fireModels.PatientPackage.Address;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.models.fireModels.PatientPackage.ContactPerson;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Physicals;
@@ -53,24 +51,14 @@ public class SafeDB extends SQLiteOpenHelper {
                 Biography.MARITAL_STATUS + " TEXT);"; // updated later
         db.execSQL(bioQuery);
 
-        //Patient address table
-        String addressQuery = "CREATE TABLE IF NOT EXISTS " + Address.TABLE + " ( " +
-                Address.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Address.FIREBASE_ID + " TEXT UNIQUE, " +
-                Address.LOC_NAME + " TEXT, " +
-                Address.GHPOST + " TEXT, " +
-                Address.LATITUDE + " INTEGER, " +
-                Address.LONGITUDE + " INTEGER );";
-        db.execSQL(addressQuery);
-
         //Patient physicals and genetics table
         String physicalsQuery = "CREATE TABLE IF NOT EXISTS " + Physicals.TABLE + " ( " +
                 Physicals.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 Physicals.FIREBASE_ID + " TEXT UNIQUE, " +
                 Physicals.LAST_UPDATED + " TEXT, " +
-                Physicals.BLOOD_GROUP + " INTEGER DEFAULT 0, " +
-                Physicals.HEIGHT + " INTEGER DEFAULT 0, " +
-                Physicals.WEIGHT + " INTEGER DEFAULT 0);";
+                Physicals.BLOOD_GROUP + " TEXT, " +
+                Physicals.HEIGHT + " INTEGER, " +
+                Physicals.WEIGHT + " INTEGER);";
         db.execSQL(physicalsQuery);
 
         //Patient contacts table
@@ -95,8 +83,6 @@ public class SafeDB extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS " + Biography.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + Address.TABLE);
-        db.execSQL("DROP TABLE IF EXISTS " + Physicals.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + ContactPerson.TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + Review_class.TABLE);
 
@@ -197,118 +183,6 @@ public class SafeDB extends SQLiteOpenHelper {
     //---------------------------------fetch patient data for local use-----------------------------
     //========================================BIOGRAPHY=============================================
 
-    //=========================================ADDRESS==============================================
-    //add address
-    public void addAddress(Address address) {
-
-        ContentValues address_values = new ContentValues();
-
-        address_values.put(Address.FIREBASE_ID, address.getUser_fireId());
-        address_values.put(Address.LOC_NAME, address.getLoc_name());
-        address_values.put(Address.LATITUDE, address.getLatitude());
-        address_values.put(Address.LONGITUDE, address.getLongitude());
-
-        SQLiteDatabase sqDB = getReadableDatabase();
-
-        try {
-            sqDB.insertOrThrow(Address.TABLE, null, address_values);
-        } catch (Exception ignored) {
-        }
-    }
-
-    public void updateAddress(Address address) {
-
-        ContentValues address_values = new ContentValues();
-
-        address_values.put(Address.FIREBASE_ID, address.getUser_fireId());
-        address_values.put(Address.LOC_NAME, address.getLoc_name());
-        address_values.put(Address.LATITUDE, address.getLatitude());
-        address_values.put(Address.LONGITUDE, address.getLongitude());
-
-        SQLiteDatabase sqDB = getReadableDatabase();
-
-        sqDB.update(Address.TABLE, address_values, Address.FIREBASE_ID + " =? ", new String[]{address.getUser_fireId()});
-    }
-
-    //fetch address
-    public Address localAddress(String firebaseID) {
-        Address address;
-
-        SQLiteDatabase sqDB = getReadableDatabase();
-
-        String addQuery = "SELECT * FROM " + Address.TABLE + " WHERE " + Address.FIREBASE_ID + " = \"" + firebaseID + "\"";
-
-        Cursor addCursor = sqDB.rawQuery(addQuery, null);
-
-        address = new Address(
-                addCursor.getString(addCursor.getColumnIndexOrThrow(Address.FIREBASE_ID)),
-                addCursor.getString(addCursor.getColumnIndexOrThrow(Address.LOC_NAME)),
-                addCursor.getDouble(addCursor.getColumnIndexOrThrow(Address.LATITUDE)),
-                addCursor.getDouble(addCursor.getColumnIndexOrThrow(Address.LONGITUDE))
-        );
-
-        addCursor.close();
-
-        return address;
-    }
-    //=========================================ADDRESS==============================================
-
-    //=========================================PHYSICALS============================================
-    //add physicals
-    public void addPhysicals(Physicals physicals) {
-        ContentValues phys_values = new ContentValues();
-
-        phys_values.put(Physicals.FIREBASE_ID, physicals.getUser_fireID());
-        phys_values.put(Physicals.BLOOD_GROUP, physicals.getBlood_group());
-        phys_values.put(Physicals.HEIGHT, physicals.getHeight());
-        phys_values.put(Physicals.WEIGHT, physicals.getWeight());
-        phys_values.put(Physicals.LAST_UPDATED, physicals.getLastUpdated());
-
-        SQLiteDatabase sqDB = getWritableDatabase();
-
-        try {
-            sqDB.insertOrThrow(Physicals.TABLE, null, phys_values);
-        } catch (Exception ignored) {
-        }
-    }
-
-    public void updatePhysicals(Physicals physicals) {
-        ContentValues phys_values = new ContentValues();
-
-        phys_values.put(Physicals.FIREBASE_ID, physicals.getUser_fireID());
-        phys_values.put(Physicals.BLOOD_GROUP, physicals.getBlood_group());
-        phys_values.put(Physicals.HEIGHT, physicals.getHeight());
-        phys_values.put(Physicals.WEIGHT, physicals.getWeight());
-        phys_values.put(Physicals.LAST_UPDATED, physicals.getLastUpdated());
-
-        SQLiteDatabase sqDB = getWritableDatabase();
-        sqDB.update(Physicals.TABLE, phys_values, Physicals.FIREBASE_ID + " =? ", new String[]{physicals.getUser_fireID()});
-    }
-
-    //fetch physicals data
-    public Physicals local_Physicals(String fireID) {
-        Physicals physicals;
-
-        SQLiteDatabase sqDB = getReadableDatabase();
-
-        String phyQuery = "SELECT * FROM " + Address.TABLE + " WHERE " + Address.FIREBASE_ID + " = \"" + fireID + "\"";
-
-        Cursor phyCursor = sqDB.rawQuery(phyQuery, null);
-
-        physicals = new Physicals(
-                phyCursor.getString(phyCursor.getColumnIndexOrThrow(Physicals.FIREBASE_ID)),
-                phyCursor.getInt(phyCursor.getColumnIndexOrThrow(Physicals.BLOOD_GROUP)),
-                phyCursor.getDouble(phyCursor.getColumnIndexOrThrow(Physicals.HEIGHT)),
-                phyCursor.getDouble(phyCursor.getColumnIndexOrThrow(Physicals.WEIGHT)),
-                phyCursor.getString(phyCursor.getColumnIndexOrThrow(Physicals.LAST_UPDATED))
-        );
-
-        phyCursor.close();
-
-        return physicals;
-    }
-    //=========================================PHYSICALS============================================
-
     //==========================================CONTACT=============================================
     //add contact
     public boolean addContact(ContactPerson contactPerson) {
@@ -372,7 +246,7 @@ public class SafeDB extends SQLiteOpenHelper {
                 .getReference(mContext.getResources().getString(R.string.all_users));
 
         //save user details to All_Users/Contacts/Uid
-        all_users_ref.child(mContext.getResources().getString(R.string.contacts_ref)).child(fireID)
+        all_users_ref.child(ContactPerson.TABLE).child(fireID)
                 .setValue(fireContacts);
     }
     //--------------------------------------SAVE TO ONLINE DB-----------------------------------

@@ -69,11 +69,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     void loadBioData_online() {
 
         String all_users = getResources().getString(R.string.all_users);
-        String biography = getResources().getString(R.string.bio_ref);
 
         safe_db = new SafeDB(weahSplash.get(), null);
 
-        DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users).child(biography);
+        DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users)
+                .child(Biography.TABLE);
 
         bio_ref.child(fireID).addValueEventListener(new ValueEventListener() {
             @Override

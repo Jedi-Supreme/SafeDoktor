@@ -253,7 +253,7 @@ public class VerificationActivity extends AppCompatActivity {
         records_ref.child(cell_number).child("email").setValue(firebase_biography.getEmail());
 
         //save user details to All_Users/Biography/Uid
-        all_users_ref.child(getResources().getString(R.string.bio_ref))
+        all_users_ref.child(Biography.TABLE)
                 .child(firebase_id).setValue(firebase_biography);
 
         login_with_email();
@@ -272,11 +272,11 @@ public class VerificationActivity extends AppCompatActivity {
     void loadBioData_online(String fireID){
 
         String all_users = getResources().getString(R.string.all_users);
-        String biography = getResources().getString(R.string.bio_ref);
 
         final SafeDB safe_db = new SafeDB(weakverification.get(),null);
 
-        DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users).child(biography);
+        DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users)
+                .child(Biography.TABLE);
 
         bio_ref.child(fireID).addValueEventListener(new ValueEventListener() {
             @Override

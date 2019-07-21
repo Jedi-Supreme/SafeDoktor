@@ -437,7 +437,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         records_ref.child(cell_number).child("email").setValue(fireBio.getEmail());
 
         //save user details to All_Users/Biography/Uid
-        all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid()).setValue(fireBio);
+        all_users_ref.child(Biography.TABLE).child(fireBio.getFirebase_Uid()).setValue(fireBio);
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 

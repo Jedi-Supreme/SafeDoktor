@@ -84,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
         if (et_login_identification.getText().toString().isEmpty() || et_login_identification.getText().toString().equals("")) {
             et_login_identification.setError("This field is required");
             et_login_identification.requestFocus();
-        } else {
+        }
+        else {
             //if it contains '@' and '.' then its an email, sign in with email else test integer value
             if (et_login_identification.getText().toString().contains("@")) {
 
@@ -208,6 +209,8 @@ public class LoginActivity extends AppCompatActivity {
     void fetch_email(String mobilenumber, final String password) {
 
         final DatabaseReference records_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.records_ref));
+        probar_login.setVisibility(View.VISIBLE);
+        probar_login.animate();
 
         records_ref.child(mobilenumber).child("email").addValueEventListener(
                 new ValueEventListener() {
@@ -218,7 +221,8 @@ public class LoginActivity extends AppCompatActivity {
                              if (email != null){
                                  login_with_credentials(email, password);
                              }else {
-                                 Toast.makeText(getApplicationContext(),"No account records found for " + mobilenumber, Toast.LENGTH_LONG).show();
+                                 probar_login.setVisibility(View.GONE);
+                                 Toast.makeText(getApplicationContext(),"No account record found for " + mobilenumber, Toast.LENGTH_LONG).show();
                              }
                              records_ref.removeEventListener(this);
 

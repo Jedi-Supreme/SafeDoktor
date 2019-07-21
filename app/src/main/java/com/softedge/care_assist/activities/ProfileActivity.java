@@ -249,7 +249,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
         //save user details to All_Users/Biography/Uid
-        all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid())
+        all_users_ref.child(Biography.TABLE).child(fireBio.getFirebase_Uid())
                 .setValue(fireBio).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
 

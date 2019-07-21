@@ -163,7 +163,7 @@ public class ContactsActivity extends AppCompatActivity {
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
         //save user details to All_Users/Contacts/Uid
-        all_users_ref.child(getResources().getString(R.string.contacts_ref)).child(fireID)
+        all_users_ref.child(ContactPerson.TABLE).child(fireID)
                 .setValue(fireContacts);
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------

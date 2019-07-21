@@ -1,11 +1,9 @@
 package com.softedge.care_assist.utilities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -17,8 +15,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.activities.LoginActivity;
 import com.softedge.care_assist.databases.SafeDB;
+import com.softedge.care_assist.models.fireModels.PatientPackage.Address;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.models.fireModels.PatientPackage.ContactPerson;
+import com.softedge.care_assist.models.fireModels.PatientPackage.Physicals;
 
 public class init_code {
 
@@ -54,8 +54,6 @@ public class init_code {
     public static void loadBioData_online(Activity activity, String fireID){
 
         String all_users = activity.getResources().getString(R.string.all_users);
-        String biography = activity.getResources().getString(R.string.bio_ref);
-        String contacts = activity.getResources().getString(R.string.contacts_ref);
 
         String promo = "Promotions";
         SharedPreferences promoPref = common_code.appPref(activity);
@@ -63,9 +61,15 @@ public class init_code {
 
         SafeDB safe_db = new SafeDB(activity,null);
 
-        final DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users).child(biography);
+        final DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users)
+                .child(Biography.TABLE);
+        final DatabaseReference address_ref = FirebaseDatabase.getInstance().getReference(all_users)
+                .child(Address.TABLE);
+        final DatabaseReference phy_ref = FirebaseDatabase.getInstance().getReference(all_users)
+                .child(Physicals.TABLE);
         final DatabaseReference promo_ref = FirebaseDatabase.getInstance().getReference(promo);
-        final DatabaseReference contacts_ref = FirebaseDatabase.getInstance().getReference(all_users).child(contacts);
+        final DatabaseReference contacts_ref = FirebaseDatabase.getInstance().getReference(all_users)
+                .child(ContactPerson.TABLE);
 
         bio_ref.child(fireID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -83,6 +87,46 @@ public class init_code {
                 }
 
                 bio_ref.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        address_ref.child(fireID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Address address = dataSnapshot.getValue(Address.class);
+
+                if (address != null){
+                    proEditor.putString(Address.LOC_ADDRESS,address.getLoc_address());
+                    proEditor.apply();
+                }
+
+                address_ref.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        phy_ref.child(fireID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Physicals physicals = dataSnapshot.getValue(Physicals.class);
+
+                if (physicals != null){
+                    proEditor.putString(Physicals.BLOOD_GROUP,physicals.getBlood_group());
+                    proEditor.putInt(Physicals.HEIGHT,(int)physicals.getHeight());
+                    proEditor.putInt(Physicals.WEIGHT,(int)physicals.getWeight());
+                    proEditor.apply();
+                }
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.softedge.care_assist.activities;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -17,9 +18,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.softedge.care_assist.api.CarewexCalls;
+import com.softedge.care_assist.models.fireModels.Patient;
+import com.softedge.care_assist.models.fireModels.PatientPackage.Address;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.R;
+import com.softedge.care_assist.models.fireModels.PatientPackage.Physicals;
 import com.softedge.care_assist.utilities.common_code;
 import com.softedge.care_assist.databases.SafeDB;
 
@@ -48,6 +51,8 @@ public class BiographyActivity extends AppCompatActivity {
 
     String userID;
 
+    SharedPreferences bioAct_pref;
+
     //==============================================ON CREATE=======================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,8 @@ public class BiographyActivity extends AppCompatActivity {
 
         const_bio_layout = findViewById(R.id.const_bio_layout);
         probar_bio_update = findViewById(R.id.probar_bio_update);
+
+        bioAct_pref = common_code.appPref(weakBio.get());
 
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
         ActionBar actionBar = getSupportActionBar();
@@ -111,27 +118,72 @@ public class BiographyActivity extends AppCompatActivity {
         sp_bio_gender.setSelection(loadBio.getGender(), true);
         et_bio_dob.setText(loadBio.getDate_of_birth());
 
+        if (bioAct_pref != null){
+            sp_bio_bloodgrp.setSelection(bdGrp_index());
+            et_bio_Address.setText(bioAct_pref.getString(Address.LOC_ADDRESS,""));
+            et_bio_height.setText(String.valueOf(bioAct_pref.getInt(Physicals.HEIGHT,0)));
+            et_bio_weight.setText(String.valueOf(bioAct_pref.getInt(Physicals.WEIGHT,0)));
+        }
+
     }
 
-    void testBioInputs() {
+    void testInputs() {
 
         SafeDB safe_db = new SafeDB(weakBio.get(), null);
 
         FirebaseUser fireUser = FirebaseAuth.getInstance().getCurrentUser();
+        Physicals physicals = new Physicals();
+        Address pat_address = new Address();
+
+        pat_address.setUser_fireId(userID);
+        physicals.setUser_fireID(userID);
 
         if (sp_bio_marry.getSelectedItemPosition() == 0) {
             common_code.Mysnackbar(const_bio_layout, "Select Marital Status", Snackbar.LENGTH_SHORT).show();
-        } else if (et_bio_fn.getText().toString().isEmpty() || et_bio_fn.getText().toString().equals("")) {
+        }
+        else if (et_bio_fn.getText().toString().isEmpty() || et_bio_fn.getText().toString().equals("")) {
             common_code.Mysnackbar(const_bio_layout, "Enter First name", Snackbar.LENGTH_SHORT).show();
-        } else if (et_bio_ln.getText().toString().isEmpty() || et_bio_ln.getText().toString().equals("")) {
+        }
+        else if (et_bio_ln.getText().toString().isEmpty() || et_bio_ln.getText().toString().equals("")) {
             common_code.Mysnackbar(const_bio_layout, "Enter Last name", Snackbar.LENGTH_SHORT).show();
-        } else if (sp_bio_gender.getSelectedItemPosition() == 0) {
+        }
+        else if (sp_bio_gender.getSelectedItemPosition() == 0) {
             common_code.Mysnackbar(const_bio_layout, "Select Gender", Snackbar.LENGTH_SHORT).show();
-        } else if (et_bio_dob.getText().toString().isEmpty() || et_bio_dob.getText().toString().equals("")) {
+        }
+        else if (et_bio_dob.getText().toString().isEmpty() || et_bio_dob.getText().toString().equals("")) {
             common_code.Mysnackbar(const_bio_layout, "Enter Date of Birth", Snackbar.LENGTH_SHORT).show();
-        } else {
+        }
+        else {
 
             probar_bio_update.setVisibility(View.VISIBLE);
+
+            if (!et_bio_Address.getText().toString().isEmpty() || !et_bio_Address.getText().toString().equals("")){
+                pat_address.setLoc_address(et_bio_Address.getText().toString());
+            }
+
+            if (sp_bio_bloodgrp.getSelectedItemPosition() > 0){
+                String bloodgroup = sp_bio_bloodgrp.getItemAtPosition(sp_bio_bloodgrp.getSelectedItemPosition()).toString();
+                physicals.setBlood_group(bloodgroup);
+                //Toast.makeText(getApplicationContext(),bloodgroup,Toast.LENGTH_SHORT).show();
+            }
+
+            if (!et_bio_weight.getText().toString().isEmpty()){
+
+                try {
+                    double weight = Double.parseDouble(et_bio_weight.getText().toString());
+                    physicals.setWeight(weight);
+                }catch (Exception ignored){}
+
+            }
+
+            if (!et_bio_height.getText().toString().isEmpty()){
+
+                try {
+                    double height = Double.parseDouble(et_bio_height.getText().toString());
+                    physicals.setHeight(height);
+                }catch (Exception ignored){}
+
+            }
 
             if (fireUser != null) {
 
@@ -149,20 +201,58 @@ public class BiographyActivity extends AppCompatActivity {
                         loadBio.getPropic_url()
                 );
 
+                Patient patient = new Patient(bio,pat_address,physicals);
+
                 //save online and update local db
                 safe_db.updatePat_bio(bio);
-                save_Online(bio);
+                physicals_Address_topref(patient);
+                save_Online(patient);
 
             } else {
                 probar_bio_update.setVisibility(View.GONE);
-
             }
         }
 
 
     }
+
+    int bdGrp_index(){
+
+        String bgrp = bioAct_pref.getString(Physicals.BLOOD_GROUP,null);
+        String[] brgp_arr = getResources().getStringArray(R.array.blood_groups_arr);
+
+        if (bgrp != null){
+
+            for (int x = 0; x < brgp_arr.length; x++){
+
+                if (bgrp.equals(brgp_arr[x])){
+                    return x;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    void physicals_Address_topref(Patient patient){
+
+        SharedPreferences.Editor prefEditor = bioAct_pref.edit();
+
+        if (patient.getPhysicals() != null){
+            prefEditor.putString(Physicals.BLOOD_GROUP,patient.getPhysicals().getBlood_group());
+            prefEditor.putInt(Physicals.HEIGHT,(int)patient.getPhysicals().getHeight());
+            prefEditor.putInt(Physicals.WEIGHT,(int)patient.getPhysicals().getWeight());
+        }
+
+        if (patient.getAddress() != null){
+            prefEditor.putString(Address.LOC_ADDRESS,patient.getAddress().getLoc_address());
+        }
+
+        prefEditor.apply();
+    }
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
-    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
+    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth)
+            -> showDate(year, month, dayOfMonth);
 
     void user_pick_date(){
         datePickerDialog.show();
@@ -196,26 +286,61 @@ public class BiographyActivity extends AppCompatActivity {
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
-    void save_Online(Biography fireBio) {
+    void save_Online(Patient patient) {
 
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
         try {
+            //CarewexCalls.update_patient(common_code.carewex_pat(fireBio,weakBio.get()),weakBio.get());
 
-            CarewexCalls.update_patient(common_code.carewex_pat(fireBio,weakBio.get()),weakBio.get());
+            if (patient.getBiography() != null){
+                //save user details to All_Users/Biography/Uid
+                all_users_ref.child(Biography.TABLE).child(patient.getBiography().getFirebase_Uid())
+                        .setValue(patient.getBiography()).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        probar_bio_update.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Biography Updated Successfully",Toast.LENGTH_SHORT).show();
+                        //common_code.Mysnackbar(const_bio_layout, , Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        probar_bio_update.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Biography Update Failed, Please Try again later",Toast.LENGTH_SHORT).show();
+                        //common_code.Mysnackbar(const_bio_layout, ,Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
 
-            //save user details to All_Users/Biography/Uid
-            all_users_ref.child(getResources().getString(R.string.bio_ref)).child(fireBio.getFirebase_Uid())
-                    .setValue(fireBio).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    probar_bio_update.setVisibility(View.GONE);
-                    common_code.Mysnackbar(const_bio_layout, "Biography Updated Successfully", Snackbar.LENGTH_SHORT).show();
-                } else {
-                    probar_bio_update.setVisibility(View.GONE);
-                    common_code.Mysnackbar(const_bio_layout, "Biography Update Failed, Please Try again later",
-                            Snackbar.LENGTH_SHORT).show();
-                }
-            });
+            if (patient.getAddress() != null){
+                //save user details to All_Users/Address/Uid
+                all_users_ref.child(Address.TABLE).child(patient.getAddress().getUser_fireId())
+                        .setValue(patient.getAddress()).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        probar_bio_update.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Address Updated Successfully",Toast.LENGTH_SHORT).show();
+                        //common_code.Mysnackbar(const_bio_layout, , Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        probar_bio_update.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Address Update Failed, Please Try again later",Toast.LENGTH_SHORT).show();
+                        //common_code.Mysnackbar(const_bio_layout, ,Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            if (patient.getPhysicals() != null){
+                //save user details to All_Users/Physicals/Uid
+                all_users_ref.child(Physicals.TABLE).child(patient.getPhysicals().getUser_fireID())
+                        .setValue(patient.getPhysicals()).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        probar_bio_update.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Physicals Updated Successfully",Toast.LENGTH_SHORT).show();
+                        //common_code.Mysnackbar(const_bio_layout, , Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        probar_bio_update.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(),"Physicals Update Failed, Please Try again later",Toast.LENGTH_SHORT).show();
+                        //common_code.Mysnackbar(const_bio_layout, ,Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
         }catch (Exception ignored){}
 
 
@@ -243,7 +368,7 @@ public class BiographyActivity extends AppCompatActivity {
 
     //-----------------------------------------BUTTON CLICK LISTENER--------------------------------
     public void Save_bio_data(View view) {
-        testBioInputs();
+        testInputs();
     }
     //-----------------------------------------BUTTON CLICK LISTENER--------------------------------
 }

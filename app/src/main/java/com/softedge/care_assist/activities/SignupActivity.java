@@ -51,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
 
     Spinner sp_reg_gender, sp_marital_status;
 
-    TextView tv_reg_tos;
+    TextView tv_reg_tos, tv_reg_acc_chk;
     String opd_ID;
 
     Biography reg_biography;
@@ -75,6 +75,7 @@ public class SignupActivity extends AppCompatActivity {
         et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
 
         probar_reg_check = findViewById(R.id.probar_reg_check);
+        tv_reg_acc_chk = findViewById(R.id.tv_reg_acc_chk);
 
         tv_reg_tos = findViewById(R.id.tv_reg_tos);
 
@@ -189,6 +190,7 @@ public class SignupActivity extends AppCompatActivity {
                     //pass_dataTo_verification();
                     String mobile = "0"+ mob_numb;
                     probar_reg_check.setVisibility(View.VISIBLE);
+                    tv_reg_acc_chk.setVisibility(View.VISIBLE);
                     common_code.emailAvailability_fetch(mobile,weak_signup.get());
                 }
 
@@ -293,6 +295,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void hideProbar(){
+        tv_reg_acc_chk.setVisibility(View.GONE);
         probar_reg_check.setVisibility(View.GONE);
     }
 
