@@ -116,6 +116,10 @@
             android:name=".activities.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activities.Appointments" />
+        <activity android:name=".activities.VirtualAppt_Activity" />
+        <activity android:name=".activities.PhysicalAppt_Activity" />
+        <activity android:name=".activities.SettingsActivity" />
 
         <service android:name=".service.CloudMessaging">
             <intent-filter>

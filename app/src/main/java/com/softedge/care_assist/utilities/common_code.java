@@ -17,18 +17,16 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.softedge.care_assist.activities.AccountActivity;
+import com.softedge.care_assist.activities.Appointments;
 import com.softedge.care_assist.activities.OpdCardActivity;
 import com.softedge.care_assist.activities.ProfileActivity;
+import com.softedge.care_assist.activities.SettingsActivity;
 import com.softedge.care_assist.activities.SignupActivity;
 import com.softedge.care_assist.activities.TOS_Activity;
 import com.softedge.care_assist.activities.VideoCallingActivity;
@@ -178,8 +176,8 @@ public class common_code {
     }
 
     public static void toSettings(Context context) {
-        //Intent settings_intent = new Intent(context, SettingsActivity.class);
-        //context.startActivity(settings_intent);
+        Intent settings_intent = new Intent(context, SettingsActivity.class);
+        context.startActivity(settings_intent);
     }
 
     public static void toSignup(Context context) {
@@ -188,8 +186,8 @@ public class common_code {
     }
 
     public static void toAppointment(Context context) {
-        //Intent appt_intent = new Intent(context, Appointments.class);
-        //context.startActivity(appt_intent);
+        Intent appt_intent = new Intent(context, Appointments.class);
+        context.startActivity(appt_intent);
     }
 
     public static void toVidecall(Context context) {

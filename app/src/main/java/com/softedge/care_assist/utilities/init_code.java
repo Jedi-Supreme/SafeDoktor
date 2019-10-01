@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.softedge.care_assist.R;
+import com.softedge.care_assist.activities.DashboardActivity;
 import com.softedge.care_assist.activities.LoginActivity;
 import com.softedge.care_assist.databases.SafeDB;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Address;
@@ -81,6 +82,11 @@ public class init_code {
 
                     try {
                         safe_db.addPat_bio(userBio);
+
+                        if(userBio.getPropic_url() != null && activity instanceof DashboardActivity){
+                            ((DashboardActivity) activity).loadLocal_data();
+                        }
+
                     }catch (Exception ignored){
                         safe_db.updatePat_bio(userBio);
                     }

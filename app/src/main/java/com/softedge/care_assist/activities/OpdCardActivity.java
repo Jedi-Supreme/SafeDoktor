@@ -263,6 +263,11 @@ public class OpdCardActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void test_OldDash(View view) {
+        Intent old_dash_intent = new Intent(getApplicationContext(), DashboardActivity.class);
+        startActivity(old_dash_intent);
+    }
     //----===-==-=-===-==-===-==-===-===-====-===-===-OVERRIDE METHODS===-==-==--==--==-=-=--==--==-
 
 

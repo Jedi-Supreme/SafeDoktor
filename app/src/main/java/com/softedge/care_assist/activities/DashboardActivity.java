@@ -65,6 +65,8 @@ public class DashboardActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        //Todo work on profile pic sync and load
+
         weakDash = new WeakReference<>(this);
         safe_db = new SafeDB(weakDash.get(),null);
 
@@ -188,7 +190,7 @@ public class DashboardActivity extends AppCompatActivity implements
         super.onResume();
 
         //fetch token
-        //CarewexCalls.get_access_token(getApplicationContext());
+        CarewexCalls.get_access_token(getApplicationContext());
 
         if (dash_drawer_layout.isDrawerOpen(GravityCompat.START)){
             dash_drawer_layout.closeDrawer(GravityCompat.START);
@@ -317,7 +319,7 @@ public class DashboardActivity extends AppCompatActivity implements
                 break;
 
             case R.id.const_ov_body:
-                findpatient();
+                //findpatient();
                 break;
 
             case R.id.const_cv_body:
