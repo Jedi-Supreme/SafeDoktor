@@ -3,10 +3,10 @@ package com.softedge.care_assist.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    final long COUNTDOWN_TIME = 2500; // 2.5 seconds
+    final long COUNTDOWN_TIME = 1500; // 1.5 seconds
     final long SECS = 1000;
 
     String fireID;

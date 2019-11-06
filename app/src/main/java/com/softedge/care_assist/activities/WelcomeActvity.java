@@ -3,8 +3,6 @@ package com.softedge.care_assist.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +13,9 @@ import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.utilities.common_code;
 

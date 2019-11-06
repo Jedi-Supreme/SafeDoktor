@@ -3,12 +3,6 @@ package com.softedge.care_assist.activities;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +11,13 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
@@ -178,10 +179,10 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (timeleft < 10) {
                     remaining_time = getResources().getString(R.string.resend_code_in) + "0"
-                            + String.valueOf((millisUntilFinished / SECS));
+                            + millisUntilFinished / SECS;
                 } else {
                     remaining_time = getResources().getString(R.string.resend_code_in)
-                            + String.valueOf((millisUntilFinished / SECS));
+                            + millisUntilFinished / SECS;
                 }
 
                 tv_acc_downtime.setText(remaining_time);
@@ -231,7 +232,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
 
                 } else {
 
-                    String usernumber = "+" + countrycode + String.valueOf(mob_numb);
+                    String usernumber = "+" + countrycode + mob_numb;
                     send_Code_Method(usernumber);
                 }
 
@@ -433,7 +434,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         DatabaseReference records_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.records_ref));
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
-        String cell_number = "0" + String.valueOf(fireBio.getMobile_number());
+        String cell_number = "0" + fireBio.getMobile_number();
         records_ref.child(cell_number).child("email").setValue(fireBio.getEmail());
 
         //save user details to All_Users/Biography/Uid

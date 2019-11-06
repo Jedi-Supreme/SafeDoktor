@@ -1,24 +1,24 @@
 package com.softedge.care_assist.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.softedge.care_assist.R;
 
 public class partners_fragment extends Fragment implements TabHost.OnTabChangeListener {
 
-    final static String HOSPITALS = "hospitals";
-    final static String PHARMS = "pharmacy";
-    final static String SPECIALS = "specials";
-    final static String DIAGCENTER = "diagCenter";
-    final static String CHAD = "chad";
-    TabHost part_tabhost;
+    private final static String HOSPITALS = "hospitals";
+    private final static String PHARMS = "pharmacy";
+    private final static String SPECIALS = "specials";
+    private final static String DIAGCENTER = "diagCenter";
+    private final static String CHAD = "chad";
 
     @Nullable
     @Override
@@ -31,7 +31,7 @@ public class partners_fragment extends Fragment implements TabHost.OnTabChangeLi
         super.onViewCreated(view, savedInstanceState);
 
 
-        part_tabhost = view.findViewById(R.id.part_tabhost);
+        TabHost part_tabhost = view.findViewById(R.id.part_tabhost);
         part_tabhost.setup();
 
         String hospitals = getResources().getString(R.string.lbl_hospitals);

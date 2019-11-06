@@ -26,14 +26,14 @@
         android:textSize="@dimen/large_text"
         android:textStyle="bold" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rev_recy_qns"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_weight="1" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_marginBottom="@dimen/margin_tiny"
         android:layout_marginTop="@dimen/margin_tiny"
         android:id="@+id/input_rev_comment"
@@ -41,7 +41,7 @@
         app:counterMaxLength="100"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:maxLength="100"
             android:id="@+id/et_rev_comment"
             android:hint="@string/general_comment"
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/bt_rev_submit"

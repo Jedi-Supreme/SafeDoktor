@@ -1,19 +1,18 @@
 package com.softedge.care_assist.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.softedge.care_assist.R;
 
 public class library_fragment extends Fragment {
-
-    TabHost lib_tabhost;
 
     @Nullable
     @Override
@@ -26,7 +25,7 @@ public class library_fragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        lib_tabhost = view.findViewById(R.id.content_fraghost);
+        TabHost lib_tabhost = view.findViewById(R.id.content_fraghost);
         lib_tabhost.setup();
 
         String firstAid = getResources().getString(R.string.first_aid_txt);

@@ -1,10 +1,6 @@
 package com.softedge.care_assist.activities;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +9,11 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.api.CarewexCalls;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class RegSearch extends AppCompatActivity {
 
@@ -80,7 +82,7 @@ public class RegSearch extends AppCompatActivity {
 
     void testOpdNumber(){
 
-        if (et_srch_opd.getText().toString().isEmpty() || et_srch_opd.getText().toString().equals("")){
+        if (Objects.requireNonNull(et_srch_opd.getText()).toString().isEmpty() || et_srch_opd.getText().toString().equals("")){
             common_code.Mysnackbar(const_srch_layout,"Enter O.P.D number", Snackbar.LENGTH_SHORT).show();
             probar_srch.setVisibility(View.GONE);
         }else if (sp_srch_facilities.getSelectedItemPosition() == 0){
@@ -110,7 +112,7 @@ public class RegSearch extends AppCompatActivity {
 
             String opdnumber;
 
-            switch (opd_arr[1].length()){
+            switch (opd_arr[0].length()){
 
                 case 4:
                     opdnumber  = fac_codes_arr[sp_srch_facilities.getSelectedItemPosition()]
@@ -128,6 +130,7 @@ public class RegSearch extends AppCompatActivity {
                             + opd_arr[0] + "-"
                             + opd_arr[1];
 
+                    Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
                     getpatResult(opdnumber);
                     break;
 
@@ -137,6 +140,7 @@ public class RegSearch extends AppCompatActivity {
                             + opd_arr[0] + "-"
                             + opd_arr[1];
 
+                    Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
                     getpatResult(opdnumber);
                     break;
 
@@ -146,11 +150,14 @@ public class RegSearch extends AppCompatActivity {
                             + opd_arr[0] + "-"
                             + opd_arr[1];
 
+                    Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
+
                     getpatResult(opdnumber);
                     break;
 
                     default:
                         probar_srch.setVisibility(View.GONE);
+                        Toast.makeText(getApplicationContext(), opd_arr[0], Toast.LENGTH_SHORT).show();
                         common_code.Mysnackbar(const_srch_layout,"Invalid O.P.D number, Please Check and try again",
                                 Snackbar.LENGTH_LONG).show();
 
@@ -194,7 +201,7 @@ public class RegSearch extends AppCompatActivity {
     }
 
     //Populate fields with user data
-    public void pop_reslt(List<retroPatient> patientsList){
+    public void populate_result(List<retroPatient> patientsList){
 
         probar_srch.setVisibility(View.GONE);
         Calendar calendar = Calendar.getInstance();
@@ -209,12 +216,14 @@ public class RegSearch extends AppCompatActivity {
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat(common_code.regDateformat, Locale.getDefault());
 
+                SimpleDateFormat dateFormat_humanReadable = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+
                 et_srch_fn.setText(pat.getFirstname().toUpperCase());
                 et_srch_ln.setText(pat.getLastName().toUpperCase());
                 et_srch_email.setText(pat.getEmail());
                 et_srch_gender.setText(pat.getGender());
                 et_srch_marital.setText(pat.getMaritalStatus());
-                et_srch_dob.setText(dateFormat.format(calendar.getTime()));
+                et_srch_dob.setText(dateFormat_humanReadable.format(calendar.getTime()));
                 et_srch_mobilenumb.setText(pat.getPhoneNumber());
                 scroll_srch_result.setVisibility(View.VISIBLE);
             }

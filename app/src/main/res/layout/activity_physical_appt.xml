@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +8,7 @@
     android:padding="@dimen/activity_padding"
     tools:context="com.softedge.care_assist.activities.PhysicalAppt_Activity">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_phys_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +16,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="wrap_content"
             android:focusable="false"
             android:longClickable="false"
@@ -25,9 +26,9 @@
             android:hint="@string/date_txt"
             android:textSize="@dimen/normal_text_size" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_phys_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +36,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_phys_date">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="wrap_content"
             android:focusable="false"
             android:longClickable="false"
@@ -45,7 +46,7 @@
             android:hint="@string/time_txt"
             android:textSize="@dimen/normal_text_size" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_spec_label"
@@ -70,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="@id/tv_spec_label"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_phys_specialty"
         android:layout_width="match_parent"
         android:layout_height="@dimen/avatar_dim"
@@ -88,7 +89,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recy_phys_specialty" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_phys_facility"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -108,4 +109,4 @@
         android:textSize="@dimen/large_text"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

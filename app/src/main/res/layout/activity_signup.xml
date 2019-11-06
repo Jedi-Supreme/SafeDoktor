@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reg_const_layout"
@@ -8,7 +9,7 @@
     android:animateLayoutChanges="true"
     tools:context="com.softedge.care_assist.activities.SignupActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_marginTop="@dimen/dash_card_icons"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="0dp"
@@ -17,7 +18,7 @@
         android:background="@color/deep_blue_grey"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_reg_fn"
             android:layout_width="wrap_content"
             style="@style/inputlayout_style"
@@ -29,7 +30,7 @@
             app:layout_constraintRight_toLeftOf="@id/input_reg_ln"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_reg_fn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -40,7 +41,7 @@
                 android:textColor="@color/colorPrimary"
                 />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -51,7 +52,7 @@
             app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
             app:layout_constraintTop_toTopOf="@id/input_reg_fn" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_reg_ln"
             android:layout_width="wrap_content"
             style="@style/inputlayout_style"
@@ -63,7 +64,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_reg_ln"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -74,7 +75,7 @@
                 android:textSize="@dimen/med_text_size"
                 android:textStyle="bold" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -100,7 +101,7 @@
             app:layout_constraintTop_toTopOf="@id/input_reg_mobile_number" />
         <!--Country Code Picker-->
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_reg_mobile_number"
             android:layout_width="0dp"
             app:hintEnabled="false"
@@ -112,7 +113,7 @@
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
             app:layout_constraintTop_toBottomOf="@id/input_reg_ln">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:drawableEnd="@drawable/ic_phone_deepgrey_24dp"
                 android:id="@+id/et_reg_mobile_number"
                 style="@style/input_edittext_style"
@@ -121,7 +122,7 @@
                 android:ems="10"
                 android:inputType="phone" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -132,7 +133,7 @@
             app:layout_constraintLeft_toLeftOf="@id/input_reg_mobile_number"
             app:layout_constraintTop_toTopOf="@id/input_reg_mobile_number" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             app:hintEnabled="false"
             android:id="@+id/input_reg_email"
             android:layout_width="0dp"
@@ -143,7 +144,7 @@
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
             app:layout_constraintTop_toBottomOf="@id/input_reg_mobile_number">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:drawableEnd="@drawable/ic_mail_outline_deepgrey_24dp"
                 android:id="@+id/et_reg_email"
                 style="@style/input_edittext_style"
@@ -152,7 +153,7 @@
                 android:ems="10"
                 android:inputType="textEmailAddress" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -163,7 +164,7 @@
             app:layout_constraintLeft_toLeftOf="@id/input_reg_email"
             app:layout_constraintTop_toTopOf="@id/input_reg_email" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             app:hintEnabled="false"
             android:focusable="false"
             android:id="@+id/input_reg_dob"
@@ -175,7 +176,7 @@
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
             app:layout_constraintTop_toBottomOf="@id/input_reg_email">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:drawableEnd="@drawable/ic_date_range_deepgrey_24dp"
                 android:focusable="false"
                 android:clickable="false"
@@ -187,7 +188,7 @@
                 android:ems="10"
                 android:inputType="date" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -259,7 +260,7 @@
             app:layout_constraintLeft_toLeftOf="@id/tbr_gender"
             app:layout_constraintTop_toTopOf="@id/tbr_gender" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             app:hintEnabled="false"
             android:id="@+id/input_reg_password"
             android:layout_width="0dp"
@@ -270,7 +271,7 @@
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
             app:layout_constraintTop_toBottomOf="@id/tbr_gender">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:drawableEnd="@drawable/ic_lock_open_deepgrey_20dp"
                 android:id="@+id/et_reg_password"
                 style="@style/input_edittext_style"
@@ -278,7 +279,7 @@
                 android:layout_height="match_parent"
                 android:inputType="textPassword" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -290,7 +291,7 @@
             app:layout_constraintLeft_toLeftOf="@id/input_reg_password"
             app:layout_constraintTop_toTopOf="@id/input_reg_password" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             app:hintEnabled="false"
             android:id="@+id/input_reg_conf_pass"
             android:layout_width="0dp"
@@ -301,7 +302,7 @@
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
             app:layout_constraintTop_toBottomOf="@id/input_reg_password">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:drawableEnd="@drawable/ic_lock_outline_deepgrey_20dp"
                 android:id="@+id/et_reg_conf_pass"
                 style="@style/input_edittext_style"
@@ -310,7 +311,7 @@
                 android:ems="10"
                 android:inputType="textPassword" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             style="@style/input_textview_label"
@@ -374,7 +375,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_reg_label"
@@ -394,4 +395,4 @@
         app:layout_constraintTop_toTopOf="@id/const_sub_reg_view" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

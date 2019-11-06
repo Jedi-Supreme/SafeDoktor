@@ -2,8 +2,9 @@ package com.softedge.care_assist.api;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.softedge.care_assist.activities.RegSearch;
 import com.softedge.care_assist.activities.VerificationActivity;
@@ -81,7 +82,7 @@ public class CarewexCalls {
 
                     List<retroPatient> patientsList = response.body().getPatientslist();
 
-                    ((RegSearch)context).pop_reslt(patientsList);
+                    ((RegSearch)context).populate_result(patientsList);
 
                 }else if (response.raw().message().equals("Unauthorized")){
                     CarewexCalls.get_access_token(context);

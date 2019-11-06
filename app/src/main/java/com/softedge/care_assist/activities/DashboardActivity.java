@@ -2,20 +2,23 @@ package com.softedge.care_assist.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.care_assist.api.CarewexCalls;
+import com.softedge.care_assist.models.GlideApp;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.models.retrofitModels.retro_patSearch;
 import com.softedge.care_assist.R;
@@ -24,7 +27,7 @@ import com.softedge.care_assist.databases.SafeDB;
 import com.softedge.care_assist.fragments.chats_fragment;
 import com.softedge.care_assist.fragments.library_fragment;
 import com.softedge.care_assist.fragments.partners_fragment;
-import com.softedge.care_assist.models.GlideApp;
+import com.softedge.care_assist.models.SafeGlideModule;
 import com.softedge.care_assist.utilities.init_code;
 
 import java.lang.ref.WeakReference;
@@ -175,7 +178,7 @@ public class DashboardActivity extends AppCompatActivity implements
 
     //--------------------------------------OVERRIDE METHODS----------------------------------------
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (dash_drawer_layout.isDrawerOpen(GravityCompat.START)){
             dash_drawer_layout.closeDrawer(GravityCompat.START);

@@ -2,12 +2,13 @@ package com.softedge.care_assist.activities;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.softedge.care_assist.R;
 
 import java.lang.ref.WeakReference;

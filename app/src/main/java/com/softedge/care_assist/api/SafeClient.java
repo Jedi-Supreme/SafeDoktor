@@ -1,6 +1,5 @@
 package com.softedge.care_assist.api;
 
-import android.support.annotation.RawRes;
 
 import com.softedge.care_assist.models.retrofitModels.regResult;
 import com.softedge.care_assist.models.retrofitModels.retroEmployee;
@@ -20,7 +19,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface SafeClient {
-
 
     //fetch token
     @FormUrlEncoded

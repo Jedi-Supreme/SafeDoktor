@@ -3,6 +3,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/margin_tiny"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -47,7 +48,7 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_appt_specialty"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/avatar_dim"
@@ -92,7 +93,7 @@
                     android:layout_height="wrap_content" />
             </TableRow>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rec_appt_docs"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/avatar_dim"
@@ -118,6 +119,7 @@
                android:layout_height="wrap_content">
 
                <CalendarView
+                   android:layout_gravity="center"
                    android:scrollbars="horizontal"
                    android:id="@+id/appt_calendar"
                    android:theme="@style/calendar_style"
