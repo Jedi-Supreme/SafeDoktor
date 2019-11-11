@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import static com.softedge.care_assist.utilities.common_code.hidden_number;
+
 public class RegSearch extends AppCompatActivity {
 
     Spinner sp_srch_facilities;
@@ -39,6 +41,8 @@ public class RegSearch extends AppCompatActivity {
             et_srch_dob, et_srch_email, et_srch_mobilenumb,
             et_srch_gender, et_srch_marital;
     ProgressBar probar_srch;
+
+    Snackbar infinitReg_snackbar;
 
     String[] fac_codes_arr;
     retroPatient srch_patient;
@@ -64,6 +68,12 @@ public class RegSearch extends AppCompatActivity {
         et_srch_mobilenumb = findViewById(R.id.et_srch_phone);
         et_srch_gender = findViewById(R.id.et_srch_gender);
         et_srch_marital = findViewById(R.id.et_srch_marital);
+
+        //Snackbar
+        infinitReg_snackbar = Snackbar.make(const_srch_layout, getResources().getString(R.string.reg_qn), Snackbar.LENGTH_INDEFINITE);
+        infinitReg_snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
+        infinitReg_snackbar.setAction(getResources().getString(R.string.register_txt), v -> common_code.toSignup(weakSearch.get()));
+        //Snackbar
 
         fac_codes_arr = getResources().getStringArray(R.array.facCodes_arr);
         sp_srch_facilities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -130,7 +140,7 @@ public class RegSearch extends AppCompatActivity {
                             + opd_arr[0] + "-"
                             + opd_arr[1];
 
-                    Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
                     getpatResult(opdnumber);
                     break;
 
@@ -140,7 +150,7 @@ public class RegSearch extends AppCompatActivity {
                             + opd_arr[0] + "-"
                             + opd_arr[1];
 
-                    Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
                     getpatResult(opdnumber);
                     break;
 
@@ -150,14 +160,14 @@ public class RegSearch extends AppCompatActivity {
                             + opd_arr[0] + "-"
                             + opd_arr[1];
 
-                    Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), opdnumber, Toast.LENGTH_SHORT).show();
 
                     getpatResult(opdnumber);
                     break;
 
                     default:
                         probar_srch.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), opd_arr[0], Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), opd_arr[0], Toast.LENGTH_SHORT).show();
                         common_code.Mysnackbar(const_srch_layout,"Invalid O.P.D number, Please Check and try again",
                                 Snackbar.LENGTH_LONG).show();
 
@@ -208,15 +218,19 @@ public class RegSearch extends AppCompatActivity {
 
         if (patientsList.size() > 0){
 
+            if (infinitReg_snackbar.isShown()){
+                infinitReg_snackbar.dismiss();
+            }
+
             for (retroPatient pat: patientsList){
 
                 srch_patient = pat;
 
                 calendar.setTimeInMillis(Long.parseLong(pat.getDateOfBirth()));
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat(common_code.regDateformat, Locale.getDefault());
-
                 SimpleDateFormat dateFormat_humanReadable = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+
+                String mobile_numb = pat.getPhoneNumber();
 
                 et_srch_fn.setText(pat.getFirstname().toUpperCase());
                 et_srch_ln.setText(pat.getLastName().toUpperCase());
@@ -224,23 +238,20 @@ public class RegSearch extends AppCompatActivity {
                 et_srch_gender.setText(pat.getGender());
                 et_srch_marital.setText(pat.getMaritalStatus());
                 et_srch_dob.setText(dateFormat_humanReadable.format(calendar.getTime()));
-                et_srch_mobilenumb.setText(pat.getPhoneNumber());
+                et_srch_mobilenumb.setText(hidden_number(mobile_numb));
                 scroll_srch_result.setVisibility(View.VISIBLE);
             }
 
         }else {
             scroll_srch_result.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(),"No Results Found",Toast.LENGTH_LONG).show();
-            regSnackbar();
+            showRegSnackbar();
         }
 
     }
 
-    void regSnackbar(){
-        Snackbar snackbar = Snackbar.make(const_srch_layout, getResources().getString(R.string.reg_qn), Snackbar.LENGTH_LONG);
-        snackbar.setActionTextColor(getResources().getColor(R.color.colorPrimary));
-        snackbar.setAction(getResources().getString(R.string.register_txt), v -> common_code.toSignup(weakSearch.get()));
-        snackbar.show();
+    void showRegSnackbar(){
+        infinitReg_snackbar.show();
     }
 
     //Search button click listener
@@ -272,7 +283,7 @@ public class RegSearch extends AppCompatActivity {
             link_reg_intent.putExtra(Biography.MOBILE_NUMBER,srch_patient.getPhoneNumber());
             link_reg_intent.putExtra(Biography.EMAIL,srch_patient.getEmail());
 
-            link_reg_intent.putExtra(Biography.DATE_OF_BIRTH,et_srch_dob.getText().toString());
+            link_reg_intent.putExtra(Biography.DATE_OF_BIRTH, Objects.requireNonNull(et_srch_dob.getText()).toString());
             link_reg_intent.putExtra(Biography.GENDER,genderIndex(srch_patient.getGender()));
 
             link_reg_intent.putExtra(Biography.MARITAL_STATUS,marital_statusIndex(srch_patient.getMaritalStatus()));

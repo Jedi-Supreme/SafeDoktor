@@ -163,6 +163,19 @@ public class common_code {
         return null;
     }
 
+    //Hide phone numbers for patient safety
+    public static String hidden_number(String phonenumb){
+
+        StringBuilder builder = new StringBuilder(phonenumb);
+
+        if (phonenumb.length() > 0){
+            return builder.replace(0,7,"*******").toString();
+        }else {
+            return "";
+        }
+
+    }
+
     public static void toTOS(Context context) {
         Intent tos_Intent = new Intent(context, TOS_Activity.class);
         context.startActivity(tos_Intent);
