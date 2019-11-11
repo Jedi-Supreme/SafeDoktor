@@ -207,8 +207,8 @@
     <string name="opd_format">O.P.D Number (XXXXXXX-XX)</string>
     <string name="registration_facility">Registration Facility</string>
     <string name="search">Search</string>
-    <string name="patSearch">Patient Search</string>
+    <string name="patSearch">O.P.D Number Search</string>
     <string name="connection_error">Please check your internet connection and try again</string>
     <string name="bmi_lbl">BMI:</string>
-    <string name="acc_check_lbl">Checking account availability...</string>
+    <string name="acc_check_lbl">Checking account availability…</string>
 </resources>

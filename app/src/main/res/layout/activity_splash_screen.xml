@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/care_assist_logo"
+    android:background="@drawable/splashsafedoktor"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
     tools:context="com.softedge.care_assist.activities.SplashScreenActivity">
 

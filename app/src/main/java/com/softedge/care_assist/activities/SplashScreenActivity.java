@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,14 +37,14 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         weahSplash = new WeakReference<>(this);
 
-        /*if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
         try {
             loadBioData_online();
         } catch (Exception ignored) {
-        }*/
+        }
 
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
         CountDownTimer countDownTimer = new CountDownTimer(COUNTDOWN_TIME, SECS) {
@@ -89,7 +90,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                         safe_db.updatePat_bio(userBio);
                     }
                 }
+
+                bio_ref.removeEventListener(this);
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -148,6 +148,7 @@ public class init_code {
                 String promotxt = dataSnapshot.getValue(String.class);
 
                 if (promotxt != null){
+                    //Toast.makeText(activity.getApplicationContext(),promotxt,Toast.LENGTH_LONG).show();
                     proEditor.putString("promo",promotxt).apply();
                 }
 
