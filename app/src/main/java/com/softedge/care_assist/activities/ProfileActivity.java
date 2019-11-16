@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.softedge.care_assist.BuildConfig;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.utilities.common_code;
@@ -46,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     CircleImageView iv_profile_pic, iv_profile_pic_bt;
     ConstraintLayout const_profile_layout;
-    TextView tv_profile_fullname;
+    TextView tv_profile_fullname, tv_app_version;
 
     ProgressBar probar_profile;
 
@@ -80,6 +81,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         iv_profile_pic_bt = findViewById(R.id.iv_profile_pic_bt);
         const_profile_layout = findViewById(R.id.const_profile_layout);
         tv_profile_fullname = findViewById(R.id.tv_profile_fullname);
+        tv_app_version = findViewById(R.id.tv_app_version);
 
         probar_profile = findViewById(R.id.probar_profile);
 
@@ -102,7 +104,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             appUser_bio = safe_db.local_appUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
 
-
+        String appver = getResources().getString(R.string.app_name) + " Version "+BuildConfig.VERSION_NAME;
+        tv_app_version.setText(appver);
     }
     //=============================================ON CREATE========================================
 

@@ -150,11 +150,11 @@ public class OpdCardActivity extends AppCompatActivity {
 
         int height = promoPref.getInt(Physicals.HEIGHT,0);
         int weight = promoPref.getInt(Physicals.WEIGHT,0);
-        String bg = promoPref.getString(Physicals.BLOOD_GROUP,"");
+        String bloodgroup = promoPref.getString(Physicals.BLOOD_GROUP,"");
 
         //-------------------------------SHOW BLOOD GROUP----------------------------------------
-        if (!bg.equals("")){
-            tv_header_bg.setText(bg);
+        if (!bloodgroup.equals("")){
+            tv_header_bg.setText(bloodgroup);
             tv_header_bg.setVisibility(View.VISIBLE);
         }else {
             tv_header_bg.setVisibility(View.GONE);
@@ -183,7 +183,6 @@ public class OpdCardActivity extends AppCompatActivity {
         }
 
 
-
         if (appUserbio != null){
             String username = appUserbio.getFirstname() + " " + appUserbio.getLastname();
             String usernumber = "+" + appUserbio.getCountry_code() + appUserbio.getMobile_number();
@@ -203,12 +202,6 @@ public class OpdCardActivity extends AppCompatActivity {
         }else {
             Toast.makeText(getApplicationContext(),"App user empty",Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
-
 
     }
 

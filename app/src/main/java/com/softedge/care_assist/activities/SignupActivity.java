@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -169,7 +171,15 @@ public class SignupActivity extends AppCompatActivity {
         }else {
 
             try {
-                int mob_numb = Integer.parseInt(et_reg_mobile.getText().toString());
+
+                int mob_numb = 0;
+
+                //if mobile number does not contain asterisk, pick from text input else pick from intent bundle
+                if (!et_reg_mobile.getText().toString().contains("*")){
+                    mob_numb = Integer.parseInt(et_reg_mobile.getText().toString());
+                }else {
+                    mob_numb = Integer.parseInt(Objects.requireNonNull(existing_pat.getString(Biography.MOBILE_NUMBER)));
+                }
 
                 if (String.valueOf(mob_numb).length() != 9){
                     common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
@@ -208,7 +218,7 @@ public class SignupActivity extends AppCompatActivity {
                 et_reg_fn.setText(existing_pat.getString(Biography.FIRSTNAME));
                 et_reg_ln.setText(existing_pat.getString(Biography.LASTNAME));
                 sp_reg_gender.setSelection(existing_pat.getInt(Biography.GENDER));
-                et_reg_mobile.setText(existing_pat.getString(Biography.MOBILE_NUMBER));
+                et_reg_mobile.setText(common_code.hidden_number(existing_pat.getString(Biography.MOBILE_NUMBER)));
                 et_reg_email.setText(existing_pat.getString(Biography.EMAIL));
                 et_reg_dob.setText(existing_pat.getString(Biography.DATE_OF_BIRTH));
                 sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
@@ -304,6 +314,8 @@ public class SignupActivity extends AppCompatActivity {
 
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENER-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=
     public void toVerification(View view) {
+
+        //Toast.makeText(getApplicationContext(), opd_ID, Toast.LENGTH_SHORT).show();
         number_verification();
     }
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENER-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=

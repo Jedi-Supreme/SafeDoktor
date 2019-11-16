@@ -15,7 +15,7 @@ import com.softedge.care_assist.R;
 public class Affiliates_adapter extends ArrayAdapter {
 
     public Affiliates_adapter(@NonNull Context context, String[] facilities) {
-        super(context, R.layout.row_affiliate_list ,facilities);
+        super(context, R.layout.row_affiliate_direction_list,facilities);
     }
 
     @NonNull
@@ -23,7 +23,7 @@ public class Affiliates_adapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         if (convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_affiliate_list, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_affiliate_direction_list, parent, false);
         }
 
         String affiliate = String.valueOf(getItem(position));

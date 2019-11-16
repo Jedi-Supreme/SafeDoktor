@@ -29,7 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.softedge.care_assist.api.CarewexCalls;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.R;
-import com.softedge.care_assist.models.retrofitModels.retroPatient;
 import com.softedge.care_assist.utilities.common_code;
 import com.softedge.care_assist.databases.SafeDB;
 
@@ -121,10 +120,10 @@ public class VerificationActivity extends AppCompatActivity {
             String usernumber = "+" + country_code + mobile_number;
             send_Code_Method(usernumber);
             //fakeverify(usernumber,testcode);
-            //Toast.makeText(getApplicationContext(),usernumber,Toast.LENGTH_LONG).show();
-        }else {
-            Toast.makeText(getApplicationContext(),"bundle is empty",Toast.LENGTH_LONG).show();
-        }
+            //Toast.makeText(getApplicationContext(),patient_ID + ", numb: " + usernumber,Toast.LENGTH_LONG).show();
+        }//else {
+         //   Toast.makeText(getApplicationContext(),"bundle is empty",Toast.LENGTH_LONG).show();
+        //}
 
         editorSwitcher();
 

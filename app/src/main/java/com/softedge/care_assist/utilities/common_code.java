@@ -65,6 +65,8 @@ public class common_code {
         Biography new_biography;
 
         new_biography = new Biography(
+                "",
+                patbundle.getString(Biography.OPD_ID),
                 patbundle.getString(Biography.FIRSTNAME),
                 patbundle.getString(Biography.LASTNAME),
                 patbundle.getInt(Biography.GENDER),
