@@ -54,7 +54,7 @@ public class VerificationActivity extends AppCompatActivity {
     ProgressBar probar_verify_code;
     Button bt_verify_code;
 
-    String verification_id, patient_ID = "";
+    String verification_id, patient_ID = null, serialised_carewex_ID = null;
     PhoneAuthProvider.ForceResendingToken resendingToken;
     Bundle registration_bundle;
 
@@ -117,10 +117,11 @@ public class VerificationActivity extends AppCompatActivity {
             String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
             String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
             patient_ID = registration_bundle.getString(Biography.OPD_ID);
+            serialised_carewex_ID = registration_bundle.getString(Biography.ID);
             String usernumber = "+" + country_code + mobile_number;
             send_Code_Method(usernumber);
             //fakeverify(usernumber,testcode);
-            //Toast.makeText(getApplicationContext(),patient_ID + ", numb: " + usernumber,Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),patient_ID + ", serial: " + serialised_carewex_ID,Toast.LENGTH_LONG).show();
         }//else {
          //   Toast.makeText(getApplicationContext(),"bundle is empty",Toast.LENGTH_LONG).show();
         //}
@@ -263,6 +264,7 @@ public class VerificationActivity extends AppCompatActivity {
     //Register user on carewex and return OPD number
     void carewex_patID(Biography basicUser){
 
+        basicUser.setId(serialised_carewex_ID);
         basicUser.setOpd_Id(patient_ID);
 
         // register patient on carewex

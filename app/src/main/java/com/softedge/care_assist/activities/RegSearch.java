@@ -288,6 +288,7 @@ public class RegSearch extends AppCompatActivity {
 
             link_reg_intent.putExtra(Biography.MARITAL_STATUS,marital_statusIndex(srch_patient.getMaritalStatus()));
             link_reg_intent.putExtra(Biography.OPD_ID,srch_patient.getPatientId());
+            link_reg_intent.putExtra(Biography.ID,srch_patient.getId());
 
             startActivity(link_reg_intent);
         }

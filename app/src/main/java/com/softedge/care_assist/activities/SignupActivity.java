@@ -55,7 +55,7 @@ public class SignupActivity extends AppCompatActivity {
     Spinner sp_reg_gender, sp_marital_status;
 
     TextView tv_reg_tos, tv_reg_acc_chk;
-    String opd_ID;
+    String opd_ID,serialised_carwex_ID = null;
 
     Biography reg_biography;
 
@@ -224,6 +224,7 @@ public class SignupActivity extends AppCompatActivity {
                 sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
 
                 opd_ID = existing_pat.getString(Biography.OPD_ID);
+                serialised_carwex_ID = existing_pat.getString(Biography.ID);
     }
 
     public void pass_dataTo_verification(){
@@ -244,6 +245,10 @@ public class SignupActivity extends AppCompatActivity {
 
         if (opd_ID != null){
             verification_intent.putExtra(Biography.OPD_ID, opd_ID);
+        }
+
+        if (serialised_carwex_ID != null){
+            verification_intent.putExtra(Biography.ID,serialised_carwex_ID);
         }
 
         verification_intent.putExtra(Biography.FIRSTNAME, reg_biography.getFirstname());

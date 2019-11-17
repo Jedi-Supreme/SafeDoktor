@@ -17,6 +17,7 @@ public class Biography {
     public final static String MARITAL_STATUS = "marital_status";
     public final static String PASSWORD = "password";
 
+    private String id;
     private String firebase_Uid;
     private String email;
 
@@ -189,5 +190,13 @@ public class Biography {
 
     public void setOpd_Id(String opd_Id) {
         this.opd_Id = opd_Id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
