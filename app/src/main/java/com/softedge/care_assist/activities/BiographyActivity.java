@@ -19,11 +19,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.softedge.care_assist.api.CarewexCalls;
 import com.softedge.care_assist.models.fireModels.Patient;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Address;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Biography;
 import com.softedge.care_assist.R;
 import com.softedge.care_assist.models.fireModels.PatientPackage.Physicals;
+import com.softedge.care_assist.models.retrofitModels.retroPatient;
+import com.softedge.care_assist.models.retrofitModels.retro_patSearch;
 import com.softedge.care_assist.utilities.common_code;
 import com.softedge.care_assist.databases.SafeDB;
 
@@ -32,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class BiographyActivity extends AppCompatActivity {
@@ -53,6 +57,8 @@ public class BiographyActivity extends AppCompatActivity {
     String userID;
 
     SharedPreferences bioAct_pref;
+
+    Patient patient;
 
     //==============================================ON CREATE=======================================
     @Override
@@ -102,6 +108,12 @@ public class BiographyActivity extends AppCompatActivity {
     //==============================================ON CREATE=======================================
 
     //----------------------------------------DEFINED METHODS---------------------------------------
+
+    void getpatResult(String opdnumber){
+        retro_patSearch search = new retro_patSearch("","",opdnumber,"");
+        CarewexCalls.getPatientsResult(search,weakBio.get());
+    }
+
     void loadUser_biodata() {
 
         SafeDB safe_db = new SafeDB(weakBio.get(), null);
@@ -202,12 +214,13 @@ public class BiographyActivity extends AppCompatActivity {
                         loadBio.getPropic_url()
                 );
 
-                Patient patient = new Patient(bio,pat_address,physicals);
+                patient = new Patient(bio,pat_address,physicals);
 
                 //save online and update local db
+                //TODO updae carewex details
                 safe_db.updatePat_bio(bio);
                 physicals_Address_topref(patient);
-                save_Online(patient);
+                save_Online();
 
             } else {
                 probar_bio_update.setVisibility(View.GONE);
@@ -287,7 +300,7 @@ public class BiographyActivity extends AppCompatActivity {
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
-    void save_Online(Patient patient) {
+    void save_Online() {
 
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
@@ -295,6 +308,9 @@ public class BiographyActivity extends AppCompatActivity {
             //CarewexCalls.update_patient(common_code.carewex_pat(fireBio,weakBio.get()),weakBio.get());
 
             if (patient.getBiography() != null){
+
+                getpatResult(patient.getBiography().getOpd_Id());
+
                 //save user details to All_Users/Biography/Uid
                 all_users_ref.child(Biography.TABLE).child(patient.getBiography().getFirebase_Uid())
                         .setValue(patient.getBiography()).addOnCompleteListener(task -> {
@@ -348,6 +364,18 @@ public class BiographyActivity extends AppCompatActivity {
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
+    //Register user on carewex and return OPD number
+    public void carewex_patID(List<retroPatient> retroPatientUser){
+
+        if (retroPatientUser.size() > 0){
+            patient.getBiography().setId(retroPatientUser.get(0).getId());
+            patient.getBiography().setOpd_Id(retroPatientUser.get(0).getPatientId());
+
+            // register patient on carewex
+            CarewexCalls.register_patient(common_code.carewex_pat(patient.getBiography(),weakBio.get()),weakBio.get());
+        }
+    }
+
     //----------------------------------------DEFINED METHODS---------------------------------------
 
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-OVERRIDE METHODS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -363,6 +391,12 @@ public class BiographyActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (common_code.isInternetConnected(weakBio.get())){
+            CarewexCalls.get_access_token(weakBio.get());
+        }else{
+            common_code.connection_toast(getApplicationContext());
+        }
     }
 
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-OVERRIDE METHODS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=

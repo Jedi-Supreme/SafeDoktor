@@ -260,8 +260,13 @@ public class OpdCardActivity extends AppCompatActivity {
     }
 
     public void test_OldDash(View view) {
-        Intent old_dash_intent = new Intent(getApplicationContext(), DashboardActivity.class);
-        startActivity(old_dash_intent);
+        SharedPreferences app_pref = common_code.appPref(weakOpd.get());
+        String token = app_pref.getString("access_token",null);
+        String employeeId = app_pref.getString("employeeID",null);
+
+        Toast.makeText(getApplicationContext(), " token: "  + " emp: " + employeeId, Toast.LENGTH_LONG).show();
+        //Intent old_dash_intent = new Intent(getApplicationContext(), DashboardActivity.class);
+       // startActivity(old_dash_intent);
     }
     //----===-==-=-===-==-===-==-===-===-====-===-===-OVERRIDE METHODS===-==-==--==--==-=-=--==--==-
 

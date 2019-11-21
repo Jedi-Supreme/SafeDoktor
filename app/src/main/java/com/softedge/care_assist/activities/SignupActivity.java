@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -50,7 +49,7 @@ public class SignupActivity extends AppCompatActivity {
 
     DatePickerDialog datePickerDialog;
 
-    Bundle existing_pat;
+    Bundle existing_srch_pat;
 
     Spinner sp_reg_gender, sp_marital_status;
 
@@ -67,7 +66,7 @@ public class SignupActivity extends AppCompatActivity {
 
         weak_signup = new WeakReference<>(SignupActivity.this);
 
-        existing_pat = getIntent().getExtras();
+        existing_srch_pat = getIntent().getExtras();
 
         et_reg_fn = findViewById(R.id.et_reg_fn);
         et_reg_ln = findViewById(R.id.et_reg_ln);
@@ -104,8 +103,8 @@ public class SignupActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(weak_signup.get(), R.style.DatePickerTheme, dateSetListener,
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        if (existing_pat != null){
-            loadExistingData(existing_pat);
+        if (existing_srch_pat != null){
+            loadExistingSrchData(existing_srch_pat);
         }
 
 
@@ -178,7 +177,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (!et_reg_mobile.getText().toString().contains("*")){
                     mob_numb = Integer.parseInt(et_reg_mobile.getText().toString());
                 }else {
-                    mob_numb = Integer.parseInt(Objects.requireNonNull(existing_pat.getString(Biography.MOBILE_NUMBER)));
+                    mob_numb = Integer.parseInt(Objects.requireNonNull(existing_srch_pat.getString(Biography.MOBILE_NUMBER)));
                 }
 
                 if (String.valueOf(mob_numb).length() != 9){
@@ -213,14 +212,16 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    void loadExistingData(Bundle existing_pat){
+    void loadExistingSrchData(Bundle existing_pat){
 
                 et_reg_fn.setText(existing_pat.getString(Biography.FIRSTNAME));
                 et_reg_ln.setText(existing_pat.getString(Biography.LASTNAME));
                 sp_reg_gender.setSelection(existing_pat.getInt(Biography.GENDER));
+
                 et_reg_mobile.setText(common_code.hidden_number(existing_pat.getString(Biography.MOBILE_NUMBER)));
                 et_reg_email.setText(existing_pat.getString(Biography.EMAIL));
                 et_reg_dob.setText(existing_pat.getString(Biography.DATE_OF_BIRTH));
+
                 sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
 
                 opd_ID = existing_pat.getString(Biography.OPD_ID);

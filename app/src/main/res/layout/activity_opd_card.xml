@@ -66,6 +66,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_reg_thank" />
 
         <androidx.cardview.widget.CardView
+            android:onClick="test_OldDash"
             android:id="@+id/card_opdnumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

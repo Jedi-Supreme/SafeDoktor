@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.softedge.care_assist.activities.BiographyActivity;
 import com.softedge.care_assist.activities.RegSearch;
 import com.softedge.care_assist.activities.VerificationActivity;
 import com.softedge.care_assist.models.retrofitModels.regResult;
@@ -25,8 +26,8 @@ import retrofit2.Response;
 
 public class CarewexCalls {
 
-    private static final String EmployeeUID = "care.assist";
-    private static final String EmployeePass = "care.assist@nchs_SE2019";
+    private static final String EmployeeUID = "safe.doktor";
+    private static final String EmployeePass = "safe.doktor@nchs_SE2019";
 
     public static void get_access_token(Context ctx){
 
@@ -82,7 +83,13 @@ public class CarewexCalls {
 
                     List<retroPatient> patientsList = response.body().getPatientslist();
 
-                    ((RegSearch)context).populate_result(patientsList);
+                    if (context instanceof RegSearch){
+                        ((RegSearch)context).populate_result(patientsList);
+                    }else if (context instanceof BiographyActivity){
+                        ((BiographyActivity) context).carewex_patID(patientsList);
+                        //TODO update user details on carewex
+                        //TODO return retro patient for update operation
+                    }
 
                 }else if (response.raw().message().equals("Unauthorized")){
                     CarewexCalls.get_access_token(context);
@@ -161,7 +168,7 @@ public class CarewexCalls {
                     try {
                         //create user account with email
                         if (resp.getStatus().equals("Success")){
-                            ((VerificationActivity) context).create_firebase_account(resp.getPatientId());
+                            ((VerificationActivity) context).login_with_email(resp.getPatientId());
                             //Toast.makeText(context,resp.getPatientId(),Toast.LENGTH_LONG).show();
                         }
                     }catch (Exception ignored){}

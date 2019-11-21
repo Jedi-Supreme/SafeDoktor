@@ -105,7 +105,7 @@ public class common_code {
         }
 
         return new retroPatient(
-                "",
+                basicUser.getId(),
                 title,
                 basicUser.getFirstname(),
                 basicUser.getLastname(),
@@ -117,7 +117,8 @@ public class common_code {
                 gender_arr[basicUser.getGender()],
                 marital_arr[basicUser.getMarital_state()],
                 "", "", "",
-                basicUser.getOpd_Id()
+                basicUser.getOpd_Id(),
+                null
         );
 
     }
@@ -296,7 +297,7 @@ public class common_code {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String email = dataSnapshot.getValue(String.class);
 
-                        if (email != null){
+                        if (email != null && !email.contains(context.getResources().getString(R.string.default_email_suffix))){
                             accountAvailability(email,context);
                         }else {
 

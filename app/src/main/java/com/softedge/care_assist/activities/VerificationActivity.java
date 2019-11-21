@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 public class VerificationActivity extends AppCompatActivity {
 
-    //verify number -> create carewex account -> link credentials -> save online -> login user
+    //verify number -> link credentials -> create carewex account -> login user -> save online
 
     final long COUNTDOWN_TIME = 60000; // 60 seconds
     final long SECS = 1000;
@@ -113,13 +113,17 @@ public class VerificationActivity extends AppCompatActivity {
         };
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
 
+        //verify number -> link credentials -> create carewex account -> login user -> save online
         if (registration_bundle != null) {
             String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
             String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
             patient_ID = registration_bundle.getString(Biography.OPD_ID);
             serialised_carewex_ID = registration_bundle.getString(Biography.ID);
             String usernumber = "+" + country_code + mobile_number;
+
+            //carewex_patRegID(common_code.patientFromBundle(registration_bundle));
             send_Code_Method(usernumber);
+
             //fakeverify(usernumber,testcode);
             //Toast.makeText(getApplicationContext(),patient_ID + ", serial: " + serialised_carewex_ID,Toast.LENGTH_LONG).show();
         }//else {
@@ -193,7 +197,8 @@ public class VerificationActivity extends AppCompatActivity {
     //create user email account
 
     //--------------------------------------CREATE ACCOUNT------------------------------------------
-    public void create_firebase_account(String patid){
+    //verify number -> link credentials -> create carewex account -> login user -> save online
+     void create_firebase_account(){
 
         final String email = registration_bundle.getString(Biography.EMAIL,null);
         String password = registration_bundle.getString(Biography.PASSWORD,null);
@@ -211,10 +216,13 @@ public class VerificationActivity extends AppCompatActivity {
                         if (email_fire_user != null) {
                             try {
 
+                                //link credentials ------------------------- 2
                                 email_fire_user.linkWithCredential(credential).addOnCompleteListener(weakverification.get(),
                                         task1 -> {
+                                    // if successful register on carewex
                                             if (task1.isSuccessful()) {
-                                                save_Online(email_fire_user.getUid(), patid);
+                                                carewex_patRegID(common_code.patientFromBundle(registration_bundle));
+                                                //save_Online(email_fire_user.getUid(), patid);
                                             }
                                         });
                             } catch (Exception e) {
@@ -241,7 +249,7 @@ public class VerificationActivity extends AppCompatActivity {
     //--------------------------------------CREATE ACCOUNT------------------------------------------
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
-    void save_Online(String firebase_id, String patID){
+    public void save_Online(String firebase_id, String patID){
 
         DatabaseReference records_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.records_ref));
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
@@ -257,12 +265,17 @@ public class VerificationActivity extends AppCompatActivity {
         all_users_ref.child(Biography.TABLE)
                 .child(firebase_id).setValue(firebase_biography);
 
-        login_with_email();
+        //login_with_email();
+        //Load user details online
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+        loadBioData_online(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        }
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
+    //verify number -> link credentials -> create carewex account -> login user -> save online
     //Register user on carewex and return OPD number
-    void carewex_patID(Biography basicUser){
+    void carewex_patRegID(Biography basicUser){
 
         basicUser.setId(serialised_carewex_ID);
         basicUser.setOpd_Id(patient_ID);
@@ -306,13 +319,13 @@ public class VerificationActivity extends AppCompatActivity {
 
     }
 
-    //send verification code
+    //send verification code ------ 1
     void send_Code_Method(String mobile_number){
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 mobile_number,
                 COUNTDOWN_TIME,
                 TimeUnit.MILLISECONDS,
-                this,
+                weakverification.get(),
                 verificationCallbacks);
         start_timer();
     }
@@ -349,13 +362,13 @@ public class VerificationActivity extends AppCompatActivity {
                         codeValues_into_views(code);
 
                         stop_timer();
-                        //verify the code
+                        //verify the code ------ 1
                         verifyVerificationCode(code);
                     }
                 }
 
                 @Override
-                public void onCodeAutoRetrievalTimeOut(String s) {
+                public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
                     super.onCodeAutoRetrievalTimeOut(s);
                 }
 
@@ -369,7 +382,7 @@ public class VerificationActivity extends AppCompatActivity {
 
 
                 @Override
-                public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                     super.onCodeSent(s, forceResendingToken);
 
                     //storing the verification id that is sent to the user
@@ -397,7 +410,7 @@ public class VerificationActivity extends AppCompatActivity {
                 );
     }*/
 
-    //verify code
+    //verify code -------------------------------- 1
     private void verifyVerificationCode(String code) {
 
         //show progress bar
@@ -412,8 +425,9 @@ public class VerificationActivity extends AppCompatActivity {
             //creating the credential
             credential = PhoneAuthProvider.getCredential(verification_id, code);
 
-            //register patient on carewex step 2 0f 4
-            carewex_patID(common_code.patientFromBundle(registration_bundle));
+            //link credentials step 2 0f 4
+            create_firebase_account();
+            // TODO carewex_patRegID(common_code.patientFromBundle(registration_bundle));
 
         }catch (Exception e){
             probar_verify_code.setVisibility(View.GONE);
@@ -425,7 +439,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     //sign in
-    void login_with_email(){
+    public void login_with_email(String patient_ID){
 
         //show status text
         tv_verify_status.setText(getResources().getString(R.string.logging_in));
@@ -441,7 +455,7 @@ public class VerificationActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                                loadBioData_online(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                save_Online(FirebaseAuth.getInstance().getCurrentUser().getUid(),patient_ID);
                             }
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithEmail:success");

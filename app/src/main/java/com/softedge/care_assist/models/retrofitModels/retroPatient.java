@@ -72,7 +72,7 @@ public class retroPatient {
     public retroPatient(String id, String title, String firstname, String lastName, String phoneNumber,
                         String email, String currentOccupation, String nationality, String dateOfBirth,
                         String gender, String maritalStatus, String birthplace, String maidenName,
-                        String middleName, String patientId) {
+                        String middleName, String patientId, String religion) {
         this.id = id;
         this.firstname = firstname;
         this.lastName = lastName;
@@ -88,6 +88,7 @@ public class retroPatient {
         this.maidenName = maidenName;
         this.middleName = middleName;
         this.patientId = patientId;
+        this.religion = religion;
     }
 
     public String getId() {
