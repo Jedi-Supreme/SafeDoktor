@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.softedge.care_assist.activities.DashboardActivity">
+    tools:context="com.softedge.safedoktor.activities.DashboardActivity">
 
 
     <!-- main layout. drawer covers this-->

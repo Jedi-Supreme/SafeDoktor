@@ -1,4 +1,4 @@
-package com.softedge.care_assist;
+package com.softedge.safedoktor;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

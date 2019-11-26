@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context="com.softedge.care_assist.activities.SignupActivity">
+    tools:context="com.softedge.safedoktor.activities.SignupActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_marginTop="@dimen/dash_card_icons"

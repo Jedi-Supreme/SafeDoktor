@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_padding"
-    tools:context="com.softedge.care_assist.activities.OnlineVisits">
+    tools:context="com.softedge.safedoktor.activities.OnlineVisits">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_onlinevisits"

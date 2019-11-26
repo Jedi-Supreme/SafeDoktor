@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_padding"
-    tools:context="com.softedge.care_assist.activities.PhysicalAppt_Activity">
+    tools:context="com.softedge.safedoktor.activities.PhysicalAppt_Activity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_phys_date"

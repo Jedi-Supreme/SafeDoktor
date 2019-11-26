@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context="com.softedge.care_assist.activities.VirtualAppt_Activity">
+    tools:context="com.softedge.safedoktor.activities.VirtualAppt_Activity">
 
     <TabHost
         android:id="@+id/appt_tabhost"

@@ -1,4 +1,4 @@
-package com.softedge.care_assist;
+package com.softedge.safedoktor;
 
 import org.junit.Test;
 
