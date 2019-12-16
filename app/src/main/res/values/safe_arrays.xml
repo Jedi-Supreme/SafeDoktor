@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="fac_srch_Arr">
+    <string-array name="carewex_facilities_Arr">
         <item><i>Select</i></item>
         <item>Adjei-Kojo</item>
         <item>Afenyo</item>

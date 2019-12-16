@@ -59,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     Biography appUser_bio;
     SafeDB safe_db;
 
+    //TODO Add dependant registration
+
     //=============================================ON CREATE========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -134,36 +134,35 @@
             app:layout_constraintLeft_toLeftOf="@id/input_reg_mobile_number"
             app:layout_constraintTop_toTopOf="@id/input_reg_mobile_number" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            app:hintEnabled="false"
-            android:id="@+id/input_reg_email"
+        <TableRow
+            android:id="@+id/tbr_facility_pick"
             android:layout_width="0dp"
-            style="@style/inputlayout_style"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_med"
             android:background="@drawable/input_rounded_border"
-            app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
+            app:layout_constraintLeft_toLeftOf="@id/input_reg_dob"
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
             app:layout_constraintTop_toBottomOf="@id/input_reg_mobile_number">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:drawableEnd="@drawable/ic_mail_outline_deepgrey_24dp"
-                android:id="@+id/et_reg_email"
-                style="@style/input_edittext_style"
+            <Spinner
+                android:backgroundTint="@color/colorPrimary"
+                android:id="@+id/sp_reg_facility_pick"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:layout_height="wrap_content"
+                android:entries="@array/carewex_facilities_Arr"
+                android:padding="@dimen/margin_small"
+                />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </TableRow>
 
         <TextView
             style="@style/input_textview_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email_opt"
-            app:layout_constraintBottom_toTopOf="@id/input_reg_email"
-            app:layout_constraintLeft_toLeftOf="@id/input_reg_email"
-            app:layout_constraintTop_toTopOf="@id/input_reg_email" />
+            android:text="@string/fscility"
+            app:layout_constraintBottom_toTopOf="@id/tbr_facility_pick"
+            app:layout_constraintLeft_toLeftOf="@id/tbr_facility_pick"
+            app:layout_constraintTop_toTopOf="@id/tbr_facility_pick" />
 
         <com.google.android.material.textfield.TextInputLayout
             app:hintEnabled="false"
@@ -175,7 +174,7 @@
             android:background="@drawable/input_rounded_border"
             app:layout_constraintLeft_toLeftOf="@id/input_reg_fn"
             app:layout_constraintRight_toRightOf="@id/input_reg_ln"
-            app:layout_constraintTop_toBottomOf="@id/input_reg_email">
+            app:layout_constraintTop_toBottomOf="@id/tbr_facility_pick">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:drawableEnd="@drawable/ic_date_range_deepgrey_24dp"

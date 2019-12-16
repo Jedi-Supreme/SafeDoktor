@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class retroPatient {
 
+    public final static String CURRENT_FACILITY = "current_facility";
+    public final static String REGISTRATION_FACILITY = "user_facility";
+
     @SerializedName("id")
     @Expose
     private String id;

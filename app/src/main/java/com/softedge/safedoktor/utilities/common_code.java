@@ -35,6 +35,7 @@ import com.softedge.safedoktor.activities.WelcomeActvity;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
+import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 
 public class common_code {
@@ -47,8 +48,29 @@ public class common_code {
     public static final int REV_HIGH = 75;
     public static final int REV_HIGHEST = 100;
 
+    private static final int AK_SELECT = 1;
+    private static final int AF_SELECT = 2;
+    private static final int ASH_SELECT = 3;
+    private static final int MC_SELECT = 4;
+    private static final int TADI_SELECT = 5;
+    private static final int TM_SELECT = 6;
+
+    private static final String[] usernames_arr = new String[]{"","ak.doktor","af.doktor","safe.doktor","mc.doktor","tadi.doktor","tm.doktor"};
+    private static final String[] pass_arr = new String[]{"","ak.doktor@nchs_SE2019","af.doktor@nchs_SE2019","safe.doktor@nchs_SE2019","mc.doktor@nchs_SE2019","tadi.doktor@nchs_SE2019","tm.doktor@nchs_SE2019"};
+
+    public static employee_login Build_Employee(int position){
+
+        if (position > 0 && position < usernames_arr.length){
+            return new employee_login(usernames_arr[position],pass_arr[position]);
+        }else {
+            return new employee_login("safe.doktor","safe.doktor@nchs_SE2019");
+        }
+
+    }
+
     public static final String dateTimeformat = "dd/MMM/yyyy hh:mm:ss aa";
     public static final String regDateformat = "dd-MM-yyyy";
+
     //public static final String daynameTimeformat = "E, dd MMM yyyy";
 
     public static Snackbar Mysnackbar(View parent_view, String message, int lenght) {

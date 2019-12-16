@@ -211,4 +211,5 @@
     <string name="connection_error">Please check your internet connection and try again</string>
     <string name="bmi_lbl">BMI:</string>
     <string name="acc_check_lbl">Checking account availability…</string>
+    <string name="fscility">Registration Facility</string>
 </resources>

@@ -47,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:entries="@array/fac_srch_Arr"
+                android:entries="@array/carewex_facilities_Arr"
                 app:layout_constraintBottom_toBottomOf="@id/tv_reg_fac_lbl"
                 app:layout_constraintLeft_toRightOf="@id/tv_reg_fac_lbl"
                 app:layout_constraintRight_toRightOf="parent"

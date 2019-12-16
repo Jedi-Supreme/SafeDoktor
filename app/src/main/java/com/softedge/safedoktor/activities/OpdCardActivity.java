@@ -24,6 +24,7 @@ import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.adapters.Affiliates_adapter;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
+import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.utilities.init_code;
 
@@ -51,6 +52,8 @@ public class OpdCardActivity extends AppCompatActivity {
 
     String fireID;
 
+    SharedPreferences appPref;
+
     //==========================================ON CREATE===========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class OpdCardActivity extends AppCompatActivity {
 
         weakOpd = new WeakReference<>(this);
         String[] pluscodes_arr = getResources().getStringArray(R.array.plusCodes_arr);
+
+        appPref = common_code.appPref(weakOpd.get());
 
         Toolbar opd_toolbar = findViewById(R.id.opd_toolbar);
         opd_drawer_layout = findViewById(R.id.const_opdrawer_layout);
@@ -223,8 +228,10 @@ public class OpdCardActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         //fetch token
-        CarewexCalls.get_access_token(getApplicationContext());
+        int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
+        CarewexCalls.get_access_token(getApplicationContext(),common_code.Build_Employee(position));
 
         if (opd_drawer_layout.isDrawerOpen(GravityCompat.START)){
             opd_drawer_layout.closeDrawer(GravityCompat.START);

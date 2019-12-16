@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -48,6 +49,7 @@ public class RegSearch extends AppCompatActivity {
     retroPatient srch_patient;
     WeakReference<RegSearch> weakSearch;
 
+    SharedPreferences appPref;
     //=============================================ON CREATE========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class RegSearch extends AppCompatActivity {
         et_srch_mobilenumb = findViewById(R.id.et_srch_phone);
         et_srch_gender = findViewById(R.id.et_srch_gender);
         et_srch_marital = findViewById(R.id.et_srch_marital);
+
+        appPref = common_code.appPref(weakSearch.get());
 
         //Snackbar
         infinitReg_snackbar = Snackbar.make(const_srch_layout, getResources().getString(R.string.reg_qn), Snackbar.LENGTH_INDEFINITE);
@@ -107,8 +111,10 @@ public class RegSearch extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
+
         if (common_code.isInternetConnected(weakSearch.get())){
-            CarewexCalls.get_access_token(weakSearch.get());
+            CarewexCalls.get_access_token(weakSearch.get(), common_code.Build_Employee(position));
         }else{
             common_code.connection_toast(getApplicationContext());
         }
@@ -206,8 +212,12 @@ public class RegSearch extends AppCompatActivity {
     }
 
     void getpatResult(String opdnumber){
+
+        int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
+
         retro_patSearch search = new retro_patSearch("","",opdnumber,"");
-        CarewexCalls.getPatientsResult(search,weakSearch.get());
+
+        CarewexCalls.getPatientsResult(search,weakSearch.get(),common_code.Build_Employee(position));
     }
 
     //Populate fields with user data

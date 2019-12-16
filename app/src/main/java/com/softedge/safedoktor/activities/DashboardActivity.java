@@ -191,8 +191,8 @@ public class DashboardActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
 
-        //fetch token
-        CarewexCalls.get_access_token(getApplicationContext());
+        //TODO fetch token
+        //CarewexCalls.get_access_token(getApplicationContext());
 
         if (dash_drawer_layout.isDrawerOpen(GravityCompat.START)){
             dash_drawer_layout.closeDrawer(GravityCompat.START);
@@ -276,7 +276,7 @@ public class DashboardActivity extends AppCompatActivity implements
                 genderArr[app_userBio.getGender()]
                 );
 
-        CarewexCalls.getPatientsResult(searchObj,weakDash.get());
+        //CarewexCalls.getPatientsResult(searchObj,weakDash.get(),);
     }
     //------------------------------------------DEFINED METHODS-------------------------------------
 

@@ -8,57 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:947115610812:android:df46de806dd6c65a",
-        "android_client_info": {
-          "package_name": "com.softedge.care_assist"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "947115610812-3blcu11t3php3jb4b1bp46gkh9gu69tn.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.softedge.care_assist",
-            "certificate_hash": "7356e6dcbc1fb3bb726ef1f9a852ca7b37355ffb"
-          }
-        },
-        {
-          "client_id": "947115610812-hpb72p83croshkeklrvepl3vvphm1afh.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAJ3ItUrILmbvTbQnlDrvrRLh1XMfC9Fd0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "947115610812-hpb72p83croshkeklrvepl3vvphm1afh.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:947115610812:android:b5fd3159a6df455b63b6b9",
         "android_client_info": {
           "package_name": "com.softedge.safedoktor"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "947115610812-lp9tfb9u52p0kcco85r991a4krrpf118.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.softedge.safedoktor",
-            "certificate_hash": "7356e6dcbc1fb3bb726ef1f9a852ca7b37355ffb"
-          }
-        },
         {
           "client_id": "947115610812-hpb72p83croshkeklrvepl3vvphm1afh.apps.googleusercontent.com",
           "client_type": 3

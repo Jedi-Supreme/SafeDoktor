@@ -25,6 +25,7 @@ import com.softedge.safedoktor.models.fireModels.PatientPackage.Address;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
+import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.models.retrofitModels.retro_patSearch;
 import com.softedge.safedoktor.utilities.common_code;
@@ -60,6 +61,8 @@ public class BiographyActivity extends AppCompatActivity {
 
     Patient patient;
 
+    employee_login default_emp;
+
     //==============================================ON CREATE=======================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,8 @@ public class BiographyActivity extends AppCompatActivity {
         probar_bio_update = findViewById(R.id.probar_bio_update);
 
         bioAct_pref = common_code.appPref(weakBio.get());
+
+        default_emp = new employee_login(employee_login.DefaultUID,employee_login.DefaultPass);
 
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
         ActionBar actionBar = getSupportActionBar();
@@ -111,7 +116,7 @@ public class BiographyActivity extends AppCompatActivity {
 
     void getpatResult(String opdnumber){
         retro_patSearch search = new retro_patSearch("","",opdnumber,"");
-        CarewexCalls.getPatientsResult(search,weakBio.get());
+        CarewexCalls.getPatientsResult(search,weakBio.get(),default_emp);
     }
 
     void loadUser_biodata() {
@@ -393,7 +398,7 @@ public class BiographyActivity extends AppCompatActivity {
         super.onResume();
 
         if (common_code.isInternetConnected(weakBio.get())){
-            CarewexCalls.get_access_token(weakBio.get());
+            CarewexCalls.get_access_token(weakBio.get(),default_emp);
         }else{
             common_code.connection_toast(getApplicationContext());
         }

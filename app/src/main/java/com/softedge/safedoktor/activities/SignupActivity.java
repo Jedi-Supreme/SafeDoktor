@@ -2,6 +2,7 @@ package com.softedge.safedoktor.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -18,6 +19,8 @@ import com.hbb20.CountryCodePicker;
 import com.softedge.safedoktor.api.CarewexCalls;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.models.retrofitModels.employee_login;
+import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.utilities.common_code;
 
 import java.lang.ref.WeakReference;
@@ -38,9 +41,8 @@ public class SignupActivity extends AppCompatActivity {
 
     TextInputEditText
             et_reg_fn, et_reg_ln,
-            et_reg_mobile, et_reg_email,
-            et_reg_dob, et_reg_pass,
-            et_reg_confpass;
+            et_reg_mobile, et_reg_dob,
+            et_reg_pass, et_reg_confpass;
 
     ProgressBar probar_reg_check;
 
@@ -51,12 +53,14 @@ public class SignupActivity extends AppCompatActivity {
 
     Bundle existing_srch_pat;
 
-    Spinner sp_reg_gender, sp_marital_status;
+    Spinner sp_reg_gender, sp_marital_status, sp_facility_pick;
 
     TextView tv_reg_tos, tv_reg_acc_chk;
-    String opd_ID,serialised_carwex_ID = null;
+    String opd_ID, pat_search_email,serialised_carwex_ID = null;
 
     Biography reg_biography;
+
+    SharedPreferences appPref;
 
     //============================================ON CREATE=========================================
     @Override
@@ -65,13 +69,13 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         weak_signup = new WeakReference<>(SignupActivity.this);
+        appPref = common_code.appPref(weak_signup.get());
 
         existing_srch_pat = getIntent().getExtras();
 
         et_reg_fn = findViewById(R.id.et_reg_fn);
         et_reg_ln = findViewById(R.id.et_reg_ln);
         et_reg_mobile = findViewById(R.id.et_reg_mobile_number);
-        et_reg_email = findViewById(R.id.et_reg_email);
         et_reg_dob = findViewById(R.id.et_reg_dob);
         et_reg_pass = findViewById(R.id.et_reg_password);
         et_reg_confpass = findViewById(R.id.et_reg_conf_pass);
@@ -82,6 +86,7 @@ public class SignupActivity extends AppCompatActivity {
         tv_reg_tos = findViewById(R.id.tv_reg_tos);
 
         sp_reg_gender = findViewById(R.id.sp_reg_gender);
+        sp_facility_pick = findViewById(R.id.sp_reg_facility_pick);
         sp_marital_status = findViewById(R.id.sp_reg_marital_State);
 
         signup_layout = findViewById(R.id.reg_const_layout);
@@ -115,8 +120,10 @@ public class SignupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
+
         if (common_code.isInternetConnected(weak_signup.get())){
-            CarewexCalls.get_access_token(weak_signup.get());
+            CarewexCalls.get_access_token(weak_signup.get(),common_code.Build_Employee(position));
         }else {
             common_code.connection_toast(getApplicationContext());
         }
@@ -144,6 +151,9 @@ public class SignupActivity extends AppCompatActivity {
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Pick date of birth (DD/MMM/YYYY)", Snackbar.LENGTH_LONG).show();
 
+        }else if (sp_facility_pick.getSelectedItemPosition() <= 0 ){
+            common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
+                    "Please Select Registration facility", Snackbar.LENGTH_LONG).show();
         }else if (sp_reg_gender.getSelectedItemPosition() <= 0){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Select Gender", Snackbar.LENGTH_LONG).show();
@@ -219,7 +229,7 @@ public class SignupActivity extends AppCompatActivity {
                 sp_reg_gender.setSelection(existing_pat.getInt(Biography.GENDER));
 
                 et_reg_mobile.setText(common_code.hidden_number(existing_pat.getString(Biography.MOBILE_NUMBER)));
-                et_reg_email.setText(existing_pat.getString(Biography.EMAIL));
+                pat_search_email = existing_pat.getString(Biography.EMAIL);
                 et_reg_dob.setText(existing_pat.getString(Biography.DATE_OF_BIRTH));
 
                 sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
@@ -233,10 +243,8 @@ public class SignupActivity extends AppCompatActivity {
         hideProbar();
         Intent verification_intent = new Intent(getApplicationContext(), VerificationActivity.class);
 
-        if (!et_reg_email.getText().toString().isEmpty() &&
-                et_reg_email.getText().toString().contains("@") &&
-                et_reg_email.getText().toString().contains(".")){
-            verification_intent.putExtra(Biography.EMAIL, et_reg_email.getText().toString());
+        if (!pat_search_email.isEmpty() && pat_search_email.contains("@")){
+            verification_intent.putExtra(Biography.EMAIL, pat_search_email);
         }else {
             //create default email if patient does not enter valid email
             String default_email = "0"+ reg_biography.getMobile_number()
@@ -251,6 +259,12 @@ public class SignupActivity extends AppCompatActivity {
         if (serialised_carwex_ID != null){
             verification_intent.putExtra(Biography.ID,serialised_carwex_ID);
         }
+
+        SharedPreferences appPref = common_code.appPref(weak_signup.get());
+        SharedPreferences.Editor prefEditor = appPref.edit();
+        prefEditor.putInt(retroPatient.REGISTRATION_FACILITY,sp_facility_pick.getSelectedItemPosition());
+        prefEditor.putInt(retroPatient.CURRENT_FACILITY,sp_facility_pick.getSelectedItemPosition());
+        prefEditor.apply();
 
         verification_intent.putExtra(Biography.FIRSTNAME, reg_biography.getFirstname());
         verification_intent.putExtra(Biography.LASTNAME, reg_biography.getLastname());

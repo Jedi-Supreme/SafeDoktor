@@ -17,6 +17,7 @@ public class Biography {
     public final static String MARITAL_STATUS = "marital_status";
     public final static String PASSWORD = "password";
 
+
     private String id;
     private String firebase_Uid;
     private String email;

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.softedge.safedoktor.activities.BiographyActivity;
 import com.softedge.safedoktor.activities.RegSearch;
 import com.softedge.safedoktor.activities.VerificationActivity;
+import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.regResult;
 import com.softedge.safedoktor.models.retrofitModels.retroEmployee;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
@@ -26,17 +27,17 @@ import retrofit2.Response;
 
 public class CarewexCalls {
 
-    private static final String EmployeeUID = "safe.doktor";
-    private static final String EmployeePass = "safe.doktor@nchs_SE2019";
+    //private static final String EmployeeUID = "safe.doktor";
+    //private static final String EmployeePass = "safe.doktor@nchs_SE2019";
 
-    public static void get_access_token(Context ctx){
+    public static void get_access_token(Context ctx, employee_login employeeLogin){
 
         SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
 
         SharedPreferences token_pref = common_code.appPref(ctx);
         SharedPreferences.Editor token_editor = token_pref.edit();
 
-        token_ReqBody body = new token_ReqBody(EmployeeUID,EmployeePass);
+        token_ReqBody body = new token_ReqBody(employeeLogin.getUsername(),employeeLogin.getPassword());
 
         Call<retroToken> tokencall = safeClient.getToken(
                 body.getPassword(),
@@ -53,7 +54,7 @@ public class CarewexCalls {
                 if (token != null) {
 
                     token_editor.putString("access_token",token.getAccessToken()).apply();
-                    getEmployeeId(ctx);
+                    getEmployeeId(ctx,employeeLogin);
                 }
             }
 
@@ -66,7 +67,7 @@ public class CarewexCalls {
 
     }
 
-    public static void getPatientsResult(retro_patSearch search, Context context){
+    public static void getPatientsResult(retro_patSearch search, Context context,employee_login employeeLogin){
 
         SharedPreferences tokenpref = common_code.appPref(context);
         String token = tokenpref.getString("access_token",null);
@@ -92,8 +93,8 @@ public class CarewexCalls {
                     }
 
                 }else if (response.raw().message().equals("Unauthorized")){
-                    CarewexCalls.get_access_token(context);
-                    getPatientsResult(search,context);
+                    CarewexCalls.get_access_token(context,employeeLogin);
+                    getPatientsResult(search,context,employeeLogin);
                 }
 
             }
@@ -103,47 +104,6 @@ public class CarewexCalls {
                 Toast.makeText(context,"Search failed with error: " + t.toString(),Toast.LENGTH_LONG).show();
             }
         });
-
-    }
-
-    public static void update_patient(retroPatient pat, Context context){
-
-        SharedPreferences app_pref = common_code.appPref(context);
-        String token = app_pref.getString("access_token",null);
-        String employeeId = app_pref.getString("employeeID",null);
-
-        SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
-
-        Call<regResult> callPatients = safeClient.patReg("Bearer " + token,pat, employeeId);
-
-        callPatients.enqueue(new Callback<regResult>() {
-            @Override
-            public void onResponse(@NonNull Call<regResult> call, @NonNull Response<regResult> response) {
-
-                if (response.body() != null) {
-
-                    regResult resp = response.body();
-
-                    try {
-                        //create user account with email
-                        if (resp.getStatus().equals("Success")){
-                            //((VerificationActivity) context).create_firebase_account(resp.getPatientId());
-                            Toast.makeText(context,"Patient Data update successful",Toast.LENGTH_LONG).show();
-                        }
-                    }catch (Exception ignored){}
-
-                }else {
-                    Toast.makeText(context,"Patient update response: " + response.raw().message(),Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<regResult> call,@NonNull Throwable t) {
-                Toast.makeText(context,"Patient update failed with error: " + t.toString(),Toast.LENGTH_LONG).show();
-            }
-        });
-
 
     }
 
@@ -168,6 +128,7 @@ public class CarewexCalls {
                     try {
                         //create user account with email
                         if (resp.getStatus().equals("Success")){
+
                             ((VerificationActivity) context).login_with_email(resp.getPatientId());
                             //Toast.makeText(context,resp.getPatientId(),Toast.LENGTH_LONG).show();
                         }
@@ -188,7 +149,7 @@ public class CarewexCalls {
 
     }
 
-    private static void getEmployeeId(Context ctx){
+    private static void getEmployeeId(Context ctx,employee_login employeeLogin){
 
         SharedPreferences tokenpref = common_code.appPref(ctx);
         String token = tokenpref.getString("access_token",null);
@@ -198,7 +159,7 @@ public class CarewexCalls {
 
         SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
 
-        Call<retroEmployee> callPatients = safeClient.employee("Bearer " + token,EmployeeUID);
+        Call<retroEmployee> callPatients = safeClient.employee("Bearer " + token,employeeLogin.getUsername());
 
         callPatients.enqueue(new Callback<retroEmployee>() {
             @Override

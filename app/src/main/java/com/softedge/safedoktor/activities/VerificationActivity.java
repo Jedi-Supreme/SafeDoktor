@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import androidx.annotation.NonNull;
@@ -29,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.api.CarewexCalls;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 
@@ -60,6 +62,8 @@ public class VerificationActivity extends AppCompatActivity {
 
     FirebaseUser email_fire_user;
 
+    SharedPreferences appPref;
+
     //============================================ON CREATE=========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,8 @@ public class VerificationActivity extends AppCompatActivity {
 
         probar_verify_code = findViewById(R.id.probar_verify_code);
         bt_verify_code = findViewById(R.id.bt_verifycode);
+
+        appPref = common_code.appPref(weakverification.get());
 
         code_input_Array = new TextInputEditText[]{et_code_1,et_code_2,et_code_3,et_code_4,et_code_5,et_code_6};
 
@@ -138,7 +144,9 @@ public class VerificationActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        CarewexCalls.get_access_token(weakverification.get());
+
+        int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
+        CarewexCalls.get_access_token(weakverification.get(),common_code.Build_Employee(position));
     }
 
     //--------------------------------------------METHODS-------------------------------------------
@@ -219,6 +227,7 @@ public class VerificationActivity extends AppCompatActivity {
                                 //link credentials ------------------------- 2
                                 email_fire_user.linkWithCredential(credential).addOnCompleteListener(weakverification.get(),
                                         task1 -> {
+
                                     // if successful register on carewex
                                             if (task1.isSuccessful()) {
                                                 carewex_patRegID(common_code.patientFromBundle(registration_bundle));
@@ -391,24 +400,6 @@ public class VerificationActivity extends AppCompatActivity {
                 }
 
             };
-
-    //FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    //FirebaseAuthSettings firebaseAuthSettings = firebaseAuth.getFirebaseAuthSettings();
-
-    /*void fakeverify(String phoneNumber, String smsCode){
-
-// Configure faking the auto-retrieval with the whitelisted numbers.
-        firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(phoneNumber, smsCode);
-
-        PhoneAuthProvider phoneAuthProvider = PhoneAuthProvider.getInstance();
-        phoneAuthProvider.verifyPhoneNumber(
-                phoneNumber,
-                COUNTDOWN_TIME,
-                TimeUnit.MILLISECONDS,
-                this, // activity
-                verificationCallbacks
-                );
-    }*/
 
     //verify code -------------------------------- 1
     private void verifyVerificationCode(String code) {
