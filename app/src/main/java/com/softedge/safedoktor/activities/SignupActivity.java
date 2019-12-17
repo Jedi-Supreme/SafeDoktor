@@ -243,7 +243,7 @@ public class SignupActivity extends AppCompatActivity {
         hideProbar();
         Intent verification_intent = new Intent(getApplicationContext(), VerificationActivity.class);
 
-        if (!pat_search_email.isEmpty() && pat_search_email.contains("@")){
+        if (pat_search_email != null && pat_search_email.contains("@")){
             verification_intent.putExtra(Biography.EMAIL, pat_search_email);
         }else {
             //create default email if patient does not enter valid email
@@ -260,11 +260,13 @@ public class SignupActivity extends AppCompatActivity {
             verification_intent.putExtra(Biography.ID,serialised_carwex_ID);
         }
 
+        //------------------------------SAVE USER FACILITY CHOICE-----------------------------------
         SharedPreferences appPref = common_code.appPref(weak_signup.get());
         SharedPreferences.Editor prefEditor = appPref.edit();
         prefEditor.putInt(retroPatient.REGISTRATION_FACILITY,sp_facility_pick.getSelectedItemPosition());
         prefEditor.putInt(retroPatient.CURRENT_FACILITY,sp_facility_pick.getSelectedItemPosition());
         prefEditor.apply();
+        //------------------------------SAVE USER FACILITY CHOICE-----------------------------------
 
         verification_intent.putExtra(Biography.FIRSTNAME, reg_biography.getFirstname());
         verification_intent.putExtra(Biography.LASTNAME, reg_biography.getLastname());

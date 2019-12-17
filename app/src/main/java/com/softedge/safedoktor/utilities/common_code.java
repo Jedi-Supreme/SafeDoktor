@@ -41,6 +41,8 @@ import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 public class common_code {
 
     public static final int CAMERA_AUDIO_REQ_CODE = 434;
+    public static final String EMAIL_REMINDER_KEY = "email_reminder_key";
+
 
     public static final int REV_LOWEST = 0;
     public static final int REV_LOW = 25;

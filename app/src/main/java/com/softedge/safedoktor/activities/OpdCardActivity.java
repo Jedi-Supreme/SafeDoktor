@@ -3,20 +3,26 @@ package com.softedge.safedoktor.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.softedge.safedoktor.api.CarewexCalls;
 import com.softedge.safedoktor.models.GlideApp;
@@ -43,6 +49,8 @@ public class OpdCardActivity extends AppCompatActivity {
     DrawerLayout opd_drawer_layout;
     NavigationView opd_nav_view;
     CircleImageView iv_opdnav_avatarpic;
+
+    Boolean isEmailDialogDisabled = false; //check box off
 
     TextView
             tv_opd_logout, tv_opd_settings,
@@ -243,6 +251,68 @@ public class OpdCardActivity extends AppCompatActivity {
         try{
             loadLocal_data();
         }catch (Exception ignored){}
+
+        SharedPreferences appPref = common_code.appPref(weakOpd.get());
+        SharedPreferences.Editor prefEditor = appPref.edit();
+
+        //--------------------------Check email verification and remind user------------------------
+        if (FirebaseAuth.getInstance().getCurrentUser() != null && !FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+
+            //Check if reminder is turned off
+            //Boolean isReminderEnabled = appPref.getBoolean(common_code.EMAIL_REMINDER_KEY,false);
+
+            AlertDialog emailDiag = new AlertDialog.Builder(weakOpd.get()).create();
+
+            View view_email_verify = LayoutInflater.from(weakOpd.get()).inflate(R.layout.diag_email_verify,opd_drawer_layout,false);
+
+            TextView tv_diag_close = view_email_verify.findViewById(R.id.tv_diag_close);
+            CheckBox checkbox = view_email_verify.findViewById(R.id.checkbox_verifydiag);
+            TextInputEditText et_diag_email = view_email_verify.findViewById(R.id.et_verifydiag_email);
+            Button bt_accept = view_email_verify.findViewById(R.id.bt_verifydiag_accept);
+            Button bt_later = view_email_verify.findViewById(R.id.bt_verifydiag_later);
+
+            checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                isEmailDialogDisabled = isChecked;
+                prefEditor.putBoolean(common_code.EMAIL_REMINDER_KEY, isChecked);
+                prefEditor.apply();
+            });
+
+            View.OnClickListener email_diag_listener = v -> {
+
+                switch (v.getId()){
+
+                    case R.id.tv_diag_close:
+                    case R.id.bt_verifydiag_later:
+
+                        emailDiag.dismiss();
+                        break;
+
+                    case R.id.bt_verifydiag_accept:
+                        if (et_diag_email.getText() != null){
+
+                            if(!et_diag_email.getText().toString().isEmpty() || et_diag_email.getText().toString().contains("@")){
+                                //TODO check email availability
+                                FirebaseAuth.getInstance().getCurrentUser().updateEmail(et_diag_email.getText().toString());
+                            }
+
+                        }
+                        break;
+                }
+
+            };
+
+            tv_diag_close.setOnClickListener(email_diag_listener);
+            bt_accept.setOnClickListener(email_diag_listener);
+            bt_later.setOnClickListener(email_diag_listener);
+
+            emailDiag.setView(view_email_verify);
+
+            if (appPref.getBoolean(common_code.EMAIL_REMINDER_KEY,false)){
+                emailDiag.show();
+            }
+
+        }
+        //--------------------------Check email verification and remind user------------------------
     }
 
     @Override

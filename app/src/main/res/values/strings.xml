@@ -212,4 +212,7 @@
     <string name="bmi_lbl">BMI:</string>
     <string name="acc_check_lbl">Checking account availability…</string>
     <string name="fscility">Registration Facility</string>
+    <string name="email_Verify_instruct">Add email address for easy account recovery.</string>
+    <string name="diag_disable_txt">Dont show this message again</string>
+    <string name="diag_remind">Do later</string>
 </resources>
