@@ -37,6 +37,7 @@ import com.softedge.safedoktor.models.GlideApp;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -51,13 +52,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     ProgressBar probar_profile;
 
-    Button bt_profile_acc, bt_profile_bio, bt_profile_pers, bt_profile_med, bt_profile_medhis;
+    Button bt_profile_acc, bt_profile_bio, bt_profile_pers,bt_profile_dependants, bt_profile_med, bt_profile_medhis;
 
     AlertDialog pic_dialog_builder;
     WeakReference<ProfileActivity> weak_profile;
 
     Biography appUser_bio;
     SafeDB safe_db;
+    Bundle action_bundle;
 
     //TODO Add dependant registration
 
@@ -79,6 +81,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
+        //intent extras
+        action_bundle  = getIntent().getExtras();
+
         iv_profile_pic = findViewById(R.id.iv_profile_pic);
         iv_profile_pic_bt = findViewById(R.id.iv_profile_pic_bt);
         const_profile_layout = findViewById(R.id.const_profile_layout);
@@ -92,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bt_profile_pers = findViewById(R.id.bt_profile_pers);
         bt_profile_med = findViewById(R.id.bt_profile_medication);
         bt_profile_medhis = findViewById(R.id.bt_profile_medhistory);
+        bt_profile_dependants = findViewById(R.id.bt_profile_dependants);
 
         iv_profile_pic_bt.setOnClickListener(this);
         iv_profile_pic.setOnClickListener(this);
@@ -101,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         bt_profile_pers.setOnClickListener(this);
         bt_profile_med.setOnClickListener(this);
         bt_profile_medhis.setOnClickListener(this);
+        bt_profile_dependants.setOnClickListener(this);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             appUser_bio = safe_db.local_appUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -163,13 +170,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 profile_pic_dialog();
                 break;
 
+            case R.id.bt_profile_dependants:
+                toConts_Deps(common_code.DEPENDANTS_FLAG);
+                break;
+
             case R.id.bt_profile_pers:
-                toContacts();
+                toConts_Deps(common_code.CONTACTS_FLAG);
                 break;
 
             case R.id.bt_profile_account:
-                Intent acc_intent = new Intent(getApplicationContext(), AccountActivity.class);
-                authDialog(acc_intent);
+                toProfile_Account();
                 break;
 
             case R.id.bt_profile_bio:
@@ -212,6 +222,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             .into(iv_profile_pic);
                 }
 
+            }
+        }
+
+
+        if (action_bundle != null){
+            String action = action_bundle.getString("action");
+
+            if (action != null && action.equals(common_code.EMAIL_ACTION)){
+                toProfile_Account();
             }
         }
 
@@ -288,7 +307,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
                 String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                String password = et_authpass.getText().toString();
+                String password = Objects.requireNonNull(et_authpass.getText()).toString();
 
                 if (!password.isEmpty() || !password.equals("")) {
                     login_with_credentials(email, password, activity_intent);
@@ -501,10 +520,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    void toContacts() {
-
-        Intent contact_intent = new Intent(getApplicationContext(), ContactsActivity.class);
-        startActivity(contact_intent);
+    void toConts_Deps(String Flag) {
+        Intent contact_dependant_intent = new Intent(getApplicationContext(), Contacts_dependantsActivity.class);
+        contact_dependant_intent.putExtra("flag",Flag);
+        startActivity(contact_dependant_intent);
     }
 
     void cameraPic(){
@@ -522,6 +541,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (gallery_pic.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(gallery_pic, GET_FROM_GALLERY);
         }
+    }
+
+    void toProfile_Account(){
+        Intent acc_intent = new Intent(getApplicationContext(), AccountActivity.class);
+
+        //start password request dialog
+        authDialog(acc_intent);
     }
 
     /*void toMedHistory(){

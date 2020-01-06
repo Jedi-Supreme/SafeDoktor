@@ -54,59 +54,10 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     Biography appUser_bio;
     SafeDB safe_db;
 
-    //the callback to detect the verification status
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks =
-            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
-                String code;
-
-                @Override
-                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-
-                    //Getting the code sent by SMS
-                    code = phoneAuthCredential.getSmsCode();
-
-                    //sometimes the code is not detected automatically
-                    //in this case the code will be null
-                    //so user has to manually enter the code
-                    if (code != null) {
-
-                        codeValues_into_views(code);
-
-                        stop_timer();
-                        //verify the code
-                        verifyVerificationCode(code);
-                    }
-                }
-
-                @Override
-                public void onCodeAutoRetrievalTimeOut(String s) {
-                    super.onCodeAutoRetrievalTimeOut(s);
-                }
-
-                @Override
-                public void onVerificationFailed(FirebaseException e) {
-                    Toast.makeText(getApplicationContext(), "Verification failed with error: "
-                            + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                    super.onCodeSent(s, forceResendingToken);
-
-                    //storing the verification id that is sent to the user
-                    verification_id = s;
-                    //resendingToken = forceResendingToken;
-                }
-
-            };
     //============================================ON CREATE=========================================
 
     //TODO show verification code view
-
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=DEFINED METHODS=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-    //============================================ON CREATE=========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +154,11 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
         bt_acc_update.setOnClickListener(this);
     }
 
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=DEFINED METHODS=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    //============================================ON CREATE=========================================
+
+
     void hideViews(View[] views) {
         for (View v : views) {
             v.setVisibility(View.GONE);
@@ -216,6 +172,53 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     //---------------------------------------------------------------NUMBER CHANGE PROCESS----------
+    //the callback to detect the verification status
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks =
+            new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                String code;
+
+                @Override
+                public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+
+                    //Getting the code sent by SMS
+                    code = phoneAuthCredential.getSmsCode();
+
+                    //sometimes the code is not detected automatically
+                    //in this case the code will be null
+                    //so user has to manually enter the code
+                    if (code != null) {
+
+                        codeValues_into_views(code);
+
+                        stop_timer();
+                        //verify the code
+                        verifyVerificationCode(code);
+                    }
+                }
+
+                @Override
+                public void onCodeAutoRetrievalTimeOut(String s) {
+                    super.onCodeAutoRetrievalTimeOut(s);
+                }
+
+                @Override
+                public void onVerificationFailed(FirebaseException e) {
+                    Toast.makeText(getApplicationContext(), "Verification failed with error: "
+                            + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                    super.onCodeSent(s, forceResendingToken);
+
+                    //storing the verification id that is sent to the user
+                    verification_id = s;
+                    //resendingToken = forceResendingToken;
+                }
+
+            };
+
     void checkNumber() {
 
         String countrycode = ccd_acc_picker.getSelectedCountryCode();
@@ -359,7 +362,7 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
                             } else {
 
                                 common_code.Mysnackbar(const_account_layout,
-                                        "Email Update Failed, please try again", Snackbar.LENGTH_LONG).show();
+                                        "Email Update Failed, please try again later.", Snackbar.LENGTH_LONG).show();
                                 hideViews(new View[]{probar_acc_update});
                             }
                         });
@@ -457,21 +460,21 @@ public class AccountActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
 
             String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-            if (email != null && !email.contains(getResources().getString(R.string.default_email_suffix))){
+            if (email != null && !email.contains(getResources().getString(R.string.default_email_suffix))) {
                 et_acc_email.setText(email);
             }
 
-            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
-                et_acc_email.setCompoundDrawablesWithIntrinsicBounds(null,null,
-                        getResources().getDrawable(R.drawable.ic_check_circle_green_24dp),null);
+            if (FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()) {
+                et_acc_email.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                        getResources().getDrawable(R.drawable.ic_check_circle_green_24dp), null);
 
-            }else {
-                et_acc_email.setCompoundDrawablesWithIntrinsicBounds(null,null,
-                        getResources().getDrawable(R.drawable.ic_cancel_red_24dp),null);
+            } else {
+                et_acc_email.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                        getResources().getDrawable(R.drawable.ic_cancel_red_24dp), null);
                 tv_acc_verify.setVisibility(View.VISIBLE);
             }
         }

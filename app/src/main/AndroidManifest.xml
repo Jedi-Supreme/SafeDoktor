@@ -59,8 +59,7 @@
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.ContactsActivity"
-            android:label="@string/contact_persons"
+            android:name="com.softedge.safedoktor.activities.Contacts_dependantsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/dark_accent_style" />
         <activity

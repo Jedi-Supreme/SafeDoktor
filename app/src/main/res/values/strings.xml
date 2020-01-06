@@ -211,8 +211,10 @@
     <string name="connection_error">Please check your internet connection and try again</string>
     <string name="bmi_lbl">BMI:</string>
     <string name="acc_check_lbl">Checking account availability…</string>
-    <string name="fscility">Registration Facility</string>
-    <string name="email_Verify_instruct">Add email address for easy account recovery.</string>
+    <string name="facility">Registration Facility</string>
+    <string name="email_Verify_instruct">Add an email address for easy account recovery in case of a forgotten password.</string>
     <string name="diag_disable_txt">Dont show this message again</string>
     <string name="diag_remind">Do later</string>
+    <string name="recovery_email_title">Account Recovery Email</string>
+    <string name="dependants">Dependants</string>
 </resources>

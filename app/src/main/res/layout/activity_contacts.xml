@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_padding"
-    tools:context="com.softedge.safedoktor.activities.ContactsActivity">
+    tools:context="com.softedge.safedoktor.activities.Contacts_dependantsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contacts_recycler"
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_med"
-        android:onClick="add_contact"
+        android:onClick="add_contact_dependant"
         android:src="@drawable/ic_add_white_24dp"
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"

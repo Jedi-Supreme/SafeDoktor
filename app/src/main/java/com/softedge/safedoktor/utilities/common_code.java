@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -49,6 +50,10 @@ public class common_code {
     public static final int REV_MEDIUM = 50;
     public static final int REV_HIGH = 75;
     public static final int REV_HIGHEST = 100;
+
+    public static final String EMAIL_ACTION = "email_update";
+    public static final String DEPENDANTS_FLAG = "Dependants";
+    public static final String CONTACTS_FLAG = "Contacts";
 
     private static final int AK_SELECT = 1;
     private static final int AF_SELECT = 2;
@@ -281,7 +286,7 @@ public class common_code {
         Toast.makeText(context, context.getResources().getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
     }
 
-    private static void accountAvailability(String email, Context context) {
+    private static void accountNumberAvailability(String email, Context context) {
 
         FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(task -> {
@@ -310,7 +315,7 @@ public class common_code {
 
     }
 
-    public static void emailAvailability_fetch(String mobilenumber, Context context) {
+    public static void emailAvailability_viaNumber(String mobilenumber, Context context) {
 
         final DatabaseReference records_ref = FirebaseDatabase.getInstance()
                 .getReference(context.getResources().getString(R.string.records_ref));
@@ -322,7 +327,7 @@ public class common_code {
                         String email = dataSnapshot.getValue(String.class);
 
                         if (email != null && !email.contains(context.getResources().getString(R.string.default_email_suffix))){
-                            accountAvailability(email,context);
+                            accountNumberAvailability(email,context);
                         }else {
 
                             if (context instanceof SignupActivity){
@@ -337,6 +342,45 @@ public class common_code {
 
                 }
         );
+
+    }
+
+    public static void accountEmailAvailability(String email, AlertDialog dialog) {
+
+        FirebaseAuth.getInstance().fetchSignInMethodsForEmail(email)
+                .addOnCompleteListener(task -> {
+
+                    // if email is already registered (unavailable)
+                    if (task.getResult() != null && task.getResult().getSignInMethods() != null) {
+
+                        if (task.getResult().getSignInMethods().size() > 0) {
+                            String err = "An account Already Exists with this Email.";
+                                Toast.makeText(dialog.getContext(),err,Toast.LENGTH_LONG).show();
+                        }else {
+                            if (FirebaseAuth.getInstance().getCurrentUser() != null){
+                                //FirebaseAuth.getInstance().getCurrentUser().updateEmail(email);
+
+                                FirebaseAuth.getInstance().getCurrentUser().updateEmail(email)
+                                        .addOnCompleteListener(task1 -> {
+                                            if (task.isSuccessful()) {
+
+                                                dialog.dismiss();
+                                                Toast.makeText(dialog.getContext(),"Email updated successfully",Toast.LENGTH_LONG).show();
+
+                                            } else {
+
+                                                String err = "Email Update Failed, please try again later.";
+                                                Toast.makeText(dialog.getContext(),err,Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+
+                            }
+
+                        }
+                    }
+                });
+
 
     }
 

@@ -3,6 +3,7 @@ package com.softedge.safedoktor.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -256,10 +258,13 @@ public class OpdCardActivity extends AppCompatActivity {
         SharedPreferences.Editor prefEditor = appPref.edit();
 
         //--------------------------Check email verification and remind user------------------------
-        if (FirebaseAuth.getInstance().getCurrentUser() != null && !FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
+        if (
+                FirebaseAuth.getInstance().getCurrentUser() != null && // user is not null
+                FirebaseAuth.getInstance().getCurrentUser().getEmail() != null && // user email is not null
+                FirebaseAuth.getInstance().getCurrentUser().getEmail().contains(getResources().getString(R.string.default_email_suffix))
+        ){
 
-            //Check if reminder is turned off
-            //Boolean isReminderEnabled = appPref.getBoolean(common_code.EMAIL_REMINDER_KEY,false);
+            //Toast.makeText(getApplicationContext(), FirebaseAuth.getInstance().getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
 
             AlertDialog emailDiag = new AlertDialog.Builder(weakOpd.get()).create();
 
@@ -267,6 +272,7 @@ public class OpdCardActivity extends AppCompatActivity {
 
             TextView tv_diag_close = view_email_verify.findViewById(R.id.tv_diag_close);
             CheckBox checkbox = view_email_verify.findViewById(R.id.checkbox_verifydiag);
+            ContentLoadingProgressBar probar_verifydiag = view_email_verify.findViewById(R.id.probar_verifydiag);
             TextInputEditText et_diag_email = view_email_verify.findViewById(R.id.et_verifydiag_email);
             Button bt_accept = view_email_verify.findViewById(R.id.bt_verifydiag_accept);
             Button bt_later = view_email_verify.findViewById(R.id.bt_verifydiag_later);
@@ -283,19 +289,27 @@ public class OpdCardActivity extends AppCompatActivity {
 
                     case R.id.tv_diag_close:
                     case R.id.bt_verifydiag_later:
-
                         emailDiag.dismiss();
                         break;
 
                     case R.id.bt_verifydiag_accept:
-                        if (et_diag_email.getText() != null){
 
-                            if(!et_diag_email.getText().toString().isEmpty() || et_diag_email.getText().toString().contains("@")){
-                                //TODO check email availability
-                                FirebaseAuth.getInstance().getCurrentUser().updateEmail(et_diag_email.getText().toString());
+                        Intent profile_intent = new Intent(weakOpd.get(), ProfileActivity.class);
+                        profile_intent.putExtra("action",common_code.EMAIL_ACTION);
+                        startActivity(profile_intent);
+                        emailDiag.dismiss();
+                        /*if (et_diag_email.getText() != null){
+
+                            if(!et_diag_email.getText().toString().isEmpty() &&
+                                    (et_diag_email.getText().toString().contains("@") && et_diag_email.getText().toString().contains("."))){
+                                //TODO intent to open account settings
+
+                                //probar_verifydiag.setVisibility(View.VISIBLE);
+                                common_code.accountEmailAvailability(et_diag_email.getText().toString(),emailDiag);
+                                //FirebaseAuth.getInstance().getCurrentUser().updateEmail(et_diag_email.getText().toString());
                             }
 
-                        }
+                        }*/
                         break;
                 }
 
@@ -307,8 +321,27 @@ public class OpdCardActivity extends AppCompatActivity {
 
             emailDiag.setView(view_email_verify);
 
-            if (appPref.getBoolean(common_code.EMAIL_REMINDER_KEY,false)){
-                emailDiag.show();
+            final long WAIT = 10000;
+            final long SECS = 1000;
+
+            //Wait 10 secs before showing dialog
+            //Check if reminder is turned off
+
+            if (!appPref.getBoolean(common_code.EMAIL_REMINDER_KEY,false)){
+                new CountDownTimer(WAIT,SECS) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        if (!emailDiag.isShowing()){
+                            emailDiag.show();
+                        }
+                    }
+                }.start();
+
             }
 
         }

@@ -159,7 +159,7 @@
             style="@style/input_textview_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fscility"
+            android:text="@string/facility"
             app:layout_constraintBottom_toTopOf="@id/tbr_facility_pick"
             app:layout_constraintLeft_toLeftOf="@id/tbr_facility_pick"
             app:layout_constraintTop_toTopOf="@id/tbr_facility_pick" />

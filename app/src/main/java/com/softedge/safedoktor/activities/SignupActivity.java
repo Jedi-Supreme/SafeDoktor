@@ -19,7 +19,6 @@ import com.hbb20.CountryCodePicker;
 import com.softedge.safedoktor.api.CarewexCalls;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.utilities.common_code;
 
@@ -107,6 +106,8 @@ public class SignupActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(weak_signup.get(), R.style.DatePickerTheme, dateSetListener,
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
 
         if (existing_srch_pat != null){
             loadExistingSrchData(existing_srch_pat);
@@ -211,7 +212,7 @@ public class SignupActivity extends AppCompatActivity {
                     String mobile = "0"+ mob_numb;
                     probar_reg_check.setVisibility(View.VISIBLE);
                     tv_reg_acc_chk.setVisibility(View.VISIBLE);
-                    common_code.emailAvailability_fetch(mobile,weak_signup.get());
+                    common_code.emailAvailability_viaNumber(mobile,weak_signup.get());
                 }
 
             }catch (Exception mobilenumb_error){

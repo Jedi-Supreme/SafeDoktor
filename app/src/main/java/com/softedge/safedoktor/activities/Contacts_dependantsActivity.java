@@ -30,15 +30,19 @@ import com.softedge.safedoktor.databases.SafeDB;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class ContactsActivity extends AppCompatActivity {
+public class Contacts_dependantsActivity extends AppCompatActivity {
 
-    RecyclerView contacts_recycler;
+    RecyclerView conts_deps_recycler;
     ConstraintLayout const_contact_layout;
 
-    WeakReference<ContactsActivity> weakcontact;
+    WeakReference<Contacts_dependantsActivity> weakcontact_dep;
 
     SafeDB safe_DB;
     String fireID;
+
+    Bundle flag_bundle;
+    ActionBar actionBar;
+    String incoming_flag;
 
     //==========================================ON CREATE===========================================
     @Override
@@ -46,22 +50,24 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
-        weakcontact = new WeakReference<>(this);
-        safe_DB = new SafeDB(weakcontact.get(), null);
+        weakcontact_dep = new WeakReference<>(this);
+        safe_DB = new SafeDB(weakcontact_dep.get(), null);
+
+        flag_bundle = getIntent().getExtras();
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
-        contacts_recycler = findViewById(R.id.contacts_recycler);
+        conts_deps_recycler = findViewById(R.id.contacts_recycler);
         const_contact_layout = findViewById(R.id.const_contact_layout);
 
     }
@@ -70,18 +76,17 @@ public class ContactsActivity extends AppCompatActivity {
     //-=--=-=--=-=--=-=--=-=--=-=--=-=--=-=--=-=--=--=--DEFINED METHODS-=--=-=--=-=--=-=--=-=--=-=--
     public void refresh_contacts_list() {
         contacts_recycler_Adapter contactsAdapter = new contacts_recycler_Adapter(this, safe_DB.contactsList(fireID));
-        contacts_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        contacts_recycler.setAdapter(contactsAdapter);
+        conts_deps_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        conts_deps_recycler.setAdapter(contactsAdapter);
     }
-
 
     public void ContactPersonDialog(@Nullable final ContactPerson contactPerson) {
 
-        final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact.get()).create();
+        final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact_dep.get()).create();
 
         contactdialog.setCancelable(true);
 
-        View contactView = LayoutInflater.from(weakcontact.get())
+        View contactView = LayoutInflater.from(weakcontact_dep.get())
                 .inflate(R.layout.diag_add_contact, const_contact_layout, false);
 
         final TextInputEditText
@@ -158,6 +163,89 @@ public class ContactsActivity extends AppCompatActivity {
         contactdialog.show();
     }
 
+    public void DependantsDialog(@Nullable final ContactPerson contactPerson) {
+
+        final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact_dep.get()).create();
+
+        contactdialog.setCancelable(true);
+
+        View contactView = LayoutInflater.from(weakcontact_dep.get())
+                .inflate(R.layout.diag_add_contact, const_contact_layout, false);
+
+        final TextInputEditText
+                et_contact_fullname = contactView.findViewById(R.id.et_cntc_name),
+                et_contact_email = contactView.findViewById(R.id.et_cntc_email),
+                et_contact_number = contactView.findViewById(R.id.et_cntc_phone),
+                et_contact_address = contactView.findViewById(R.id.et_cntc_hadd);
+
+        final Spinner sp_contact_rel = contactView.findViewById(R.id.sp_pop_contact_rel);
+        Button bt_contact_submit = contactView.findViewById(R.id.bt_cntc_submit);
+
+        contactdialog.setView(contactView);
+
+        if (contactPerson !=null){
+            et_contact_fullname.setText(contactPerson.getFullname());
+            et_contact_email.setText(contactPerson.getEmail());
+            et_contact_number.setText(contactPerson.getNumber());
+            et_contact_address.setText(contactPerson.getAddress());
+            sp_contact_rel.setSelection(contactPerson.getRelation());
+        }
+
+        bt_contact_submit.setOnClickListener(v -> {
+
+            if (et_contact_fullname.getText().toString().isEmpty()) {
+                et_contact_fullname.setError("This Field is Required");
+                et_contact_fullname.requestFocus();
+
+            } else if (et_contact_number.getText().toString().isEmpty()
+                    || et_contact_number.getText().toString().length() < 10) {
+                et_contact_number.setError("Contact's Mobile Number Required");
+                et_contact_number.requestFocus();
+
+            } else if (sp_contact_rel.getSelectedItemPosition() <= 0) {
+                Toast.makeText(getApplicationContext(), "Select Contact Relation", Toast.LENGTH_LONG).show();
+                sp_contact_rel.requestFocus();
+            } else {
+
+                ContactPerson contPers = new ContactPerson(
+                        fireID,
+                        et_contact_fullname.getText().toString(),
+                        "",
+                        et_contact_number.getText().toString(),
+                        "",
+                        sp_contact_rel.getSelectedItemPosition());
+
+                if (!et_contact_email.getText().toString().isEmpty()) {
+                    contPers.setEmail(et_contact_email.getText().toString());
+                }
+
+                if (!et_contact_address.getText().toString().isEmpty()) {
+                    contPers.setAddress(et_contact_address.getText().toString());
+                }
+
+                if (safe_DB.addContact(contPers)) {
+
+                    ArrayList<ContactPerson> contacts_list = safe_DB.contactsList(fireID);
+                    save_Online(contacts_list);
+
+                    common_code.Mysnackbar(const_contact_layout, "Contact Person added Successfully",
+                            Snackbar.LENGTH_SHORT).show();
+                    refresh_contacts_list();
+
+                } else {
+                    common_code.Mysnackbar(const_contact_layout, "Error adding Contact Person",
+                            Snackbar.LENGTH_SHORT).show();
+                }
+
+                contactdialog.dismiss();
+
+            }
+
+        });
+
+        contactdialog.show();
+    }
+
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
     public void save_Online(ArrayList<ContactPerson> fireContacts) {
 
@@ -186,24 +274,47 @@ public class ContactsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        try {
-            refresh_contacts_list();
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(),
-                    "Unable to refresh contacts list with error " + e.toString(), Toast.LENGTH_LONG).show();
+        if (flag_bundle != null){
+            incoming_flag = flag_bundle.getString("flag");
+
+            if (incoming_flag != null){
+                actionBar.setTitle(incoming_flag);
+
+                if (incoming_flag.equals(common_code.CONTACTS_FLAG)){
+                try {
+                    refresh_contacts_list();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(),
+                            "Unable to refresh contacts list with error " + e.toString(), Toast.LENGTH_LONG).show();
+                }
+                }
+            }
         }
+
+
     }
 
     //------------------------------------------OVERRIDE METHODS------------------------------------
 
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=BUTTON CLICK LISTENER-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-    public void add_contact(View view) {
-        if (contacts_recycler.getAdapter() != null && contacts_recycler.getAdapter().getItemCount() < 3) {
-            ContactPersonDialog(null);
-        } else {
-            common_code.Mysnackbar(const_contact_layout, "Maximum of 3 Contacts allowed",
-                    Snackbar.LENGTH_SHORT).show();
+    public void add_contact_dependant(View view) {
+
+        if (incoming_flag != null){
+
+            if (incoming_flag.equals(common_code.CONTACTS_FLAG)){
+                if (conts_deps_recycler.getAdapter() != null && conts_deps_recycler.getAdapter().getItemCount() < 3) {
+                    ContactPersonDialog(null);
+                } else {
+                    common_code.Mysnackbar(const_contact_layout, "Maximum of 3 Contacts allowed",
+                            Snackbar.LENGTH_SHORT).show();
+                }
+            }else if (incoming_flag.equals(common_code.DEPENDANTS_FLAG)){
+                Toast.makeText(getApplicationContext(), "Trying to add dependants", Toast.LENGTH_SHORT).show();
+            }
+
         }
+
+
     }
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=BUTTON CLICK LISTENER-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 

@@ -105,6 +105,16 @@
             <View style="@style/divider_view_style" />
 
             <Button
+                android:id="@+id/bt_profile_dependants"
+                style="@style/list_buttons_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_forward_grey_24dp"
+                android:text="@string/dependants" />
+
+            <View style="@style/divider_view_style" />
+
+            <Button
                 android:visibility="gone"
                 android:id="@+id/bt_profile_medication"
                 style="@style/list_buttons_style"

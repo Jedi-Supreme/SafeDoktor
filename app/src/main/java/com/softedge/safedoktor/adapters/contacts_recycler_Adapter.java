@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.activities.ContactsActivity;
+import com.softedge.safedoktor.activities.Contacts_dependantsActivity;
 import com.softedge.safedoktor.databases.SafeDB;
 
 import java.lang.ref.WeakReference;
@@ -79,7 +79,7 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
 
                 safe_db.deleteContact(contact);
 
-                ((ContactsActivity) weak_activity.get()).refresh_contacts_list();
+                ((Contacts_dependantsActivity) weak_activity.get()).refresh_contacts_list();
 
             });
 
@@ -87,7 +87,7 @@ public class contacts_recycler_Adapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-            ((ContactsActivity) weak_activity.get()).ContactPersonDialog(conper);
+            ((Contacts_dependantsActivity) weak_activity.get()).ContactPersonDialog(conper);
         }
     }
 
