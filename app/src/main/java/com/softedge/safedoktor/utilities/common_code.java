@@ -44,6 +44,8 @@ public class common_code {
     public static final int CAMERA_AUDIO_REQ_CODE = 434;
     public static final String EMAIL_REMINDER_KEY = "email_reminder_key";
 
+    public static final int MALE_GENDER = 1;
+    public static final int FEMALE_GENDER = 2;
 
     public static final int REV_LOWEST = 0;
     public static final int REV_LOW = 25;
@@ -117,11 +119,11 @@ public class common_code {
         String title, email = "", nationality = "Ghanaian";
 
         //if user is male set title Mr
-        if (basicUser.getGender() == 1) {
+        if (basicUser.getGender() == MALE_GENDER) {
             title = "Mr";
         } else {
             //else if female and married set title Mrs
-            if (basicUser.getMarital_state() == 2) {
+            if (basicUser.getMarital_state() == FEMALE_GENDER) {
                 title = "Mrs";
             } else {
                 //else set title Miss

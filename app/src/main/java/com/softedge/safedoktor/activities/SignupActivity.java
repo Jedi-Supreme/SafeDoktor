@@ -107,8 +107,6 @@ public class SignupActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(weak_signup.get(), R.style.DatePickerTheme, dateSetListener,
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-
-
         if (existing_srch_pat != null){
             loadExistingSrchData(existing_srch_pat);
         }
@@ -155,6 +153,7 @@ public class SignupActivity extends AppCompatActivity {
         }else if (sp_facility_pick.getSelectedItemPosition() <= 0 ){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Select Registration facility", Snackbar.LENGTH_LONG).show();
+
         }else if (sp_reg_gender.getSelectedItemPosition() <= 0){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Select Gender", Snackbar.LENGTH_LONG).show();

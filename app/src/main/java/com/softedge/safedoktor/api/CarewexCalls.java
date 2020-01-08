@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.softedge.safedoktor.activities.BiographyActivity;
+import com.softedge.safedoktor.activities.Contacts_dependantsActivity;
 import com.softedge.safedoktor.activities.RegSearch;
 import com.softedge.safedoktor.activities.VerificationActivity;
 import com.softedge.safedoktor.models.retrofitModels.employee_login;
@@ -129,7 +130,12 @@ public class CarewexCalls {
                         //create user account with email
                         if (resp.getStatus().equals("Success")){
 
-                            ((VerificationActivity) context).login_with_email(resp.getPatientId());
+                            if (context instanceof  VerificationActivity) {
+                                ((VerificationActivity) context).login_with_email(resp.getPatientId());
+                            }else if (context instanceof Contacts_dependantsActivity){
+
+                                //((Contacts_dependantsActivity) context). //TODO dependant to db
+                            }
                             //Toast.makeText(context,resp.getPatientId(),Toast.LENGTH_LONG).show();
                         }
                     }catch (Exception ignored){}

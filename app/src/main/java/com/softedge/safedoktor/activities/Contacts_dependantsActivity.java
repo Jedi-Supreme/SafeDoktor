@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -22,13 +24,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.adapters.contacts_recycler_Adapter;
+import com.softedge.safedoktor.api.CarewexCalls;
+import com.softedge.safedoktor.models.fireModels.Dependant_class;
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Contacts_dependantsActivity extends AppCompatActivity {
 
@@ -43,6 +50,7 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
     Bundle flag_bundle;
     ActionBar actionBar;
     String incoming_flag;
+    ProgressBar probar_dep_reg;
 
     //==========================================ON CREATE===========================================
     @Override
@@ -143,7 +151,7 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
                 if (safe_DB.addContact(contPers)) {
 
                     ArrayList<ContactPerson> contacts_list = safe_DB.contactsList(fireID);
-                    save_Online(contacts_list);
+                    save_ContactsOnline(contacts_list);
 
                     common_code.Mysnackbar(const_contact_layout, "Contact Person added Successfully",
                             Snackbar.LENGTH_SHORT).show();
@@ -163,97 +171,121 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
         contactdialog.show();
     }
 
-    public void DependantsDialog(@Nullable final ContactPerson contactPerson) {
+    public void DependantsDialog(@Nullable final Dependant_class dependantPerson) {
 
-        final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact_dep.get()).create();
+        String[] gender_arr = getResources().getStringArray(R.array.gender_Arr);
+        String[] marital_arr = getResources().getStringArray(R.array.marital_status);
 
-        contactdialog.setCancelable(true);
+        final AlertDialog dependdialog = new AlertDialog.Builder(weakcontact_dep.get()).create();
 
-        View contactView = LayoutInflater.from(weakcontact_dep.get())
-                .inflate(R.layout.diag_add_contact, const_contact_layout, false);
+
+        dependdialog.setCancelable(true);
+
+        View dependView = LayoutInflater.from(weakcontact_dep.get())
+                .inflate(R.layout.diag_add_dependant, const_contact_layout, false);
+
+        Biography appUser = common_code.appuser(weakcontact_dep.get());
+        String number;
 
         final TextInputEditText
-                et_contact_fullname = contactView.findViewById(R.id.et_cntc_name),
-                et_contact_email = contactView.findViewById(R.id.et_cntc_email),
-                et_contact_number = contactView.findViewById(R.id.et_cntc_phone),
-                et_contact_address = contactView.findViewById(R.id.et_cntc_hadd);
+                et_dep_fname = dependView.findViewById(R.id.et_dep_fname),
+                et_dep_lname = dependView.findViewById(R.id.et_dep_lname),
+                et_dep_number = dependView.findViewById(R.id.et_dep_phone);
 
-        final Spinner sp_contact_rel = contactView.findViewById(R.id.sp_pop_contact_rel);
-        Button bt_contact_submit = contactView.findViewById(R.id.bt_cntc_submit);
+        probar_dep_reg = dependView.findViewById(R.id.probar_dep_reg);
 
-        contactdialog.setView(contactView);
+        Spinner sp_dep_gender = dependView.findViewById(R.id.sppop_depend_rel);
+        DatePicker datePicker = dependView.findViewById(R.id.dep_dob_picker);
 
-        if (contactPerson !=null){
-            et_contact_fullname.setText(contactPerson.getFullname());
-            et_contact_email.setText(contactPerson.getEmail());
-            et_contact_number.setText(contactPerson.getNumber());
-            et_contact_address.setText(contactPerson.getAddress());
-            sp_contact_rel.setSelection(contactPerson.getRelation());
+        if (appUser != null){
+            number = appUser.getMobile_number();
+            et_dep_number.setText(number);
         }
 
-        bt_contact_submit.setOnClickListener(v -> {
+        Button bt_depend_submit = dependView.findViewById(R.id.bt_dep_submit);
 
-            if (et_contact_fullname.getText().toString().isEmpty()) {
-                et_contact_fullname.setError("This Field is Required");
-                et_contact_fullname.requestFocus();
+        dependdialog.setView(dependView);
 
-            } else if (et_contact_number.getText().toString().isEmpty()
-                    || et_contact_number.getText().toString().length() < 10) {
-                et_contact_number.setError("Contact's Mobile Number Required");
-                et_contact_number.requestFocus();
+        if (dependantPerson !=null){
+            et_dep_fname.setText(dependantPerson.getDepend_firstname());
+            et_dep_lname.setText(dependantPerson.getDepend_lastname());
+            et_dep_number.setText(dependantPerson.getMobile_number());
+            sp_dep_gender.setSelection(dependantPerson.getGender());
+        }
 
-            } else if (sp_contact_rel.getSelectedItemPosition() <= 0) {
-                Toast.makeText(getApplicationContext(), "Select Contact Relation", Toast.LENGTH_LONG).show();
-                sp_contact_rel.requestFocus();
-            } else {
+        bt_depend_submit.setOnClickListener(v -> {
 
-                ContactPerson contPers = new ContactPerson(
-                        fireID,
-                        et_contact_fullname.getText().toString(),
-                        "",
-                        et_contact_number.getText().toString(),
-                        "",
-                        sp_contact_rel.getSelectedItemPosition());
+            if (Objects.requireNonNull(et_dep_fname.getText()).toString().isEmpty()){
+                et_dep_fname.setError("Enter first name");
+                et_dep_fname.requestFocus();
 
-                if (!et_contact_email.getText().toString().isEmpty()) {
-                    contPers.setEmail(et_contact_email.getText().toString());
+            }else if (Objects.requireNonNull(et_dep_lname.getText()).toString().isEmpty()){
+                et_dep_lname.setError("Enter Last name");
+                et_dep_lname.requestFocus();
+
+            }else if (Objects.requireNonNull(et_dep_number.getText()).toString().isEmpty()){
+                et_dep_number.setError("This Field is Required");
+                et_dep_number.requestFocus();
+
+            }else if (sp_dep_gender.getSelectedItemPosition() <= 0){
+                Toast.makeText(getApplicationContext(),"Select gender",Toast.LENGTH_SHORT).show();
+            }else {
+
+                String dob = datePicker.getDayOfMonth() + "-" + (datePicker.getMonth() + 1) + "-" + datePicker.getYear();
+
+                String title;
+
+                if (sp_dep_gender.getSelectedItemPosition() == common_code.MALE_GENDER){
+                    title = "Mr";
+                }else {
+                    title = "Miss";
                 }
 
-                if (!et_contact_address.getText().toString().isEmpty()) {
-                    contPers.setAddress(et_contact_address.getText().toString());
-                }
+                retroPatient patient = new retroPatient(
+                        null,title,
+                        et_dep_fname.getText().toString(),
+                        et_dep_lname.getText().toString(),
+                        et_dep_number.getText().toString(),
+                        "","","Ghanaian",
+                        dob,gender_arr[sp_dep_gender.getSelectedItemPosition()],
+                        marital_arr[1],"","","",
+                        null,null
 
-                if (safe_DB.addContact(contPers)) {
+                );
 
-                    ArrayList<ContactPerson> contacts_list = safe_DB.contactsList(fireID);
-                    save_Online(contacts_list);
-
-                    common_code.Mysnackbar(const_contact_layout, "Contact Person added Successfully",
-                            Snackbar.LENGTH_SHORT).show();
-                    refresh_contacts_list();
-
-                } else {
-                    common_code.Mysnackbar(const_contact_layout, "Error adding Contact Person",
-                            Snackbar.LENGTH_SHORT).show();
-                }
-
-                contactdialog.dismiss();
+                probar_dep_reg.setVisibility(View.VISIBLE);
+                carewex_patRegID(patient);
 
             }
 
         });
 
-        contactdialog.show();
+        dependdialog.show();
+    }
+
+    //Register user on carewex and return OPD number
+    void carewex_patRegID(retroPatient retro_pat){
+        // register patient on carewex
+        CarewexCalls.register_patient(retro_pat,weakcontact_dep.get());
     }
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
-    public void save_Online(ArrayList<ContactPerson> fireContacts) {
+    public void save_ContactsOnline(ArrayList<ContactPerson> fireContacts) {
 
         DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
 
         //save user details to All_Users/Contacts/Uid
         all_users_ref.child(ContactPerson.TABLE).child(fireID)
                 .setValue(fireContacts);
+    }
+
+    public void save_DependantsOnline(ArrayList<Dependant_class> fireDependanta) {
+
+        DatabaseReference all_users_ref = FirebaseDatabase.getInstance().getReference(getResources().getString(R.string.all_users));
+
+        //save user details to All_Users/Dependants/Uid
+        all_users_ref.child(Dependant_class.TABLE).child(fireID)
+                .setValue(fireDependanta);
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
@@ -309,7 +341,8 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
                             Snackbar.LENGTH_SHORT).show();
                 }
             }else if (incoming_flag.equals(common_code.DEPENDANTS_FLAG)){
-                Toast.makeText(getApplicationContext(), "Trying to add dependants", Toast.LENGTH_SHORT).show();
+                DependantsDialog(null);
+                //Toast.makeText(getApplicationContext(), "Trying to add dependants", Toast.LENGTH_SHORT).show();
             }
 
         }

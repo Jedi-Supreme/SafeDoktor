@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.activities.OpdCardActivity;
+import com.softedge.safedoktor.models.fireModels.Dependant_class;
 import com.softedge.safedoktor.models.fireModels.HistoryPackage.History;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
@@ -282,6 +284,86 @@ public class SafeDB extends SQLiteOpenHelper {
         return contacts_list;
     }
     //==========================================CONTACT=============================================
+
+    //========================================DEPENDANTS============================================
+    public void createDependants_Table(){
+        SQLiteDatabase sqdb = getWritableDatabase();
+
+        String sql = "CREATE TABLE IF NOT EXISTS " + Dependant_class.TABLE + "( " +
+                Dependant_class.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Dependant_class.OPD_ID + " TEXT UNIQUE, " +
+                Dependant_class.FIRSTNAME + " TEXT, " +
+                Dependant_class.LASTNAME + " TEXT, " +
+                Dependant_class.MOBILE_NUMBER + " TEXT, " +
+                Dependant_class.DATE_OF_BIRTH + " TEXT, " +
+                Dependant_class.GENDER + " INTEGER, " +
+                Dependant_class.MARITAL_STATUS + " INTEGER);";
+
+        sqdb.execSQL(sql);
+    }
+
+    public void addDependant(Dependant_class dependant_class){
+        ContentValues dependants_val = new ContentValues();
+
+        dependants_val.put(Dependant_class.OPD_ID, dependant_class.getDepend_opd_id());
+        dependants_val.put(Dependant_class.FIRSTNAME,dependant_class.getDepend_firstname());
+        dependants_val.put(Dependant_class.LASTNAME,dependant_class.getDepend_lastname());
+        dependants_val.put(Dependant_class.DATE_OF_BIRTH,dependant_class.getDate_of_birth());
+        dependants_val.put(Dependant_class.GENDER, dependant_class.getGender());
+        dependants_val.put(Dependant_class.MOBILE_NUMBER, dependant_class.getMobile_number());
+        dependants_val.put(Dependant_class.MARITAL_STATUS, dependant_class.getMarital_state());
+
+        SQLiteDatabase sqDB = getWritableDatabase();
+
+        try {
+            sqDB.insertOrThrow(Dependant_class.TABLE,null,dependants_val);
+        }catch (SQLiteException insertError){
+
+            if (insertError instanceof SQLiteConstraintException){
+                //TODO update
+            }else {
+                //TODO Create table
+            }
+        }
+
+
+    }
+
+    public void deleteDependant(String opd_number){
+        SQLiteDatabase DB = getWritableDatabase();
+
+        DB.delete(Dependant_class.TABLE,Dependant_class.OPD_ID + " =?",new String[]{opd_number});
+    }
+
+    private Cursor dependant_cursor(){
+
+        SQLiteDatabase sqDb = getReadableDatabase();
+
+        return sqDb.rawQuery("SELECT * FROM " + Dependant_class.TABLE,null);
+    }
+
+    public ArrayList<Dependant_class> all_dependants(){
+        ArrayList<Dependant_class> dependants_list = new ArrayList<>();
+
+        Cursor c = dependant_cursor();
+
+        while (c.moveToNext()){
+            Dependant_class depend = new Dependant_class(
+                c.getString(c.getColumnIndexOrThrow(Dependant_class.OPD_ID)),
+                c.getString(c.getColumnIndexOrThrow(Dependant_class.FIRSTNAME)),
+                c.getString(c.getColumnIndexOrThrow(Dependant_class.LASTNAME)),
+                c.getString(c.getColumnIndexOrThrow(Dependant_class.MOBILE_NUMBER)),
+                c.getString(c.getColumnIndexOrThrow(Dependant_class.DATE_OF_BIRTH)),
+                c.getInt(c.getColumnIndexOrThrow(Dependant_class.GENDER)),
+                c.getInt(c.getColumnIndexOrThrow(Dependant_class.MARITAL_STATUS))
+            );
+
+            dependants_list.add(depend);
+        }
+
+        return dependants_list;
+    }
+    //========================================DEPENDANTS============================================
 
     //=======================================HEALTH HISTORY=========================================
     public void createHistoryTable(String historyName, String fireUID){
