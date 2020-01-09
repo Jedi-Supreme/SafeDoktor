@@ -47,6 +47,11 @@ public class common_code {
     public static final int MALE_GENDER = 1;
     public static final int FEMALE_GENDER = 2;
 
+    public static final int MAR_SINGLE = 1;
+    public static final int MAR_MARRIED = 2;
+    public static final int MAR_DIVORCED = 3;
+    public static final int MAR_WIDOWED = 4;
+
     public static final int REV_LOWEST = 0;
     public static final int REV_LOW = 25;
     public static final int REV_MEDIUM = 50;

@@ -114,15 +114,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <ProgressBar
-            android:visibility="gone"
-            android:id="@+id/probar_dep_reg"
-            android:indeterminateTint="@color/blue_black"
-            android:indeterminate="true"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
     <TextView

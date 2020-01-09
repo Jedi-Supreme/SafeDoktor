@@ -7,12 +7,14 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.softedge.safedoktor.activities.Contacts_dependantsActivity;
 import com.softedge.safedoktor.activities.OpdCardActivity;
 import com.softedge.safedoktor.models.fireModels.Dependant_class;
 import com.softedge.safedoktor.models.fireModels.HistoryPackage.History;
@@ -21,6 +23,7 @@ import com.softedge.safedoktor.models.fireModels.PatientPackage.ContactPerson;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Physicals;
 import com.softedge.safedoktor.models.fireModels.Review_class;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.utilities.common_code;
 
 import java.util.ArrayList;
 
@@ -291,20 +294,24 @@ public class SafeDB extends SQLiteOpenHelper {
 
         String sql = "CREATE TABLE IF NOT EXISTS " + Dependant_class.TABLE + "( " +
                 Dependant_class.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                Dependant_class.PARENT_FIRE_ID + " TEXT, " +
                 Dependant_class.OPD_ID + " TEXT UNIQUE, " +
                 Dependant_class.FIRSTNAME + " TEXT, " +
                 Dependant_class.LASTNAME + " TEXT, " +
                 Dependant_class.MOBILE_NUMBER + " TEXT, " +
                 Dependant_class.DATE_OF_BIRTH + " TEXT, " +
                 Dependant_class.GENDER + " INTEGER, " +
-                Dependant_class.MARITAL_STATUS + " INTEGER);";
+                Dependant_class.MARITAL_STATUS + " INTEGER );";
 
         sqdb.execSQL(sql);
     }
 
+    //add dependants
     public void addDependant(Dependant_class dependant_class){
+
         ContentValues dependants_val = new ContentValues();
 
+        dependants_val.put(Dependant_class.PARENT_FIRE_ID, dependant_class.getParent_fireID());
         dependants_val.put(Dependant_class.OPD_ID, dependant_class.getDepend_opd_id());
         dependants_val.put(Dependant_class.FIRSTNAME,dependant_class.getDepend_firstname());
         dependants_val.put(Dependant_class.LASTNAME,dependant_class.getDepend_lastname());
@@ -317,13 +324,10 @@ public class SafeDB extends SQLiteOpenHelper {
 
         try {
             sqDB.insertOrThrow(Dependant_class.TABLE,null,dependants_val);
-        }catch (SQLiteException insertError){
-
-            if (insertError instanceof SQLiteConstraintException){
-                //TODO update
-            }else {
-                //TODO Create table
-            }
+            Toast.makeText(mContext,"saving worked",Toast.LENGTH_LONG).show();
+        }catch (Exception insertError){
+            //Catch error to create table and retry insertion
+            Toast.makeText(mContext,insertError.toString(),Toast.LENGTH_LONG).show();
         }
 
 
@@ -335,21 +339,22 @@ public class SafeDB extends SQLiteOpenHelper {
         DB.delete(Dependant_class.TABLE,Dependant_class.OPD_ID + " =?",new String[]{opd_number});
     }
 
-    private Cursor dependant_cursor(){
+    private Cursor dependant_cursor(String firebase_id){
 
         SQLiteDatabase sqDb = getReadableDatabase();
 
         return sqDb.rawQuery("SELECT * FROM " + Dependant_class.TABLE,null);
     }
 
-    public ArrayList<Dependant_class> all_dependants(){
+    public ArrayList<Dependant_class> all_dependants(String firebase_id){
         ArrayList<Dependant_class> dependants_list = new ArrayList<>();
 
-        Cursor c = dependant_cursor();
+        Cursor c = dependant_cursor(firebase_id);
 
         while (c.moveToNext()){
             Dependant_class depend = new Dependant_class(
                 c.getString(c.getColumnIndexOrThrow(Dependant_class.OPD_ID)),
+                c.getString(c.getColumnIndexOrThrow(Dependant_class.PARENT_FIRE_ID)),
                 c.getString(c.getColumnIndexOrThrow(Dependant_class.FIRSTNAME)),
                 c.getString(c.getColumnIndexOrThrow(Dependant_class.LASTNAME)),
                 c.getString(c.getColumnIndexOrThrow(Dependant_class.MOBILE_NUMBER)),

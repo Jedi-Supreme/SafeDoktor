@@ -1,9 +1,12 @@
 package com.softedge.safedoktor.models.fireModels;
 
 
+import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
+
 public class Dependant_class {
 
     public final static String TABLE = "DEPENDANTS";
+    public final static String PARENT_FIRE_ID = Biography.FIREBASE_ID;
     public final static String ID = "_id";
     public final static String OPD_ID = "opd_id";
     public final static String FIRSTNAME = "firstname";
@@ -14,6 +17,7 @@ public class Dependant_class {
     public final static String MARITAL_STATUS = "marital_status";
 
     private String depend_opd_id;
+    private String parent_fireID;
 
     private String depend_firstname;
     private String depend_lastname;
@@ -24,8 +28,9 @@ public class Dependant_class {
     private int gender;
     private int marital_state;
 
-    public Dependant_class(String depend_opd_id, String depend_firstname, String depend_lastname, String mobile_number, String date_of_birth, int gender, int marital_state) {
+    public Dependant_class(String depend_opd_id, String parent_fireID, String depend_firstname, String depend_lastname, String mobile_number, String date_of_birth, int gender, int marital_state) {
         this.depend_opd_id = depend_opd_id;
+        this.parent_fireID = parent_fireID;
         this.depend_firstname = depend_firstname;
         this.depend_lastname = depend_lastname;
         this.mobile_number = mobile_number;
@@ -88,5 +93,13 @@ public class Dependant_class {
 
     public void setMarital_state(int marital_state) {
         this.marital_state = marital_state;
+    }
+
+    public String getParent_fireID() {
+        return parent_fireID;
+    }
+
+    public void setParent_fireID(String parent_fireID) {
+        this.parent_fireID = parent_fireID;
     }
 }

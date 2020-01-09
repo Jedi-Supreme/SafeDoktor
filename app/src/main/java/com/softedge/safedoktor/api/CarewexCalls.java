@@ -134,9 +134,11 @@ public class CarewexCalls {
                                 ((VerificationActivity) context).login_with_email(resp.getPatientId());
                             }else if (context instanceof Contacts_dependantsActivity){
 
-                                //((Contacts_dependantsActivity) context). //TODO dependant to db
+                                pat.setPatientId(resp.getPatientId());
+                                //Toast.makeText(context,resp.getPatientId(),Toast.LENGTH_LONG).show();
+                                ((Contacts_dependantsActivity) context).save_to_local(pat);
                             }
-                            //Toast.makeText(context,resp.getPatientId(),Toast.LENGTH_LONG).show();
+
                         }
                     }catch (Exception ignored){}
 

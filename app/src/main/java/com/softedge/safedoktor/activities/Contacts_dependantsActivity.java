@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.softedge.safedoktor.adapters.contacts_recycler_Adapter;
+import com.softedge.safedoktor.adapters.dependants_recycler_Adapter;
 import com.softedge.safedoktor.api.CarewexCalls;
 import com.softedge.safedoktor.models.fireModels.Dependant_class;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
@@ -77,17 +78,76 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
 
         conts_deps_recycler = findViewById(R.id.contacts_recycler);
         const_contact_layout = findViewById(R.id.const_contact_layout);
+        probar_dep_reg = findViewById(R.id.probar_cont_dep_reg);
 
     }
     //==========================================ON CREATE===========================================
 
     //-=--=-=--=-=--=-=--=-=--=-=--=-=--=-=--=-=--=--=--DEFINED METHODS-=--=-=--=-=--=-=--=-=--=-=--
+
+    public void save_to_local(retroPatient patient){
+
+        Dependant_class dependant_class = new Dependant_class(
+                patient.getPatientId(),
+                fireID,patient.getFirstname(),
+                patient.getLastName(),
+                patient.getPhoneNumber(),
+                patient.getDateOfBirth(),
+                gender_index(patient.getGender()),
+                maarital_index(patient.getMaritalStatus())
+                );
+        toggle_progressbar();
+
+        if (safe_DB != null){
+
+            safe_DB.addDependant(dependant_class);
+
+            /*if (){
+                refresh_dependants_list();
+                save_DependantsOnline(safe_DB.all_dependants(fireID));
+                toggle_progressbar();
+
+                common_code.Mysnackbar(const_contact_layout, "Dependant added Successfully",
+                        Snackbar.LENGTH_SHORT).show();
+            }*/
+
+        }else {
+            Toast.makeText(getApplicationContext(), "DB null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    int gender_index(String gender){
+
+        if (gender.equals("Male")){
+            return common_code.MALE_GENDER;
+        }else {
+            return common_code.FEMALE_GENDER;
+        }
+    }
+
+    int maarital_index(String maritalStatus){
+
+        if (maritalStatus.equals("Single")){
+            return common_code.MAR_SINGLE;
+        }else {
+            return common_code.MAR_SINGLE;
+        }
+    }
+    //---------------------------------------------------Load list items----------------------------
     public void refresh_contacts_list() {
         contacts_recycler_Adapter contactsAdapter = new contacts_recycler_Adapter(this, safe_DB.contactsList(fireID));
         conts_deps_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         conts_deps_recycler.setAdapter(contactsAdapter);
     }
 
+    public void refresh_dependants_list() {
+        dependants_recycler_Adapter dependantAdapter = new dependants_recycler_Adapter(this, safe_DB.all_dependants(fireID));
+        conts_deps_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        conts_deps_recycler.setAdapter(dependantAdapter);
+    }
+    //---------------------------------------------------Load list items----------------------------
+
+    //====================-----------------------Dialog boxes------------------=====================
     public void ContactPersonDialog(@Nullable final ContactPerson contactPerson) {
 
         final AlertDialog contactdialog = new AlertDialog.Builder(weakcontact_dep.get()).create();
@@ -178,7 +238,6 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
 
         final AlertDialog dependdialog = new AlertDialog.Builder(weakcontact_dep.get()).create();
 
-
         dependdialog.setCancelable(true);
 
         View dependView = LayoutInflater.from(weakcontact_dep.get())
@@ -192,13 +251,11 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
                 et_dep_lname = dependView.findViewById(R.id.et_dep_lname),
                 et_dep_number = dependView.findViewById(R.id.et_dep_phone);
 
-        probar_dep_reg = dependView.findViewById(R.id.probar_dep_reg);
-
         Spinner sp_dep_gender = dependView.findViewById(R.id.sppop_depend_rel);
         DatePicker datePicker = dependView.findViewById(R.id.dep_dob_picker);
 
         if (appUser != null){
-            number = appUser.getMobile_number();
+            number = "0"+appUser.getMobile_number();
             et_dep_number.setText(number);
         }
 
@@ -206,10 +263,11 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
 
         dependdialog.setView(dependView);
 
-        if (dependantPerson !=null){
+        if (dependantPerson != null){
+            String numb = "0" + dependantPerson.getMobile_number();
             et_dep_fname.setText(dependantPerson.getDepend_firstname());
             et_dep_lname.setText(dependantPerson.getDepend_lastname());
-            et_dep_number.setText(dependantPerson.getMobile_number());
+            et_dep_number.setText(numb);
             sp_dep_gender.setSelection(dependantPerson.getGender());
         }
 
@@ -253,20 +311,21 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
 
                 );
 
-                probar_dep_reg.setVisibility(View.VISIBLE);
                 carewex_patRegID(patient);
-
+                dependdialog.dismiss();
             }
 
         });
 
         dependdialog.show();
     }
+    //====================-----------------------Dialog boxes------------------=====================
 
     //Register user on carewex and return OPD number
     void carewex_patRegID(retroPatient retro_pat){
         // register patient on carewex
         CarewexCalls.register_patient(retro_pat,weakcontact_dep.get());
+        //toggle_progressbar();
     }
 
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
@@ -289,6 +348,13 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
     }
     //--------------------------------------SAVE TO ONLINE DB---------------------------------------
 
+    void toggle_progressbar(){
+        if (probar_dep_reg.getVisibility() == View.VISIBLE){
+            probar_dep_reg.setVisibility(View.GONE);
+        }else {
+            probar_dep_reg.setVisibility(View.VISIBLE);
+        }
+    }
 
     //-=--=-=--=-=--=-=--=-=--=-=--=-=--=-=--=-=--=--=--DEFINED METHODS-=--=-=--=-=--=-=--=-=--=-=--
 
@@ -314,18 +380,26 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
 
                 if (incoming_flag.equals(common_code.CONTACTS_FLAG)){
                 try {
+                    //refresh contacts list
                     refresh_contacts_list();
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(),
                             "Unable to refresh contacts list with error " + e.toString(), Toast.LENGTH_LONG).show();
                 }
+                }else if (incoming_flag.equals(common_code.DEPENDANTS_FLAG)){
+                    try {
+                        //refresh dependants
+                        refresh_dependants_list();
+                    }catch ( Exception e){
+                        safe_DB.createDependants_Table();
+                        Toast.makeText(getApplicationContext(),e.toString(),Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }
 
 
     }
-
     //------------------------------------------OVERRIDE METHODS------------------------------------
 
     //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=BUTTON CLICK LISTENER-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
