@@ -1,5 +1,6 @@
 package com.softedge.safedoktor.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -53,6 +54,8 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
     String incoming_flag;
     ProgressBar probar_dep_reg;
 
+    //Todo dependant facility picker
+
     //==========================================ON CREATE===========================================
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,12 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
         conts_deps_recycler = findViewById(R.id.contacts_recycler);
         const_contact_layout = findViewById(R.id.const_contact_layout);
         probar_dep_reg = findViewById(R.id.probar_cont_dep_reg);
+
+        SharedPreferences appPref = common_code.appPref(weakcontact_dep.get());
+
+        int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,-1);
+        Toast.makeText(getApplicationContext(),String.valueOf(position),Toast.LENGTH_LONG).show();
+
 
     }
     //==========================================ON CREATE===========================================
@@ -371,6 +380,10 @@ public class Contacts_dependantsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //fetch token
+        //int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
+        //CarewexCalls.get_access_token(getApplicationContext(),common_code.Build_Employee(position));
 
         if (flag_bundle != null){
             incoming_flag = flag_bundle.getString("flag");

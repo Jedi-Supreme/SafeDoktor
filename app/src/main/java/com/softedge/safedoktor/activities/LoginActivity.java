@@ -3,6 +3,7 @@ package com.softedge.safedoktor.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,14 +27,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.api.SafeDoktorService;
+import com.softedge.safedoktor.api.SwaggerCalls;
+import com.softedge.safedoktor.api.SwaggerClient;
+import com.softedge.safedoktor.models.swaggerModels.SwaggerAPI_ResponseModel;
+import com.softedge.safedoktor.models.swaggerModels.body.Login;
 import com.softedge.safedoktor.utilities.common_code;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputEditText et_login_identification, et_login_password;
+    TextInputEditText et_login_id, et_login_password;
     TextInputLayout input_login_password;
     ProgressBar probar_login;
 
@@ -51,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
         weak_login = new WeakReference<>(LoginActivity.this);
 
         input_login_password = findViewById(R.id.input_login_password);
-        et_login_identification = findViewById(R.id.et_login_id);
+        et_login_id = findViewById(R.id.et_login_id);
         et_login_password = findViewById(R.id.et_login_password);
         probar_login = findViewById(R.id.probar_login_bar);
 
@@ -81,51 +95,70 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //------------^^^^^----------^^^^---------Defined Methods------^^^^^------^^^^^-------^^^^^-----
-    void testInputs() {
 
-        if (et_login_identification.getText().toString().isEmpty() || et_login_identification.getText().toString().equals("")) {
-            et_login_identification.setError("This field is required");
-            et_login_identification.requestFocus();
-        }
-        else {
-            //if it contains '@' and '.' then its an email, sign in with email else test integer value
-            if (et_login_identification.getText().toString().contains("@")) {
-
-                //its an email
-                login_with_credentials(et_login_identification.getText().toString(), et_login_password.getText().toString());
-
-            } else {
-
-                //test for phone number
-                int number;
-
-                try {
-                    number = Integer.parseInt(et_login_identification.getText().toString());
-
-                    if (String.valueOf(number).length() == 9) {
-
-                        try {
-                            //its a valid number
-                            fetch_email(et_login_identification.getText().toString(), et_login_password.getText().toString());
-                        }catch (Exception e){
-                            Toast.makeText(getApplicationContext(),"Error logging in: " + e.toString(),Toast.LENGTH_LONG).show();
-                        }
-
-                    } else {
-                        common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Valid Mobile number",
-                                Snackbar.LENGTH_SHORT).show();
-                    }
-                } catch (Exception ignored) {
-                    common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Mobile number or Email Address",
-                            Snackbar.LENGTH_LONG).show();
-                }
-            }
-        }
-
-        if (et_login_password.getText().toString().isEmpty() || et_login_password.getText().toString().equals("")) {
+    void testInputs(){
+        if (Objects.requireNonNull(et_login_id.getText()).toString().isEmpty() || et_login_id.getText().toString().equals("")) {
+           et_login_id.setError("This field is required");
+            et_login_id.requestFocus();
+       }else if (Objects.requireNonNull(et_login_password.getText()).toString().isEmpty() || et_login_password.getText().toString().equals("")) {
             common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Password", Snackbar.LENGTH_SHORT).show();
+        }else {
+            Login userlogin = new Login(et_login_id.getText().toString(),et_login_password.getText().toString());
+
+            SwaggerCalls.login(const_login_layout,userlogin);
+
         }
     }
+
+
+
+
+
+//    void testInputs_prev() {
+//
+//        if (Objects.requireNonNull(et_login_identification.getText()).toString().isEmpty() || et_login_identification.getText().toString().equals("")) {
+//            et_login_identification.setError("This field is required");
+//            et_login_identification.requestFocus();
+//        }
+//        else {
+//            //if it contains '@' and '.' then its an email, sign in with email else test integer value
+//            if (et_login_identification.getText().toString().contains("@")) {
+//
+//                //its an email
+//                login_with_credentials(et_login_identification.getText().toString(), Objects.requireNonNull(et_login_password.getText()).toString());
+//
+//            } else {
+//
+//                //test for phone number
+//                int number;
+//
+//                try {
+//                    number = Integer.parseInt(et_login_identification.getText().toString());
+//
+//                    if (String.valueOf(number).length() == 9) {
+//
+//                        try {
+//                            //its a valid number
+//                            fetch_email(et_login_identification.getText().toString(), Objects.requireNonNull(et_login_password.getText()).toString());
+//                        }catch (Exception e){
+//                            Toast.makeText(getApplicationContext(),"Error logging in: " + e.toString(),Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    } else {
+//                        common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Valid Mobile number",
+//                                Snackbar.LENGTH_SHORT).show();
+//                    }
+//                } catch (Exception ignored) {
+//                    common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Invalid Mobile number or Email Address",
+//                            Snackbar.LENGTH_LONG).show();
+//                }
+//            }
+//        }
+//
+//        if (Objects.requireNonNull(et_login_password.getText()).toString().isEmpty() || et_login_password.getText().toString().equals("")) {
+//            common_code.Mysnackbar(findViewById(R.id.main_login_Activity), "Enter Password", Snackbar.LENGTH_SHORT).show();
+//        }
+//    }
 
     void login_with_credentials(final String email, String password) {
 
@@ -179,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
         reset_dialog.setView(reset_view);
 
         bt_reset_send.setOnClickListener(v -> {
-            if (!et_reset_email.getText().toString().isEmpty() || !et_reset_email.getText().toString().equals("")) {
+            if (!Objects.requireNonNull(et_reset_email.getText()).toString().isEmpty() || !et_reset_email.getText().toString().equals("")) {
 
                 if (et_reset_email.getText().toString().isEmpty() || et_reset_email.getText().toString().equals("") ||
                         !et_reset_email.getText().toString().contains("@")) {
@@ -247,6 +280,7 @@ public class LoginActivity extends AppCompatActivity {
             common_code.connection_toast(getApplicationContext());
         }else {
             testInputs();
+            //testInputs_prev();
         }
 
     }

@@ -1,25 +1,31 @@
 package com.softedge.safedoktor.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 import com.softedge.safedoktor.api.CarewexCalls;
+import com.softedge.safedoktor.api.SwaggerCalls;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
+import com.softedge.safedoktor.models.swaggerModels.body.PhoneNumber;
 import com.softedge.safedoktor.utilities.common_code;
 
 import java.lang.ref.WeakReference;
@@ -39,20 +45,23 @@ public class SignupActivity extends AppCompatActivity {
             input_reg_confpass;
 
     TextInputEditText
-            et_reg_fn, et_reg_ln,
-            et_reg_mobile, et_reg_dob,
-            et_reg_pass, et_reg_confpass;
+            et_reg_fn;
+    TextInputEditText et_reg_ln;
+    TextInputEditText et_reg_mobile;
+    static TextInputEditText et_reg_dob;
+    TextInputEditText et_reg_pass;
+    TextInputEditText et_reg_confpass;
 
     ProgressBar probar_reg_check;
 
     CountryCodePicker country_code;
-    ConstraintLayout signup_layout;
+    ConstraintLayout const_signup_layout;
 
     DatePickerDialog datePickerDialog;
 
     Bundle existing_srch_pat;
 
-    Spinner sp_reg_gender, sp_marital_status, sp_facility_pick;
+    Spinner sp_reg_gender;//, sp_marital_status, sp_facility_pick;
 
     TextView tv_reg_tos, tv_reg_acc_chk;
     String opd_ID, pat_search_email,serialised_carwex_ID = null;
@@ -85,10 +94,10 @@ public class SignupActivity extends AppCompatActivity {
         tv_reg_tos = findViewById(R.id.tv_reg_tos);
 
         sp_reg_gender = findViewById(R.id.sp_reg_gender);
-        sp_facility_pick = findViewById(R.id.sp_reg_facility_pick);
-        sp_marital_status = findViewById(R.id.sp_reg_marital_State);
+//        sp_facility_pick = findViewById(R.id.sp_reg_facility_pick);
+//        sp_marital_status = findViewById(R.id.sp_reg_marital_State);
 
-        signup_layout = findViewById(R.id.reg_const_layout);
+        const_signup_layout = findViewById(R.id.reg_const_layout);
 
         input_reg_password = findViewById(R.id.input_reg_password);
         input_reg_confpass = findViewById(R.id.input_reg_conf_pass);
@@ -103,14 +112,9 @@ public class SignupActivity extends AppCompatActivity {
 
         et_reg_confpass.setOnFocusChangeListener((v, hasFocus) -> input_reg_confpass.setPasswordVisibilityToggleEnabled(hasFocus));
 
-        Calendar calendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(weak_signup.get(), R.style.DatePickerTheme, dateSetListener,
-                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-
         if (existing_srch_pat != null){
             loadExistingSrchData(existing_srch_pat);
         }
-
 
     }
     //============================================ON CREATE=========================================
@@ -131,48 +135,40 @@ public class SignupActivity extends AppCompatActivity {
 
     void test_userinputs(){
 
-        if (et_reg_fn.getText().toString().isEmpty()){
+        if (Objects.requireNonNull(et_reg_fn.getText()).toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Enter First name", Snackbar.LENGTH_LONG).show();
             et_reg_fn.requestFocus();
 
-        }else if(et_reg_ln.getText().toString().isEmpty()){
+        }else if(Objects.requireNonNull(et_reg_ln.getText()).toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Enter Last name", Snackbar.LENGTH_LONG).show();
             et_reg_ln.requestFocus();
 
-        }else if (et_reg_mobile.getText().toString().isEmpty()){
+        }else if (Objects.requireNonNull(et_reg_mobile.getText()).toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Enter mobile number", Snackbar.LENGTH_LONG).show();
             et_reg_mobile.requestFocus();
 
-        }else if (et_reg_dob.getText().toString().isEmpty()){
+        }else if (Objects.requireNonNull(et_reg_dob.getText()).toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Pick date of birth (DD/MMM/YYYY)", Snackbar.LENGTH_LONG).show();
-
-        }else if (sp_facility_pick.getSelectedItemPosition() <= 0 ){
-            common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
-                    "Please Select Registration facility", Snackbar.LENGTH_LONG).show();
 
         }else if (sp_reg_gender.getSelectedItemPosition() <= 0){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Please Select Gender", Snackbar.LENGTH_LONG).show();
 
-        }else if (sp_marital_status.getSelectedItemPosition() <= 0){
-            common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
-                    "Please Select Marital Status", Snackbar.LENGTH_LONG).show();
-
-        }else if (et_reg_pass.getText().toString().isEmpty()){
+        }else if (Objects.requireNonNull(et_reg_pass.getText()).toString().isEmpty()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Enter Password", Snackbar.LENGTH_LONG).show();
             et_reg_pass.requestFocus();
 
-        }else if (et_reg_pass.getText().toString().length() < 6){
+        }else if (6 > et_reg_pass.getText().toString().length()){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Enter Minimum of six characters", Snackbar.LENGTH_LONG).show();
             et_reg_pass.requestFocus();
 
-        }else if (!et_reg_confpass.getText().toString().equals(et_reg_pass.getText().toString())){
+        }else if (!Objects.requireNonNull(et_reg_confpass.getText()).toString().equals(et_reg_pass.getText().toString())){
             common_code.Mysnackbar(findViewById(R.id.reg_const_layout),
                     "Passwords do not match", Snackbar.LENGTH_LONG).show();
             et_reg_confpass.requestFocus();
@@ -181,7 +177,7 @@ public class SignupActivity extends AppCompatActivity {
 
             try {
 
-                int mob_numb = 0;
+                int mob_numb;
 
                 //if mobile number does not contain asterisk, pick from text input else pick from intent bundle
                 if (!et_reg_mobile.getText().toString().contains("*")){
@@ -204,14 +200,19 @@ public class SignupActivity extends AppCompatActivity {
                             country_code.getSelectedCountryCode(),
                             String.valueOf(mob_numb),
                             et_reg_dob.getText().toString(),
-                            sp_marital_status.getSelectedItemPosition()
+                            1//sp_marital_status.getSelectedItemPosition()
                     );
 
-                    //pass_dataTo_verification();
-                    String mobile = "0"+ mob_numb;
                     probar_reg_check.setVisibility(View.VISIBLE);
                     tv_reg_acc_chk.setVisibility(View.VISIBLE);
-                    common_code.emailAvailability_viaNumber(mobile,weak_signup.get());
+
+                    String fullnumber = country_code.getSelectedCountryCode()+mob_numb;
+                    SwaggerCalls.CheckPhoneNumber(const_signup_layout, new PhoneNumber(fullnumber));
+
+                    //pass_dataTo_verification();
+                    //String mobile = "0"+ mob_numb;
+
+                    //common_code.emailAvailability_viaNumber(mobile,weak_signup.get());
                 }
 
             }catch (Exception mobilenumb_error){
@@ -232,7 +233,7 @@ public class SignupActivity extends AppCompatActivity {
                 pat_search_email = existing_pat.getString(Biography.EMAIL);
                 et_reg_dob.setText(existing_pat.getString(Biography.DATE_OF_BIRTH));
 
-                sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
+                //sp_marital_status.setSelection(existing_pat.getInt(Biography.MARITAL_STATUS));
 
                 opd_ID = existing_pat.getString(Biography.OPD_ID);
                 serialised_carwex_ID = existing_pat.getString(Biography.ID);
@@ -243,35 +244,35 @@ public class SignupActivity extends AppCompatActivity {
         hideProbar();
         Intent verification_intent = new Intent(getApplicationContext(), VerificationActivity.class);
 
-        if (pat_search_email != null && pat_search_email.contains("@")){
-            verification_intent.putExtra(Biography.EMAIL, pat_search_email);
-        }else {
-            //create default email if patient does not enter valid email
-            String default_email = "0"+ reg_biography.getMobile_number()
-                    +getResources().getString(R.string.default_email_suffix);
-            verification_intent.putExtra(Biography.EMAIL, default_email);
-        }
+//        if (pat_search_email != null && pat_search_email.contains("@")){
+//            verification_intent.putExtra(Biography.EMAIL, pat_search_email);
+//        }else {
+//            //create default email if patient does not enter valid email
+//            String default_email = "0"+ reg_biography.getMobile_number()
+//                    +getResources().getString(R.string.default_email_suffix);
+//            verification_intent.putExtra(Biography.EMAIL, default_email);
+//        }
 
-        if (opd_ID != null){
-            verification_intent.putExtra(Biography.OPD_ID, opd_ID);
-        }
-
-        if (serialised_carwex_ID != null){
-            verification_intent.putExtra(Biography.ID,serialised_carwex_ID);
-        }
+//        if (opd_ID != null){
+//            verification_intent.putExtra(Biography.OPD_ID, opd_ID);
+//        }
+//
+//        if (serialised_carwex_ID != null){
+//            verification_intent.putExtra(Biography.ID,serialised_carwex_ID);
+//        }
 
         //------------------------------SAVE USER FACILITY CHOICE-----------------------------------
         SharedPreferences appPref = common_code.appPref(weak_signup.get());
         SharedPreferences.Editor prefEditor = appPref.edit();
-        prefEditor.putInt(retroPatient.REGISTRATION_FACILITY,sp_facility_pick.getSelectedItemPosition());
-        prefEditor.putInt(retroPatient.CURRENT_FACILITY,sp_facility_pick.getSelectedItemPosition());
+//        prefEditor.putInt(retroPatient.REGISTRATION_FACILITY,sp_facility_pick.getSelectedItemPosition());
+//        prefEditor.putInt(retroPatient.CURRENT_FACILITY,sp_facility_pick.getSelectedItemPosition());
         prefEditor.apply();
         //------------------------------SAVE USER FACILITY CHOICE-----------------------------------
 
         verification_intent.putExtra(Biography.FIRSTNAME, reg_biography.getFirstname());
         verification_intent.putExtra(Biography.LASTNAME, reg_biography.getLastname());
         verification_intent.putExtra(Biography.GENDER, reg_biography.getGender());
-        verification_intent.putExtra(Biography.PASSWORD,et_reg_confpass.getText().toString());
+        verification_intent.putExtra(Biography.PASSWORD, Objects.requireNonNull(et_reg_confpass.getText()).toString());
 
         verification_intent.putExtra(Biography.MOBILE_NUMBER, reg_biography.getMobile_number());
         verification_intent.putExtra(Biography.COUNTRY_CODE, reg_biography.getCountry_code());
@@ -282,14 +283,41 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     //-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^_^-^-^-^-^-^-^-DATE-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-
-    DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> showDate(year, month, dayOfMonth);
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
-    void user_pick_date(){
-        datePickerDialog.show();
+        @Override
+        @NonNull
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(Objects.requireNonNull(getContext()), R.style.DatePickerTheme,this, year, month, day);
+        }
+
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            //Toast.makeText(view.getContext(),"Year: " + year + " Month: " + (month+1) +
+            // " Day: " + dayOfMonth,Toast.LENGTH_LONG).show();
+
+            showDate(year,month,dayOfMonth);
+
+        }
     }
 
-    public void showDate(int year, int month, int day) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(common_code.regDateformat, Locale.getDefault());
+    void user_pick_date(){
+        //datePickerDialog.show();
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+
+    }
+
+    public static void showDate(int year, int month, int day) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(common_code.humanDateformat, Locale.getDefault());
         SimpleDateFormat parseDateFormat = new SimpleDateFormat(common_code.regDateformat, Locale.getDefault());
         String userdate;
         Date date;
@@ -299,7 +327,9 @@ public class SignupActivity extends AppCompatActivity {
             //et_reg_dob.setText(userdate);
             try {
                 date = parseDateFormat.parse(userdate);
-                et_reg_dob.setText(simpleDateFormat.format(date));
+                if (date != null) {
+                    et_reg_dob.setText(simpleDateFormat.format(date));
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -309,7 +339,9 @@ public class SignupActivity extends AppCompatActivity {
             //et_reg_dob.setText(userdate);
             try {
                 date = parseDateFormat.parse(userdate);
-                et_reg_dob.setText(simpleDateFormat.format(date));
+                if (date != null) {
+                    et_reg_dob.setText(simpleDateFormat.format(date));
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }

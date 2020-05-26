@@ -33,14 +33,14 @@ public class CarewexCalls {
 
     public static void get_access_token(Context ctx, employee_login employeeLogin){
 
-        SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
+        CarewexClient carewexClient = ServiceGenerator.createService(CarewexClient.class);
 
         SharedPreferences token_pref = common_code.appPref(ctx);
         SharedPreferences.Editor token_editor = token_pref.edit();
 
         token_ReqBody body = new token_ReqBody(employeeLogin.getUsername(),employeeLogin.getPassword());
 
-        Call<retroToken> tokencall = safeClient.getToken(
+        Call<retroToken> tokencall = carewexClient.getToken(
                 body.getPassword(),
                 body.getUsername(),
                 body.getGrant_type(),
@@ -73,9 +73,9 @@ public class CarewexCalls {
         SharedPreferences tokenpref = common_code.appPref(context);
         String token = tokenpref.getString("access_token",null);
 
-        SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
+        CarewexClient carewexClient = ServiceGenerator.createService(CarewexClient.class);
 
-        Call<pat_List> callPatients = safeClient.patResults_list("Bearer " + token,search);
+        Call<pat_List> callPatients = carewexClient.patResults_list("Bearer " + token,search);
 
         callPatients.enqueue(new Callback<pat_List>() {
             @Override
@@ -114,9 +114,9 @@ public class CarewexCalls {
         String token = app_pref.getString("access_token",null);
         String employeeId = app_pref.getString("employeeID",null);
 
-        SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
+        CarewexClient carewexClient = ServiceGenerator.createService(CarewexClient.class);
 
-        Call<regResult> callPatients = safeClient.patReg("Bearer " + token,pat, employeeId);
+        Call<regResult> callPatients = carewexClient.patReg("Bearer " + token,pat, employeeId);
 
         callPatients.enqueue(new Callback<regResult>() {
             @Override
@@ -165,9 +165,9 @@ public class CarewexCalls {
         SharedPreferences empID_pref = common_code.appPref(ctx);
         SharedPreferences.Editor empID_editor = empID_pref.edit();
 
-        SafeClient safeClient = ServiceGenerator.createService(SafeClient.class);
+        CarewexClient carewexClient = ServiceGenerator.createService(CarewexClient.class);
 
-        Call<retroEmployee> callPatients = safeClient.employee("Bearer " + token,employeeLogin.getUsername());
+        Call<retroEmployee> callPatients = carewexClient.employee("Bearer " + token,employeeLogin.getUsername());
 
         callPatients.enqueue(new Callback<retroEmployee>() {
             @Override

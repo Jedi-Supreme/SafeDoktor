@@ -18,7 +18,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface SafeClient {
+public interface CarewexClient {
 
     //fetch token
     @FormUrlEncoded

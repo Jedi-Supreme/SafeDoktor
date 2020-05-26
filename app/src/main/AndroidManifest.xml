@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.softedge.safedoktor">
 
     <uses-feature
@@ -16,27 +17,40 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
+        tools:ignore="LockedOrientationActivity"
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:targetApi="m">
+
+        <receiver
+            android:name=".service.SafeDoctorSMSReceiver"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".activities.VerificationActivity" />
 
         <activity
             android:label="@string/patSearch"
             android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style"
-            android:name="com.softedge.safedoktor.activities.RegSearch"/>
+            android:name="com.softedge.safedoktor.activities.RegSearch"
+             />
 
         <activity
             android:name="com.softedge.safedoktor.activities.TOS_Activity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/darkAccent_noActionBar" />
         <activity
             android:name="com.softedge.safedoktor.activities.OpdCardActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
@@ -55,36 +69,36 @@
 
         <activity
             android:name="com.softedge.safedoktor.activities.VideoCallingActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.softedge.safedoktor.activities.Contacts_dependantsActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style" />
         <activity
             android:name="com.softedge.safedoktor.activities.BiographyActivity"
             android:label="@string/biography"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.softedge.safedoktor.activities.MedicalHistoryActivity"
             android:label="@string/medical_history"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.softedge.safedoktor.activities.AccountActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name="com.softedge.safedoktor.activities.ProfileActivity"
             android:label="@string/edit_profile"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style" />
         <activity
             android:name="com.softedge.safedoktor.activities.SplashScreenActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

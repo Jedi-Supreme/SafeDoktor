@@ -2,6 +2,8 @@ package com.softedge.safedoktor.utilities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,12 +13,15 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.activities.Appointments;
+import com.softedge.safedoktor.activities.LoginActivity;
 import com.softedge.safedoktor.activities.OpdCardActivity;
 import com.softedge.safedoktor.activities.ProfileActivity;
 import com.softedge.safedoktor.activities.SettingsActivity;
@@ -38,6 +44,13 @@ import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class common_code {
 
@@ -84,6 +97,8 @@ public class common_code {
 
     public static final String dateTimeformat = "dd/MMM/yyyy hh:mm:ss aa";
     public static final String regDateformat = "dd-MM-yyyy";
+
+    public static final String humanDateformat = "dd-MMM-yyyy";
 
     //public static final String daynameTimeformat = "E, dd MMM yyyy";
 
@@ -243,7 +258,7 @@ public class common_code {
         context.startActivity(appt_intent);
     }
 
-    public static void toVidecall(Context context) {
+    public static void toVideoCall(Context context) {
         Intent videoIntent = new Intent(context, VideoCallingActivity.class);
         context.startActivity(videoIntent);
     }
@@ -256,6 +271,13 @@ public class common_code {
     public static void toOpdCard(Context context) {
         Intent opdcared_intent = new Intent(context, OpdCardActivity.class);
         context.startActivity(opdcared_intent);
+    }
+
+    public static void toLogin(Context context) {
+        Intent login_intent = new Intent(context, LoginActivity.class);
+        login_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(login_intent);
+        ((Activity)context).finish();
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -390,6 +412,18 @@ public class common_code {
 
 
     }
+
+    public static String getReadabledate() {
+        long milles = System.currentTimeMillis();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm", Locale.getDefault());
+        java.util.Date resultdate = new java.util.Date(milles);
+        return df.format(resultdate);
+    }
+
+    public static Executor getDBExecutor(int threadcount){
+        return Executors.newFixedThreadPool(threadcount);
+    }
+
 
 }
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,16 +29,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.api.CarewexCalls;
+import com.softedge.safedoktor.api.SwaggerCalls;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
+import com.softedge.safedoktor.models.swaggerModels.body.PhoneNumber;
+import com.softedge.safedoktor.models.swaggerModels.body.UserReg;
+import com.softedge.safedoktor.models.swaggerModels.body.ValidateCode;
+import com.softedge.safedoktor.service.SafeDoctorSMSReceiver;
 import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.databases.SafeDB;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-public class VerificationActivity extends AppCompatActivity {
+public class VerificationActivity extends AppCompatActivity implements SafeDoctorSMSReceiver.SafeDoctorSMS{
 
     //verify number -> link credentials -> create carewex account -> login user -> save online
 
@@ -49,6 +56,7 @@ public class VerificationActivity extends AppCompatActivity {
     PhoneAuthCredential credential;
 
     TextInputEditText[] code_input_Array;
+    ConstraintLayout const_verifyView;
 
     WeakReference<VerificationActivity> weakverification;
 
@@ -61,6 +69,7 @@ public class VerificationActivity extends AppCompatActivity {
     Bundle registration_bundle;
 
     FirebaseUser email_fire_user;
+    String mobile_number;
 
     SharedPreferences appPref;
 
@@ -76,6 +85,7 @@ public class VerificationActivity extends AppCompatActivity {
         tv_verify_downtime = findViewById(R.id.tv_verify_dwntime);
         tv_verify_resend = findViewById(R.id.tv_verify_resend);
         tv_verify_status = findViewById(R.id.tv_verify_Status);
+        const_verifyView = findViewById(R.id.const_verify_parentview);
 
         et_code_1 = findViewById(R.id.et_code_1);
         et_code_2 = findViewById(R.id.et_code_2);
@@ -121,14 +131,15 @@ public class VerificationActivity extends AppCompatActivity {
 
         //verify number -> link credentials -> create carewex account -> login user -> save online
         if (registration_bundle != null) {
-            String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
+            mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
             String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
             patient_ID = registration_bundle.getString(Biography.OPD_ID);
             serialised_carewex_ID = registration_bundle.getString(Biography.ID);
             String usernumber = "+" + country_code + mobile_number;
 
             //carewex_patRegID(common_code.patientFromBundle(registration_bundle));
-            send_Code_Method(usernumber);
+            //send_Code_Method(usernumber);
+            SwaggerCalls.startRegProcess(const_verifyView,new PhoneNumber(usernumber));
 
             //fakeverify(usernumber,testcode);
             //Toast.makeText(getApplicationContext(),patient_ID + ", serial: " + serialised_carewex_ID,Toast.LENGTH_LONG).show();
@@ -148,6 +159,7 @@ public class VerificationActivity extends AppCompatActivity {
         int position = appPref.getInt(retroPatient.REGISTRATION_FACILITY,0);
         CarewexCalls.get_access_token(weakverification.get(),common_code.Build_Employee(position));
     }
+
 
     //--------------------------------------------METHODS-------------------------------------------
 
@@ -200,6 +212,21 @@ public class VerificationActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void UserRegistration(){
+        String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
+        String usernumber = country_code + mobile_number;
+        UserReg user = new UserReg(
+                registration_bundle.getString(Biography.FIRSTNAME),
+                registration_bundle.getString(Biography.LASTNAME),
+                registration_bundle.getString(Biography.PASSWORD),
+                registration_bundle.getString(Biography.DATE_OF_BIRTH),
+                usernumber,
+                registration_bundle.getInt(Biography.GENDER),
+                null
+                );
+        SwaggerCalls.StartSignUp(const_verifyView,user);
     }
 
     //create user email account
@@ -457,7 +484,7 @@ public class VerificationActivity extends AppCompatActivity {
         }
     }
 
-    void codeValues_into_views(String code){
+    public void codeValues_into_views(String code){
 
         char[] codes_arr = code.toCharArray();
 
@@ -476,14 +503,16 @@ public class VerificationActivity extends AppCompatActivity {
     public void VerifyCodeRecieved(View view) {
 
         StringBuilder codebuilder = new StringBuilder();
+        String fullnumber = registration_bundle.getString(Biography.COUNTRY_CODE) + registration_bundle.getString(Biography.MOBILE_NUMBER);
 
         for (TextInputEditText et_code : code_input_Array){
-            codebuilder.append(et_code.getText().toString());
+            codebuilder.append(Objects.requireNonNull(et_code.getText()).toString());
         }
 
         if (!codebuilder.toString().isEmpty() && codebuilder.toString().length() == 6){
             //Toast.makeText(getApplicationContext(),codebuilder.toString(),Toast.LENGTH_LONG).show();
             verifyVerificationCode(codebuilder.toString());
+            SwaggerCalls.startValidation(const_verifyView, new ValidateCode(codebuilder.toString(),fullnumber));
         }else {
             common_code.Mysnackbar(findViewById(R.id.const_verify_parentview),
                     "Enter Verification Code", Snackbar.LENGTH_LONG).show();
@@ -493,22 +522,39 @@ public class VerificationActivity extends AppCompatActivity {
 
     public void ResendCode(View view) {
 
-        if (registration_bundle != null && resendingToken != null) {
-            String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
-            String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
-            String usernumber = "+" + country_code + mobile_number;
-            resend_Code_Method(usernumber,resendingToken);
-        }
+
+
+//        if (registration_bundle != null && resendingToken != null) {
+//            String mobile_number = registration_bundle.getString(Biography.MOBILE_NUMBER);
+//            String country_code = registration_bundle.getString(Biography.COUNTRY_CODE);
+//            String usernumber = "+" + country_code + mobile_number;
+//            resend_Code_Method(usernumber,resendingToken);
+//        }
 
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=ONCLICK LISTENERS-=-=-=-=-=-=-=-=-=-=-=-=--==-=-=-=-
 
     void toDashboard(){
         probar_verify_code.setVisibility(View.GONE);
-        Intent dashboard_intent = new Intent(getApplicationContext(),OpdCardActivity.class);
+        Intent dashboard_intent = new Intent(getApplicationContext(),DashboardActivity.class);
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
         super.finish();
     }
 
+    @Override
+    public void OnSMSReceived(String from, String smsbody, String time) {
+        smsbody = smsbody.toUpperCase();
+        if(smsbody.startsWith("WELCOME")){
+            String[] msgparts = smsbody.split(":");
+            if(msgparts.length == 2){
+                ValidateCode validator = new ValidateCode(msgparts[1].trim(),mobile_number);
+//                fab.setText("SMS Received. Validating...");
+                SwaggerCalls.startValidation(const_verifyView,validator);
+
+                stop_timer();
+
+            }
+        }
+    }
 }

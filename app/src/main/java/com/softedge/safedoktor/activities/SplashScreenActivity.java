@@ -105,7 +105,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     //dashboard intent
     void toDashboard() {
-        Intent dashboard_intent = new Intent(getApplicationContext(), OpdCardActivity.class);
+        Intent dashboard_intent = new Intent(getApplicationContext(), DashboardActivity.class);
         dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(dashboard_intent);
         super.finish();

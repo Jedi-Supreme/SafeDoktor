@@ -217,4 +217,5 @@
     <string name="diag_remind">Do later</string>
     <string name="recovery_email_title">Account Recovery Email</string>
     <string name="dependants">Dependants</string>
+    <string name="alert_already_registered">This phone number has already registered on Safe Doktor. Please log in</string>
 </resources>
