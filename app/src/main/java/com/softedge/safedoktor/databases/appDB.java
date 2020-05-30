@@ -7,13 +7,19 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.softedge.safedoktor.interfaces.safeDoktor_Access_Obj;
-import com.softedge.safedoktor.models.swaggerModels.Appointmenttbl;
+import com.softedge.safedoktor.models.swaggerModels.Appointment;
+import com.softedge.safedoktor.models.swaggerModels.BookingsList;
 import com.softedge.safedoktor.models.swaggerModels.PatientModel;
+import com.softedge.safedoktor.models.swaggerModels.response.*;
 
 @Database(
         entities = {
                 PatientModel.class,
-                Appointmenttbl.class},
+                rAppt_Details.class,
+                rPayment.class,
+                rNotifications.class,
+                BookingsList.class,
+                Appointment.class},
         exportSchema = false, version = 1)
 public abstract class appDB extends RoomDatabase {
 

@@ -2,27 +2,29 @@ package com.softedge.safedoktor.utilities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,7 +32,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.softedge.safedoktor.activities.Appointments;
+import com.softedge.safedoktor.activities.AppointmentsActivity;
+import com.softedge.safedoktor.activities.DashboardActivity;
+import com.softedge.safedoktor.activities.DoctorProfileActivity;
 import com.softedge.safedoktor.activities.LoginActivity;
 import com.softedge.safedoktor.activities.OpdCardActivity;
 import com.softedge.safedoktor.activities.ProfileActivity;
@@ -46,9 +50,8 @@ import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -101,6 +104,63 @@ public class common_code {
     public static final String humanDateformat = "dd-MMM-yyyy";
 
     //public static final String daynameTimeformat = "E, dd MMM yyyy";
+
+    public static String readableDate(String rDate){
+
+        String readableDate = "";
+
+        rDate = rDate.replace("T"," ");
+        rDate = rDate.replace("Z","");
+
+        SimpleDateFormat rdate_format = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.getDefault());
+        SimpleDateFormat readableFormat = new SimpleDateFormat("E, d MMMM, yyyy",Locale.getDefault());
+
+        Date date;
+
+        try {
+            date = rdate_format.parse(rDate);
+
+            if (date != null) {
+                readableDate = readableFormat.format(date);
+            }
+        }catch (Exception ignored){
+
+        }
+
+        return readableDate;
+    }
+
+    public static String readableTime(String time){
+
+        String readableTime ="";
+
+        SimpleDateFormat rTimeformat = new SimpleDateFormat("HH:mm:s",Locale.getDefault());
+        SimpleDateFormat readableFormat = new SimpleDateFormat("h:mm a",Locale.getDefault());
+
+        Date datetime;
+
+        try {
+            datetime = rTimeformat.parse(time);
+
+            readableTime = readableFormat.format(datetime);
+        }catch (Exception ignore){}
+
+        return readableTime;
+    }
+
+    public static Date getDateObject(String datetime){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+
+        datetime = datetime.replace("T"," ");
+        datetime = datetime.replace("Z","");
+
+        try {
+            return dateFormat.parse(datetime);
+        }catch (Exception ignored){
+            return null;
+        }
+    }
 
     public static Snackbar Mysnackbar(View parent_view, String message, int lenght) {
 
@@ -175,7 +235,7 @@ public class common_code {
     }
 
     public static SharedPreferences appPref(Context context) {
-        return context.getSharedPreferences("care_assist", Context.MODE_PRIVATE);
+        return context.getSharedPreferences("safeDoktor", Context.MODE_PRIVATE);
     }
 
     public static void getreq_Affiliate(String[] plusCode, Context context) {
@@ -230,12 +290,12 @@ public class common_code {
 
     }
 
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     public static void toTOS(Context context) {
         Intent tos_Intent = new Intent(context, TOS_Activity.class);
         context.startActivity(tos_Intent);
     }
 
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
     public static void toIntro(Activity context) {
         Intent intro_intent = new Intent(context, WelcomeActvity.class);
         intro_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -254,7 +314,7 @@ public class common_code {
     }
 
     public static void toAppointment(Context context) {
-        Intent appt_intent = new Intent(context, Appointments.class);
+        Intent appt_intent = new Intent(context, AppointmentsActivity.class);
         context.startActivity(appt_intent);
     }
 
@@ -278,6 +338,18 @@ public class common_code {
         login_intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(login_intent);
         ((Activity)context).finish();
+    }
+
+    public static void toDashboard(Context context) {
+        Intent dashboard_intent = new Intent(context, DashboardActivity.class);
+        dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(dashboard_intent);
+        ((Activity)context).finish();
+    }
+
+    public static void toDocProfile(Context context){
+        Intent docProfile_intent = new Intent(context, DoctorProfileActivity.class);
+        context.startActivity(docProfile_intent);
     }
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=INTENTS-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -422,6 +494,15 @@ public class common_code {
 
     public static Executor getDBExecutor(int threadcount){
         return Executors.newFixedThreadPool(threadcount);
+    }
+
+    public static byte[] displayImage(String base64string) {
+
+        try{
+            return Base64.decode(base64string, Base64.DEFAULT);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
 

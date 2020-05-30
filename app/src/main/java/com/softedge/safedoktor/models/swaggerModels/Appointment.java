@@ -1,107 +1,126 @@
 package com.softedge.safedoktor.models.swaggerModels;
 
-import android.util.Log;
-
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 
-import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import static com.softedge.safedoktor.utilities.StringConstants.*;
+import static com.softedge.safedoktor.utilities.AppConstants.*;
 
 
-@Entity(tableName = TABLE_APPT, primaryKeys = {KEY_BOOKING_ID,KEY_PATIENT_ID,KEY_DOCTOR_ID})
-public class Appointmenttbl{
+@Entity(tableName = TABLE_APPT, primaryKeys = {KEY_BOOKING_ID,KEY_PATIENT_ID})
+public class Appointment {
 
-    public Appointmenttbl() {
+    public Appointment() {
     }
 
+    @Ignore
+    public Appointment(
+            String bookingdate, int bookingid, String bookingnumber, String doctorname, int consultationchattypeid,
+            String createtime, String createuserid, String doctoruserid, int patientid, String servertime,
+            int sourceid, String statusdate, int statusid, String updatetime, String updateuserid, String doctorphoto) {
 
-    public Appointmenttbl(
-            String bookingdate, Integer bookingid, String bookingnumber, String doctorname, Integer consultationchattypeid,
-            String createtime, String createuserid, String doctoruserid, Integer patientid, String servertime,
-            Integer sourceid, String statusdate, Integer statusid, String updatetime, String updateuserid, String doctorphoto, Integer remind) {
-
-        this.bookingdate = bookingdate;
         this.bookingid = bookingid;
         this.bookingnumber = bookingnumber;
-        this.doctorname = doctorname;
+        this.patientid = patientid;
+        this.bookingdate = bookingdate;
+        this.sourceid = sourceid;
+        this.statusid = statusid;
+
+        this.statusdate = statusdate;
+        this.createuserid = createuserid;
+        this.createtime = createtime;
+        this.updateuserid = updateuserid;
+        this.updatetime = updatetime;
+        this.servertime = servertime;
         this.consultationchattypeid = consultationchattypeid;
 
-        this.createtime = createtime;
-        this.createuserid = createuserid;
         this.doctoruserid = doctoruserid;
-        this.patientid = patientid;
-        this.servertime = servertime;
-
-        this.sourceid = sourceid;
-        this.statusdate = statusdate;
-        this.statusid = statusid;
-        this.updatetime = updatetime;
-        this.updateuserid = updateuserid;
+        this.doctorname = doctorname;
         this.doctorphoto = doctorphoto;
-        this.remind=remind;
     }
 
     
     @ColumnInfo(name=KEY_BOOKING_DATE)
+    @SerializedName(KEY_BOOKING_DATE)
     private String bookingdate;
 
     @ColumnInfo(name=KEY_BOOKING_ID)
-    private Integer bookingid;
+    @SerializedName(KEY_BOOKING_ID)
+    private int bookingid;
+
+    @ColumnInfo(name=KEY_PATIENT_ID)
+    @SerializedName(KEY_PATIENT_ID)
+    @Expose
+    private int patientid;
 
     @ColumnInfo(name=KEY_BOOKING_NUMB)
+    @SerializedName(KEY_BOOKING_NUMB)
+    @Expose
     private String bookingnumber;
 
     @ColumnInfo(name=KEY_DOCTOR_NAME)
+    @SerializedName(KEY_DOCTOR_NAME)
+    @Expose
     private  String doctorname;
 
     @ColumnInfo(name=KEY_CONS_TYPE)
-    private Integer consultationchattypeid;
+    @SerializedName(KEY_CONS_TYPE)
+    @Expose
+    private int consultationchattypeid;
 
     @ColumnInfo(name=KEY_CREATE_TIME)
+    @SerializedName(KEY_CREATE_TIME)
+    @Expose
     private String createtime;
 
     @ColumnInfo(name=KEY_CREATE_USER_ID)
+    @SerializedName(KEY_CREATE_USER_ID)
+    @Expose
     private String createuserid;
 
     @ColumnInfo(name=KEY_DOCTOR_ID)
+    @SerializedName(KEY_DOCTOR_ID)
+    @Expose
     private String doctoruserid;
 
-    @ColumnInfo(name=KEY_PATIENT_ID)
-    private Integer patientid;
-
     @ColumnInfo(name=KEY_SERVER_TIME)
+    @SerializedName(KEY_SERVER_TIME)
+    @Expose
     private String servertime;
 
     @ColumnInfo(name=KEY_SOURCE_ID)
-    private Integer sourceid;
+    @SerializedName(KEY_SOURCE_ID)
+    @Expose
+    private int sourceid;
 
     @ColumnInfo(name=KEY_STATUS_DATE)
+    @SerializedName(KEY_STATUS_DATE)
+    @Expose
     private String statusdate;
 
     @ColumnInfo(name=KEY_STATUS_ID)
-    private Integer statusid;
+    @SerializedName(KEY_STATUS_ID)
+    @Expose
+    private int statusid;
 
     @ColumnInfo(name=KEY_UPDATE_TIME)
+    @SerializedName(KEY_UPDATE_TIME)
+    @Expose
     private String updatetime;
 
     @ColumnInfo(name=KEY_UPDATE_USER_ID)
+    @SerializedName(KEY_UPDATE_USER_ID)
+    @Expose
     private String updateuserid;
 
     @ColumnInfo(name=KEY_DOCTOR_PHOTO)
+    @SerializedName(KEY_DOCTOR_PHOTO)
+    @Expose
     private String doctorphoto;
-
-    @ColumnInfo(name=KEY_REMIND)
-    private Integer remind;
-
-    public Integer isRemind() {
-        return remind;
-    }
-
-    public void setRemind(Integer remind) {
-        this.remind = remind;
-    }
 
     public String getDoctorname() {
         return doctorname;
@@ -119,11 +138,12 @@ public class Appointmenttbl{
         this.bookingdate = bookingdate;
     }
 
-    public Integer getBookingid() {
+    @NonNull
+    public int getBookingid() {
         return bookingid;
     }
 
-    public void setBookingid(Integer bookingid) {
+    public void setBookingid(@NonNull int bookingid) {
         this.bookingid = bookingid;
     }
 
@@ -135,11 +155,11 @@ public class Appointmenttbl{
         this.bookingnumber = bookingnumber;
     }
 
-    public Integer getConsultationchattypeid() {
+    public int getConsultationchattypeid() {
         return consultationchattypeid;
     }
 
-    public void setConsultationchattypeid(Integer consultationchattypeid) {
+    public void setConsultationchattypeid(int consultationchattypeid) {
         this.consultationchattypeid = consultationchattypeid;
     }
 
@@ -167,11 +187,12 @@ public class Appointmenttbl{
         this.doctoruserid = doctoruserid;
     }
 
-    public Integer getPatientid() {
+    @NonNull
+    public int getPatientid() {
         return patientid;
     }
 
-    public void setPatientid(Integer patientid) {
+    public void setPatientid(@NonNull int patientid) {
         this.patientid = patientid;
     }
 
@@ -183,11 +204,11 @@ public class Appointmenttbl{
         this.servertime = servertime;
     }
 
-    public Integer getSourceid() {
+    public int getSourceid() {
         return sourceid;
     }
 
-    public void setSourceid(Integer sourceid) {
+    public void setSourceid(int sourceid) {
         this.sourceid = sourceid;
     }
 
@@ -199,11 +220,11 @@ public class Appointmenttbl{
         this.statusdate = statusdate;
     }
 
-    public Integer getStatusid() {
+    public int getStatusid() {
         return statusid;
     }
 
-    public void setStatusid(Integer statusid) {
+    public void setStatusid(int statusid) {
         this.statusid = statusid;
     }
 

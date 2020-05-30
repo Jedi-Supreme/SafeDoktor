@@ -2,6 +2,7 @@ package com.softedge.safedoktor.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -9,9 +10,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.utilities.common_code;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
+import java.util.Date;
 
 public class VirtualAppt_Activity extends AppCompatActivity implements TabHost.OnTabChangeListener{
 
@@ -23,6 +26,7 @@ public class VirtualAppt_Activity extends AppCompatActivity implements TabHost.O
     WeakReference<VirtualAppt_Activity> weak_apptmake;
 
     CalendarView appt_Calendar;
+    DatePicker app_date_picker;
 
     TextView //tv_spec_view,
             tv_docs_view;
@@ -64,7 +68,8 @@ public class VirtualAppt_Activity extends AppCompatActivity implements TabHost.O
         appt_tabhost.addTab(sumSpec);
         //------------------------------------------TAB HOST----------------------------------------
 
-        appt_Calendar = findViewById(R.id.appt_calendar);
+//        appt_Calendar = findViewById(R.id.appt_calendar);
+        app_date_picker = findViewById(R.id.appt_date_picker);
         tv_docs_view = findViewById(R.id.tv_docs_view);
 
         Calendar endDate = Calendar.getInstance();
@@ -72,10 +77,17 @@ public class VirtualAppt_Activity extends AppCompatActivity implements TabHost.O
 
         Calendar startDate = Calendar.getInstance();
 
-        appt_Calendar.setMinDate(startDate.getTimeInMillis());
-        appt_Calendar.setDate(startDate.getTimeInMillis());
+//        appt_Calendar.setMinDate(startDate.getTimeInMillis());
+        app_date_picker.setMinDate(startDate.getTimeInMillis());
+//        appt_Calendar.setDate(startDate.getTimeInMillis());
+        app_date_picker.updateDate(startDate.get(Calendar.YEAR),startDate.get(Calendar.MONTH),startDate.get(Calendar.DAY_OF_MONTH));
 
-        tv_docs_view.setOnClickListener(v -> toDocProfile());
+        startDate.add(Calendar.DAY_OF_MONTH, 7);
+        app_date_picker.setMaxDate(startDate.getTimeInMillis());
+
+        tv_docs_view.setOnClickListener(v -> common_code.toDocProfile(weak_apptmake.get()));
+
+        //TODO Load time slots
 
     }
     //==========================================ON CREATE===========================================
@@ -95,11 +107,4 @@ public class VirtualAppt_Activity extends AppCompatActivity implements TabHost.O
 
     }
     //--------------------------------------------OVERRIDE METHODS----------------------------------
-
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-INTENTS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-    void toDocProfile(){
-        //Intent docProfile_intent = new Intent(getApplicationContext(), DoctorProfileActivity.class);
-        //startActivity(docProfile_intent);
-    }
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-INTENTS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 }

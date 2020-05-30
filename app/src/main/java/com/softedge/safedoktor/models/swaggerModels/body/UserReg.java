@@ -1,10 +1,5 @@
 package com.softedge.safedoktor.models.swaggerModels.body;
 
-
-/**
- * Created by kwabena on 8/17/17.
- */
-
 public class UserReg {
     private String username;
     private String password;

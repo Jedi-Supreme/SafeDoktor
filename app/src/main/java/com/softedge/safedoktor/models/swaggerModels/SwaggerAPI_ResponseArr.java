@@ -3,11 +3,7 @@ package com.softedge.safedoktor.models.swaggerModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by kwabena on 8/17/17.
- */
-
-public class SwaggerAPI_ResponseModel<T> {
+public class SwaggerAPI_ResponseArr<T> {
     @SerializedName("data")
     @Expose
     private T data;

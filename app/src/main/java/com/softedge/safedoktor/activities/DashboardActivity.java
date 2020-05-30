@@ -1,6 +1,7 @@
 package com.softedge.safedoktor.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,14 +17,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.softedge.safedoktor.api.CarewexCalls;
-import com.softedge.safedoktor.models.GlideApp;
+import com.softedge.safedoktor.databases.appDB;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.retrofitModels.retro_patSearch;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.models.swaggerModels.PatientModel;
+import com.softedge.safedoktor.utilities.*;
 import com.softedge.safedoktor.utilities.common_code;
-import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.fragments.chats_fragment;
 import com.softedge.safedoktor.fragments.library_fragment;
 import com.softedge.safedoktor.fragments.partners_fragment;
@@ -49,17 +49,21 @@ public class DashboardActivity extends AppCompatActivity implements
     TextView
             tv_nav_logout, tv_nav_settings,
             tv_nav_fullname, tv_dash_username,
-            tv_dash_usernumber, tv_nav_help, tv_dash_tos;
+            tv_dash_usernumber, tv_nav_help, tv_dash_tos,
+            tv_appointment_count;
 
     CircleImageView iv_nav_avatarpic;
 
     WeakReference<DashboardActivity> weakDash;
-    String fireID;
-    SafeDB safe_db;
+    int safeDoktorID;
+    //SafeDB safe_db;
 
     ActionBar actionBar;
 
     Biography app_userBio;
+    PatientModel patient;
+    appDB app_Db;
+    SharedPreferences appPref;
 
     //==========================================ON CREATE===========================================
     @Override
@@ -70,14 +74,32 @@ public class DashboardActivity extends AppCompatActivity implements
         //Todo work on profile pic sync and load
 
         weakDash = new WeakReference<>(this);
-        safe_db = new SafeDB(weakDash.get(),null);
+        //safe_db = new SafeDB(weakDash.get(),null);
+
+        appPref = common_code.appPref(weakDash.get());
+        safeDoktorID = appPref.getInt(AppConstants.KEY_PATIENT_ID,0);
+        app_Db = appDB.getInstance(weakDash.get());
 
         Toolbar dash_toolbar = findViewById(R.id.dash_toolbar);
         dash_drawer_layout = findViewById(R.id.dash_drawer_layout);
         dash_nav_view = findViewById(R.id.dash_nav_view);
 
+        tv_appointment_count = findViewById(R.id.tv_app_count);
+
         dash_tabhost = findViewById(R.id.dash_tabhost);
         dash_tabhost.setup();
+
+//        //--------------------------------------VIEW MODEL------------------------------------------
+//        appt_view_model = new ViewModelProvider(weakDash.get()).get();
+//        //--------------------------------------VIEW MODEL------------------------------------------
+//
+//        // Create the observer which updates the UI.
+//        Observer<List<Appointment>> appointmentObserver = appointments -> tv_appointment_count.setText(String.valueOf(appointments.size()));
+//
+//        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+//        appt_view_model.getAllappointments().observe(this, appointmentObserver);
+
+        common_code.getDBExecutor(1).execute(()-> patient = app_Db.safeDoktorAccessObj().getpatient(safeDoktorID));
 
         //------------------------------------DASHBOARD TABS----------------------------------------
 
@@ -120,9 +142,9 @@ public class DashboardActivity extends AppCompatActivity implements
         }
 
         //---------------------------------------get user id----------------------------------------
-        if (FirebaseAuth.getInstance().getCurrentUser() != null){
-            fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        }
+//        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+//            fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        }
         //---------------------------------------get user id----------------------------------------
 
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
@@ -135,24 +157,24 @@ public class DashboardActivity extends AppCompatActivity implements
         //--------------------------------------HOME BUTTON ON APP BAR------------------------------
 
         // if user is new show intro, else if not logged in show login screen
-        if (common_code.isFirstRun(weakDash.get())){
-            //show account creation instructions
-            common_code.toIntro(weakDash.get());
-        }else {
-
-            if (common_code.isUserLogged_in()){
-                //go to login screen
-                init_code.logout(weakDash.get());
-            }else {
-
-                try {
-                    loadLocal_data();
-                }catch (Exception ignored){
-                    init_code.loadBioData_online(weakDash.get(),fireID);
-                }
-            }
-
-        }
+//        if (common_code.isFirstRun(weakDash.get())){
+//            //show account creation instructions
+//            common_code.toIntro(weakDash.get());
+//        }else {
+//
+//            if (common_code.isUserLogged_in()){
+//                //go to login screen
+//                init_code.logout(weakDash.get());
+//            }else {
+//
+//                try {
+//                    loadLocal_data();
+//                }catch (Exception ignored){
+//                    init_code.loadBioData_online(weakDash.get(),fireID);
+//                }
+//            }
+//
+//        }
 
         //click listener to logout
         tv_nav_logout.setOnClickListener(v -> init_code.logout(weakDash.get()));
@@ -171,7 +193,7 @@ public class DashboardActivity extends AppCompatActivity implements
 
         //common_code.Mysnackbar(findViewById(R.id.dash_drawer_layout),date, Snackbar.LENGTH_INDEFINITE).show();
 
-        app_userBio = common_code.appuser(weakDash.get());
+        //app_userBio = common_code.appuser(weakDash.get());
     }
     //==========================================ON CREATE===========================================
 
@@ -198,8 +220,8 @@ public class DashboardActivity extends AppCompatActivity implements
             dash_drawer_layout.closeDrawer(GravityCompat.START);
         }
 
-        init_code.loadBioData_online(weakDash.get(),fireID);
-        init_code.saveDeviceToken();
+        //init_code.loadBioData_online(weakDash.get(),fireID);
+        //init_code.saveDeviceToken();
 
         try{
             loadLocal_data();
@@ -252,18 +274,29 @@ public class DashboardActivity extends AppCompatActivity implements
     //load data into navigation views
     public void loadLocal_data(){
 
-        String username = app_userBio.getFirstname() + " " + app_userBio.getLastname();
-        String usernumber = "+" + app_userBio.getCountry_code() + app_userBio.getMobile_number();
+//        String username = app_userBio.getFirstname() + " " + app_userBio.getLastname();
+        String username = patient.getFirstname() + " " + patient.getLastname();
+//        String usernumber = "+" + app_userBio.getCountry_code() + app_userBio.getMobile_number();
+        String usernumber = patient.getPhonenumber();
+        int appointmentCount;
 
+//
+//        tv_dash_username.setText(username);
         tv_dash_username.setText(username);
+//        tv_nav_fullname.setText(username);
         tv_nav_fullname.setText(username);
+//        tv_dash_usernumber.setText(usernumber);
         tv_dash_usernumber.setText(usernumber);
 
-        if (!app_userBio.getPropic_url().isEmpty() || !app_userBio.getPropic_url().equals("")) {
-            GlideApp.with(weakDash.get())
-                    .load(app_userBio.getPropic_url())
-                    .into(iv_nav_avatarpic);
-        }
+        app_Db.safeDoktorAccessObj().appointments(patient.getPatientid())
+                .observe(this, appointments -> tv_appointment_count.setText(String.valueOf(appointments.size())));
+
+//
+//        if (!app_userBio.getPropic_url().isEmpty() || !app_userBio.getPropic_url().equals("")) {
+//            GlideApp.with(weakDash.get())
+//                    .load(app_userBio.getPropic_url())
+//                    .into(iv_nav_avatarpic);
+//        }
 
     }
 

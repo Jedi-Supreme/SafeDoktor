@@ -129,10 +129,11 @@
             android:name="com.softedge.safedoktor.activities.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.softedge.safedoktor.activities.Appointments" />
+        <activity android:name="com.softedge.safedoktor.activities.AppointmentsActivity" />
         <activity android:name="com.softedge.safedoktor.activities.VirtualAppt_Activity" />
         <activity android:name="com.softedge.safedoktor.activities.PhysicalAppt_Activity" />
         <activity android:name="com.softedge.safedoktor.activities.SettingsActivity" />
+        <activity android:name=".activities.DoctorProfileActivity" />
 
         <service android:name="com.softedge.safedoktor.service.CloudMessaging">
             <intent-filter>

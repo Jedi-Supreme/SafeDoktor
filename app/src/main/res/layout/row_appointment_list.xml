@@ -7,6 +7,7 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_appt_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/margin_small"
@@ -19,8 +20,11 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/activity_padding">
 
-            <ImageView
-                android:id="@+id/iv_conslt_doc"
+            <de.hdodenhof.circleimageview.CircleImageView
+                app:civ_border_color="@color/colorPrimaryDark"
+                app:civ_border_width="1dp"
+                android:id="@+id/iv_appt_doct_pic"
+                android:scaleType="centerCrop"
                 android:layout_width="@dimen/avatar_dim"
                 android:layout_height="@dimen/avatar_dim"
                 android:contentDescription="@string/doc_pic_desc"
@@ -29,8 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-
-                android:id="@+id/iv_more_hori"
+                android:id="@+id/ib_appt_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
@@ -46,10 +49,13 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/consult_type"
                 android:src="@drawable/video"
+                android:layout_marginTop="@dimen/margin_tiny"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_more_hori" />
+                app:layout_constraintTop_toBottomOf="@id/ib_appt_more" />
 
             <TextView
+                android:textStyle="bold"
+                android:text="Dr Jehidiah assisi"
                 android:id="@+id/tv_appoint_doc_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,10 +63,12 @@
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:textColor="@color/deep_blue_grey"
                 android:textSize="@dimen/med_text_size"
-                app:layout_constraintLeft_toRightOf="@id/iv_conslt_doc"
-                app:layout_constraintTop_toTopOf="@id/iv_conslt_doc" />
+                app:layout_constraintLeft_toRightOf="@id/iv_appt_doct_pic"
+                app:layout_constraintTop_toTopOf="@id/iv_appt_doct_pic" />
 
+            <!--
             <TextView
+                android:text="some extra text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_tiny"
@@ -69,27 +77,30 @@
                 app:layout_constraintLeft_toLeftOf="@id/tv_appoint_doc_name"
                 app:layout_constraintLeft_toRightOf="@id/iv_conslt_doc"
                 app:layout_constraintTop_toBottomOf="@id/tv_appoint_doc_name" />
+            -->
 
             <TextView
+                android:text="12-july-2020"
                 android:id="@+id/tv_appointment_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
-                app:layout_constraintLeft_toLeftOf="@id/iv_conslt_doc"
-                app:layout_constraintTop_toBottomOf="@id/iv_conslt_doc" />
+                app:layout_constraintLeft_toRightOf="@id/iv_appt_doct_pic"
+                app:layout_constraintTop_toBottomOf="@id/tv_appoint_doc_name" />
 
             <TextView
+                android:text="07:00am"
                 android:id="@+id/tv_appt_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:textSize="@dimen/normal_text_size"
-                app:layout_constraintLeft_toLeftOf="@id/tv_appointment_date"
-                app:layout_constraintTop_toBottomOf="@id/tv_appointment_date" />
+                app:layout_constraintLeft_toLeftOf="@id/iv_appt_doct_pic"
+                app:layout_constraintTop_toBottomOf="@id/iv_appt_doct_pic" />
 
             <TextView
-                android:id="@+id/tv_to"
+                android:id="@+id/tv_to_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_tiny"
@@ -99,12 +110,13 @@
                 app:layout_constraintTop_toTopOf="@id/tv_appt_start_time" />
 
             <TextView
+                android:text="09:00am"
                 android:id="@+id/tv_appt_end_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_tiny"
                 android:textSize="@dimen/normal_text_size"
-                app:layout_constraintLeft_toRightOf="@id/tv_to"
+                app:layout_constraintLeft_toRightOf="@id/tv_to_label"
                 app:layout_constraintTop_toTopOf="@id/tv_appt_start_time" />
 
             <TextView
@@ -118,6 +130,7 @@
                 app:layout_constraintRight_toLeftOf="@id/tv_bookingno" />
 
             <TextView
+                android:text="SA0000045"
                 android:id="@+id/tv_bookingno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

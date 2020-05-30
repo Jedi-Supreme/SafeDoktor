@@ -1,9 +1,5 @@
 package com.softedge.safedoktor.models.swaggerModels.body;
 
-/**
- * Created by nab on 8/18/17.
- */
-
 public class ValidateCode {
     private String code;
     private String mobilephone;

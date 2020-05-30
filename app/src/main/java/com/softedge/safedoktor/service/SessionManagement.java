@@ -1,31 +1,21 @@
 package com.softedge.safedoktor.service;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.softedge.safedoktor.activities.LoginActivity;
-import com.softedge.safedoktor.models.swaggerModels.response.rToken;
+import com.softedge.safedoktor.models.swaggerModels.response.rLogin;
+import com.softedge.safedoktor.utilities.common_code;
+
+import static com.softedge.safedoktor.utilities.AppConstants.*;
 
 public class SessionManagement {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    private static final String PREF_NAME ="Safedoktor";
-    private static final String IS_LOGIN="isloggedin";
-    private static final String NOTI_STATUS="notistatus";
-
-    public static final String KEY_TOKEN_TYPE = "tokentype";
-    public static final String KEY_TOKEN = "token";
-    public static final String KEY_CREATED_DATE = "datecreated";
-    public static final String KEY_EXPIRES_IN = "expires";
-    public static final String KEY_PATIENT_IMAGE = "patientimage";
-
     public SessionManagement(Context context) {
-        this.sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        this.sharedPreferences = common_code.appPref(context);
         this.editor = sharedPreferences.edit();
         editor.apply();
     }
@@ -39,33 +29,37 @@ public class SessionManagement {
         return sharedPreferences.getBoolean(NOTI_STATUS,true);
     }
 
-    public void createLoginSession(rToken tokenModel){
+    public void createLoginSession(rLogin patient_login){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         //token model
-        editor.putString(KEY_TOKEN_TYPE, tokenModel.getTokenType());
-        editor.putString(KEY_TOKEN, tokenModel.getToken());
-        editor.putString(KEY_CREATED_DATE, tokenModel.getCreatedDate());
-        editor.putString(KEY_EXPIRES_IN, tokenModel.getExpiresOn());
+        String fulltoken = patient_login.getTokenModel().getTokenType() + " " + patient_login.getTokenModel().getToken();
 
-        // commit changes
-        editor.commit();
+        editor.putString(KEY_FULL_TOKEN,fulltoken);
+        editor.putInt(KEY_PATIENT_ID,patient_login.getPatient().getPatientid());
+        editor.putString(KEY_TOKEN_TYPE, patient_login.getTokenModel().getTokenType());
+        editor.putString(KEY_TOKEN, patient_login.getTokenModel().getToken());
+        editor.putString(KEY_CREATED_DATE, patient_login.getTokenModel().getCreatedDate());
+        editor.putString(KEY_EXPIRES_IN, patient_login.getTokenModel().getExpiresOn());
+
+        // apply changes
+        editor.apply();
         Log.e("SharedPreferences","shared preferences saved");
     }
-
-    public void setProfileImage(String image){
-        editor.putString(KEY_PATIENT_IMAGE,image);
-        editor.commit();
-    }
-
-    public String getProfileImage(){
-        return sharedPreferences.getString(KEY_PATIENT_IMAGE,"");
-    }
-
-    public boolean isLoggedIn(){
-        return sharedPreferences.getBoolean(IS_LOGIN, false);
-    }
+//
+//    public void setProfileImage(String image){
+//        editor.putString(KEY_PATIENT_IMAGE,image);
+//        editor.commit();
+//    }
+//
+//    public String getProfileImage(){
+//        return sharedPreferences.getString(KEY_PATIENT_IMAGE,"");
+//    }
+//
+//    public boolean isLoggedIn(){
+//        return sharedPreferences.getBoolean(IS_LOGIN, false);
+//    }
 
 //    public void TokenExpired(){ //Formerly Session expired
 //        Toast.makeText(context, "Your session has expired please login again", Toast.LENGTH_SHORT).show();

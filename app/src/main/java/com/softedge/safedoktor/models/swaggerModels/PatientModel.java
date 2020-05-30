@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 
-import static com.softedge.safedoktor.utilities.StringConstants.*;
+import static com.softedge.safedoktor.utilities.AppConstants.*;
 @Entity(tableName = TABLE_PATIENTS,indices = {@Index(value = KEY_PHONE_NUMBER, unique = true)})
 public class PatientModel {
 
@@ -51,7 +51,7 @@ public class PatientModel {
     @Expose
     private String createtime;
 
-    @ColumnInfo(name = KEY_CREATE_USERID)
+    @ColumnInfo(name = KEY_CREATE_USER_ID)
     @Expose
     private String createuserid;
 
@@ -75,7 +75,7 @@ public class PatientModel {
     @Expose
     private Integer ethnicityid;
 
-    @ColumnInfo(name = KEY_GENDER)
+    @ColumnInfo(name = KEY_GENDER_GROUP_ID)
     @Expose
     private Integer gendergroupid;
 

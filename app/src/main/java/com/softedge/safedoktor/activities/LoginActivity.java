@@ -3,7 +3,6 @@ package com.softedge.safedoktor.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,22 +26,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.api.SafeDoktorService;
 import com.softedge.safedoktor.api.SwaggerCalls;
-import com.softedge.safedoktor.api.SwaggerClient;
-import com.softedge.safedoktor.models.swaggerModels.SwaggerAPI_ResponseModel;
 import com.softedge.safedoktor.models.swaggerModels.body.Login;
 import com.softedge.safedoktor.utilities.common_code;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
-import java.util.List;
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -71,7 +60,10 @@ public class LoginActivity extends AppCompatActivity {
 
         const_login_layout = findViewById(R.id.main_login_Activity);
 
-        et_login_password.setOnFocusChangeListener((v, hasFocus) -> input_login_password.setPasswordVisibilityToggleEnabled(hasFocus));
+        et_login_password.setOnFocusChangeListener((v, hasFocus) -> {
+            input_login_password.setEndIconActivated(hasFocus);
+            input_login_password.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+            });
 
         alertDialog = new AlertDialog.Builder(weak_login.get()).create();
 
@@ -169,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        toDashboard();
+                        common_code.toDashboard(weak_login.get());
 
                     } else {
                         // If sign in fails, display a message to the user.
@@ -294,15 +286,19 @@ public class LoginActivity extends AppCompatActivity {
         passwordReset_dialog();
 
     }
+
+    public void toggleProbar(boolean Isvisible){
+
+        if (Isvisible){
+            probar_login.setVisibility(View.VISIBLE);
+        }else {
+            probar_login.setVisibility(View.GONE);
+        }
+    }
     //---------------------------------------Click Listeners----------------------------------------
 
     //dashboard intent
-    void toDashboard() {
-        Intent dashboard_intent = new Intent(this, OpdCardActivity.class);
-        dashboard_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(dashboard_intent);
-        super.finish();
-    }
+
 
     void toSearch(){
         Intent search_intent = new Intent(getApplicationContext(), RegSearch.class);

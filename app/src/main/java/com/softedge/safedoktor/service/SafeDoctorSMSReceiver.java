@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -12,7 +11,7 @@ import com.softedge.safedoktor.utilities.common_code;
 
 import java.util.Objects;
 
-import static com.softedge.safedoktor.utilities.StringConstants.SAFE_DOCTOR_SENDER_ID;
+import static com.softedge.safedoktor.utilities.AppConstants.SAFE_DOCTOR_SENDER_ID;
 
 public class SafeDoctorSMSReceiver extends BroadcastReceiver {
 
