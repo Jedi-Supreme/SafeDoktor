@@ -53,6 +53,7 @@
 
         <!--patient name-->
         <TextView
+            android:id="@+id/tv_sum_patName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_tiny"
@@ -297,6 +298,7 @@
         android:padding="@dimen/margin_small">
 
         <ImageButton
+            android:onClick="Appointment_make"
             android:id="@+id/bt_appt_sum_prev"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
@@ -309,14 +311,15 @@
             android:textSize="@dimen/large_text" />
 
         <Button
-            android:id="@+id/bt_appt_pay_next"
+            android:onClick="Appointment_make"
+            android:id="@+id/bt_appt_sum_next"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
             android:layout_weight="1"
             android:background="@drawable/blue_bt_back"
-            android:text="@string/next"
+            android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/large_text" />

@@ -1,150 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/margin_tiny"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_tiny">
 
     <ScrollView
-        android:scrollbars="none"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <!--===================================Specialty selection===================================-->
             <TableRow
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                >
-                <TextView
-                    android:padding="@dimen/margin_tiny"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pick_spec_lbl"
-                    android:textSize="@dimen/med_text_size"
-                    />
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/pick_spec_lbl"
+                    android:textSize="@dimen/med_text_size" />
+
+                <TextView
                     android:layout_width="0dp"
-                    />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/tv_specs_view"
-                    android:textStyle="bold"
-                    android:textColor="@color/deep_blue_grey"
-                    android:padding="@dimen/margin_tiny"
-                    android:textSize="@dimen/med_text_size"
-                    android:text="@string/view_all"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/view_all"
+                    android:textColor="@color/deep_blue_grey"
+                    android:textSize="@dimen/med_text_size"
+                    android:textStyle="bold" />
             </TableRow>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_appt_specialty"
+            <HorizontalScrollView
+                android:id="@+id/hv_rec_app_spec"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/avatar_dim"
-                android:layout_marginTop="@dimen/margin_tiny"
-                />
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/avatar_dim"
+                android:padding="@dimen/activity_padding">
+
+
+                <RadioGroup
+                    android:id="@+id/rbg_appt_specialties"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
 
             <View
+                style="@style/divider_view_style"
                 android:layout_marginTop="@dimen/margin_tiny"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rec_appt_specialty"
-                style="@style/divider_view_style"/>
+                app:layout_constraintTop_toBottomOf="@id/hv_rec_app_spec" />
             <!--===================================Specialty selection===================================-->
 
             <!--====================================doctor selection=====================================-->
             <TableRow
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                >
-                <TextView
-                    android:padding="@dimen/margin_tiny"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pick_doc_lbl"
-                    android:textSize="@dimen/med_text_size"
-                    />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small">
 
                 <TextView
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/pick_doc_lbl"
+                    android:textSize="@dimen/med_text_size" />
+
+                <TextView
                     android:layout_width="0dp"
-                    />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/tv_docs_view"
-                    android:textStyle="bold"
-                    android:textColor="@color/deep_blue_grey"
-                    android:padding="@dimen/margin_tiny"
-                    android:textSize="@dimen/med_text_size"
-                    android:text="@string/view_all"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_tiny"
+                    android:text="@string/view_all"
+                    android:textColor="@color/deep_blue_grey"
+                    android:textSize="@dimen/med_text_size"
+                    android:textStyle="bold" />
             </TableRow>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_appt_docs"
+            <HorizontalScrollView
+                android:id="@+id/hv_rec_app_docs"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/avatar_dim"
-                android:layout_marginTop="@dimen/margin_tiny"
-                />
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/avatar_dim"
+                android:padding="@dimen/activity_padding">
+
+                <RadioGroup
+                    android:id="@+id/rbg_appt_doctors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
 
             <View
+                style="@style/divider_view_style"
                 android:layout_marginTop="@dimen/margin_tiny"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rec_appt_specialty"
-                style="@style/divider_view_style"/>
+                app:layout_constraintTop_toBottomOf="@id/hv_rec_app_spec" />
             <!--====================================doctor selection=====================================-->
 
             <TextView
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/select_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/select_date" />
 
-           <HorizontalScrollView
-               android:scrollbars="none"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               tools:targetApi="cupcake">
+            <HorizontalScrollView
+                android:id="@+id/hv_rec_app_dates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/avatar_dim"
+                android:padding="@dimen/activity_padding">
 
-               <DatePicker
-                   android:calendarViewShown="false"
-                   android:datePickerMode="spinner"
-                   android:layout_gravity="center"
-                   android:scrollbars="horizontal"
-                   android:id="@+id/appt_date_picker"
-                   android:theme="@style/calendar_style"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   />
+                <RadioGroup
+                    android:id="@+id/rbg_appt_dates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
 
-           </HorizontalScrollView>
+            </HorizontalScrollView>
+
+            <DatePicker
+                android:id="@+id/appt_date_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                android:scrollbars="horizontal"
+                android:theme="@style/calendar_style"
+                android:visibility="gone" />
 
 
             <TextView
-                android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/time_pick_lbl"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="@string/time_pick_lbl" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_appt_time"
+            <HorizontalScrollView
+                android:id="@+id/hv_rec_app_times"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/avatar_dim"
-                android:layout_marginTop="@dimen/margin_tiny"
-                />
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/avatar_dim"
+                android:padding="@dimen/activity_padding">
+
+                <RadioGroup
+                    android:id="@+id/rbg_appt_times"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 
@@ -156,10 +182,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_small"
         android:background="@drawable/blue_bt_back"
+        android:onClick="Appointment_make"
         android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/large_text"
-        />
+        android:textSize="@dimen/large_text" />
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.softedge.safedoktor.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TabHost;
@@ -15,13 +16,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.navigation.NavigationView;
+import com.softedge.safedoktor.api.SwaggerCalls;
 import com.softedge.safedoktor.databases.appDB;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.models.retrofitModels.retro_patSearch;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.models.swaggerModels.PatientModel;
+import com.softedge.safedoktor.models.swaggerModels.body.Specialties;
 import com.softedge.safedoktor.utilities.*;
 import com.softedge.safedoktor.utilities.common_code;
 import com.softedge.safedoktor.fragments.chats_fragment;
@@ -30,6 +34,7 @@ import com.softedge.safedoktor.fragments.partners_fragment;
 import com.softedge.safedoktor.utilities.init_code;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -89,17 +94,8 @@ public class DashboardActivity extends AppCompatActivity implements
         dash_tabhost = findViewById(R.id.dash_tabhost);
         dash_tabhost.setup();
 
-//        //--------------------------------------VIEW MODEL------------------------------------------
-//        appt_view_model = new ViewModelProvider(weakDash.get()).get();
-//        //--------------------------------------VIEW MODEL------------------------------------------
-//
-//        // Create the observer which updates the UI.
-//        Observer<List<Appointment>> appointmentObserver = appointments -> tv_appointment_count.setText(String.valueOf(appointments.size()));
-//
-//        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-//        appt_view_model.getAllappointments().observe(this, appointmentObserver);
-
-        common_code.getDBExecutor(1).execute(()-> patient = app_Db.safeDoktorAccessObj().getpatient(safeDoktorID));
+        patient = common_code.currentUser(weakDash.get());
+//        common_code.getDBExecutor().execute(()-> patient = app_Db.safeDoktorAccessObj().getpatient(safeDoktorID));
 
         //------------------------------------DASHBOARD TABS----------------------------------------
 
@@ -225,7 +221,9 @@ public class DashboardActivity extends AppCompatActivity implements
 
         try{
             loadLocal_data();
-        }catch (Exception ignored){}
+        }catch (Exception e){
+            Log.e("dashboard",e.toString());
+        }
 
     }
 
@@ -288,8 +286,20 @@ public class DashboardActivity extends AppCompatActivity implements
 //        tv_dash_usernumber.setText(usernumber);
         tv_dash_usernumber.setText(usernumber);
 
+        SwaggerCalls.loadAppointments(dash_drawer_layout);
+        SwaggerCalls.getSpecialties(dash_drawer_layout);
+
         app_Db.safeDoktorAccessObj().appointments(patient.getPatientid())
-                .observe(this, appointments -> tv_appointment_count.setText(String.valueOf(appointments.size())));
+                .observe(weakDash.get(), appointments -> tv_appointment_count.setText(String.valueOf(appointments.size())));
+
+        app_Db.safeDoktorAccessObj().getAllSpecialties().observe(weakDash.get(), specialties -> {
+
+            for (Specialties spec : specialties){
+                SwaggerCalls.getSpecialtyDoctors(dash_drawer_layout,spec);
+            }
+        });
+
+        //SwaggerCalls.getUserAccounts(dash_drawer_layout);
 
 //
 //        if (!app_userBio.getPropic_url().isEmpty() || !app_userBio.getPropic_url().equals("")) {

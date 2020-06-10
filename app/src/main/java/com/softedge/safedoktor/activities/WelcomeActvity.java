@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.softedge.safedoktor.R;
+import com.softedge.safedoktor.utilities.AppConstants;
 import com.softedge.safedoktor.utilities.common_code;
 
 public class WelcomeActvity extends AppCompatActivity {
@@ -148,7 +149,7 @@ public class WelcomeActvity extends AppCompatActivity {
     void tologin() {
         SharedPreferences safe_pref = getSharedPreferences(getResources().getString(R.string.safe_pref_name), MODE_PRIVATE);
         SharedPreferences.Editor pref_editor = safe_pref.edit();
-        pref_editor.putBoolean(getResources().getString(R.string.first_run_prefkey), false).apply();
+        pref_editor.putBoolean(AppConstants.KEY_FIRST_RUN, false).apply();
         Intent login_intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(login_intent);
     }

@@ -47,6 +47,18 @@ public class SessionManagement {
         editor.apply();
         Log.e("SharedPreferences","shared preferences saved");
     }
+
+    public  void saveCredentials(String username, String password){
+        editor.putString(KEY_USERNAME,username);
+        editor.putString(KEY_PASSWORD,password);
+
+        editor.apply();
+    }
+
+    public void LogoutWipe(){
+        editor.clear();
+        editor.apply();
+    }
 //
 //    public void setProfileImage(String image){
 //        editor.putString(KEY_PATIENT_IMAGE,image);

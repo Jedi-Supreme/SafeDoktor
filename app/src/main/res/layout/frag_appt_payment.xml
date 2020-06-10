@@ -27,6 +27,7 @@
                 android:textSize="@dimen/med_text_size" />
 
             <RadioGroup
+                android:id="@+id/rbg_appt_cons_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small">
@@ -35,8 +36,8 @@
                     android:paddingStart="@dimen/margin_large"
                     android:paddingEnd="@dimen/margin_large"
                     android:drawableStart="@drawable/red_message_square"
-                    style="@style/payment_radioBttons"
-                    android:id="@+id/rb_conslt_txt"
+                    style="@style/payment_radioButtons"
+                    android:id="@+id/rb_cons_txt"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/verify_code_dim"
                     android:gravity="center"
@@ -46,8 +47,8 @@
                     android:paddingStart="@dimen/margin_large"
                     android:paddingEnd="@dimen/margin_large"
                     android:drawableStart="@drawable/phone"
-                    android:id="@+id/rb_const_audio"
-                    style="@style/payment_radioBttons"
+                    android:id="@+id/rb_cons_audio"
+                    style="@style/payment_radioButtons"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/verify_code_dim"
                     android:layout_marginTop="@dimen/margin_small"
@@ -58,8 +59,8 @@
                     android:paddingStart="@dimen/margin_large"
                     android:paddingEnd="@dimen/margin_large"
                     android:drawableStart="@drawable/red_video"
-                    android:id="@+id/rb_conslt_video"
-                    style="@style/payment_radioBttons"
+                    android:id="@+id/rb_cons_video"
+                    style="@style/payment_radioButtons"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/verify_code_dim"
                     android:layout_marginTop="@dimen/margin_small"
@@ -79,12 +80,13 @@
                 android:textSize="@dimen/med_text_size" />
 
             <RadioGroup
+                android:id="@+id/rbg_appt_momo_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small">
 
                 <RadioButton
-                    style="@style/payment_radioBttons"
+                    style="@style/payment_radioButtons"
                     android:id="@+id/rb_mm_mtn"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/verify_code_dim"
@@ -93,7 +95,7 @@
 
                 <RadioButton
                     android:id="@+id/rb_mm_airtigo"
-                    style="@style/payment_radioBttons"
+                    style="@style/payment_radioButtons"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/verify_code_dim"
                     android:layout_marginTop="@dimen/margin_small"
@@ -102,7 +104,7 @@
 
                 <RadioButton
                     android:id="@+id/rb_mm_voda"
-                    style="@style/payment_radioBttons"
+                    style="@style/payment_radioButtons"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/verify_code_dim"
                     android:layout_marginTop="@dimen/margin_small"
@@ -171,6 +173,7 @@
         android:padding="@dimen/margin_small">
 
         <ImageButton
+            android:onClick="Appointment_make"
             android:id="@+id/bt_appt_pay_prev"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
@@ -183,7 +186,8 @@
             android:textSize="@dimen/large_text" />
 
         <Button
-            android:id="@+id/bt_appt_sum_next"
+            android:onClick="Appointment_make"
+            android:id="@+id/bt_appt_pay_next"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -193,7 +197,8 @@
             android:text="@string/next"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/large_text" />
+            android:textSize="@dimen/large_text"
+            />
 
     </TableRow>
 

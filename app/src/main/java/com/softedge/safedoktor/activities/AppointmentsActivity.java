@@ -13,19 +13,16 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.adapters.Appointments_recycler_Adapter;
+import com.softedge.safedoktor.adapters.Doctors_recycler_Adapter;
 import com.softedge.safedoktor.databases.appDB;
-import com.softedge.safedoktor.models.swaggerModels.Appointment;
-import com.softedge.safedoktor.models.swaggerModels.PatientModel;
 import com.softedge.safedoktor.utilities.common_code;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import static com.softedge.safedoktor.utilities.AppConstants.APPT_STATUS_BOOKED;
 import static com.softedge.safedoktor.utilities.AppConstants.APPT_STATUS_COMPLETED;
@@ -99,7 +96,7 @@ public class AppointmentsActivity extends AppCompatActivity {
         appt_tabhost.addTab(doctorsSpec);
 
         if (appt_tabhost.getCurrentTabTag() != null){
-            appt_tabhost.setOnTabChangedListener(tabId -> loadappointsByType(appt_tabhost.getCurrentTabTag()));
+            appt_tabhost.setOnTabChangedListener(tabId -> fillTabByTag(appt_tabhost.getCurrentTabTag()));
         }
     }
     //===========================================ON CREATE==========================================
@@ -112,7 +109,7 @@ public class AppointmentsActivity extends AppCompatActivity {
         super.onResume();
 
         if (appt_tabhost.getCurrentTabTag() != null){
-            loadappointsByType(appt_tabhost.getCurrentTabTag());
+            fillTabByTag(appt_tabhost.getCurrentTabTag());
         }
     }
 
@@ -178,34 +175,49 @@ public class AppointmentsActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    void loadappointsByType(String tabTag){
+    void fillTabByTag(String tabTag){
 
         String booked = getResources().getString(R.string.booked);
         String ongoing = getResources().getString(R.string.ongoing);
         String completed = getResources().getString(R.string.completed);
+        String doctors = getResources().getString(R.string.doctors);
 
        if (tabTag.equals(booked)){
-           refresh_contacts_list(APPT_STATUS_BOOKED);
+           refresh_appointments_list(APPT_STATUS_BOOKED);
        }
 
        if (tabTag.equals(ongoing)){
-           refresh_contacts_list(APPT_STATUS_INPROGRESS);
+           refresh_appointments_list(APPT_STATUS_INPROGRESS);
        }
 
        if (tabTag.equals(completed)){
-           refresh_contacts_list(APPT_STATUS_COMPLETED);
+           refresh_appointments_list(APPT_STATUS_COMPLETED);
        }
 
+       if (tabTag.equals(doctors)){
+           refresh_doctors_list();
+       }
 
     }
 
 
-    public void refresh_contacts_list(int statusID) {
+    public void refresh_appointments_list(int statusID) {
 
         app_DB.safeDoktorAccessObj().appointmentByStatus(patientID,statusID).observe(weakAppt.get(), appointments -> {
             Appointments_recycler_Adapter appointmentsAdapter = new Appointments_recycler_Adapter(weakAppt.get(),appointments);
             appt_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             appt_recycler.setAdapter(appointmentsAdapter);
+        });
+
+
+    }
+
+    public void refresh_doctors_list() {
+
+        app_DB.safeDoktorAccessObj().getAllDoctors().observe(weakAppt.get(), doctors -> {
+            Doctors_recycler_Adapter doctorsAdapter = new Doctors_recycler_Adapter(weakAppt.get(),doctors);
+            appt_recycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            appt_recycler.setAdapter(doctorsAdapter);
         });
 
 

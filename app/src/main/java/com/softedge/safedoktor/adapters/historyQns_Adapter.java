@@ -79,7 +79,7 @@ public class historyQns_Adapter extends RecyclerView.Adapter {
 
         void bind_views(final String question, History history) {
             tv_question.setText(question);
-            switchAnswers.setChecked(Boolean.valueOf(history.getState()));
+            switchAnswers.setChecked(Boolean.parseBoolean(history.getState()));
 
             if (!history.getRemarks().isEmpty()){
                 et_qn_remark.setText(history.getRemarks());

@@ -1,8 +1,23 @@
 package com.softedge.safedoktor.utilities;
 
+import java.io.LineNumberReader;
+
 public class AppConstants {
 
     public static String SAFE_DOCTOR_SENDER_ID  = "SAFE DOKTOR";
+    //0245681867
+    //kaynet
+
+    //---------------------------------MOMO NETWORK--------------------------------
+    public static final String MOMO_TIGO = "TIGO";
+    public static final String MOMO_AIRTEL = "AIRTEL";
+    public static final String MOMO_VODAFONE = "VODAFONE";
+    public static final String MOMO_MTN = "MTN";
+    public static final String MOMO_AIRTIGO = MOMO_AIRTEL+MOMO_TIGO;
+
+    public static final int CONS_TYPE_SCHEDULE = 1;
+    public static final int CONS_TYPE_EMERGENCY = 3;
+    //---------------------------------MOMO NETWORK--------------------------------
 
     //-------------------------------APPT STATUS-----------------------------------
     public static final int APPT_STATUS_INPROGRESS = 7;
@@ -16,9 +31,9 @@ public class AppConstants {
     public static final int CHAT_TYPE_VIDEO = 3;
     //------------------------------------CHAT TYPE--------------------------------
 
-    //--------------------------------------TIME SLOTS-----------------------------
-
-    //--------------------------------------TIME SLOTS-----------------------------
+    //--------------------------------------ROLES-----------------------------
+    public static final int ROLE_DOCTOR = 2;
+    //--------------------------------------ROLES-----------------------------
 
     //---------------------------------SERVICE CONTENT-----------------------------
     public static final String KEY_AGE_GROUP_ID = "agegroupid";
@@ -31,6 +46,10 @@ public class AppConstants {
     public static final String KEY_ = "";
     //---------------------------------SERVICE CONTENT-----------------------------
 
+    //------------------------------------SERVICE FEE----------------------------------
+    public static final String KEY_FEE = "fee";
+    //------------------------------------SERVICE FEE----------------------------------
+
     //---------------------------------SESSION MANAGEMENT--------------------------
     public static final String IS_LOGIN="isloggedin";
     public static final String NOTI_STATUS="notistatus";
@@ -39,6 +58,7 @@ public class AppConstants {
     public static final String KEY_TOKEN = "token";
     public static final String KEY_CREATED_DATE = "datecreated";
     public static final String KEY_EXPIRES_IN = "expires";
+    public static final String KEY_FIRST_RUN = "first_run";
     public static final String KEY_PATIENT_IMAGE = "patientimage";
     //---------------------------------SESSION MANAGEMENT--------------------------
 
@@ -51,6 +71,9 @@ public class AppConstants {
     public static final String TABLE_SERVICE_CONTENT = "SERVICE_CONTENT";
     public static final String TABLE_PAYMENTS = "PAYMENTS";
     public static final String TABLE_TIME_SLOTS = "TIME_SLOTS";
+    public static final String TABLE_SPECIALTIES = "SPECIALTIES";
+    public static final String TABLE_DOCTORS = "DOCTORS";
+    public static final String TABLE_DOCTOR_SPECIALTIES = "DOCS_SPECS";
     //-----------------------------------TABLES-------------------------------------
 
     //--------------------------------------NOTIFICATIONS---------------------------
@@ -111,14 +134,25 @@ public class AppConstants {
     public static final String KEY_UPDATE_TIME = "updatetime";
     public static final String KEY_UPDATE_USER_ID = "updateuserid";
     public static final String KEY_DOCTOR_PHOTO = "doctorphoto";
-    public static final String KEY_REMIND = "remind";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_SPECIALTY_TEXT = "specialtytext";
     //public static final String KEY_ = "";
     //---------------------------APPOINTMENTS--------------------------------------
 
+    //-----------------------------------TIME SLOTS---------------------------------
+    public static final String KEY_ROASTER_ID = "roasterid";
+
+    //-----------------------------------TIME SLOTS---------------------------------
+
     //---------------------------PERSON--------------------------------------------
     public static final String KEY_ID = "id";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_PASSWORD = "password";
+    public static final String KEY_USERNAME = "username";
     public static final String KEY_FIRSTNAME = "firstname";
     public static final String KEY_LASTNAME = "lastname";
+    public static final String KEY_OTHER_NAME = "othername";
+    public static final String KEY_GENDER = "gender";
     public static final String KEY_DOB = "dateofbirth";
     public static final String KEY_ACC_NUMBER = "accountnumber";
     public static final String KEY_PHONE_NUMBER = "phonenumber";
@@ -140,6 +174,8 @@ public class AppConstants {
     //---------------------------PERSON--------------------------------------------
 
     public static final String KEY_FULL_TOKEN = "login_token";
+    public static final String KEY_SPECIALTY_ID = "specialtyId";
+    public static final String KEY_SPECIALTY_NAME = "specialtyName";
     public static final String KEY_OPD_NUMBER = "opd_number";
     public static final String KEY_CATEGORY = "patient_category";
 

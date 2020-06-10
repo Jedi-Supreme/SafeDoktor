@@ -44,12 +44,12 @@ public class Appointments_recycler_Adapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_appointment_list, parent, false);
-        return new contacts_list_holder(view);
+        return new appointments_list_holder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((contacts_list_holder) holder).bind_views(appointments.get(position));
+        ((appointments_list_holder) holder).bind_views(appointments.get(position));
 
     }
 
@@ -58,7 +58,7 @@ public class Appointments_recycler_Adapter extends RecyclerView.Adapter {
         return appointments.size();
     }
 
-    public class contacts_list_holder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class appointments_list_holder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 //        TextView tv_deprow_fullname, tv_deprow_dob, tv_deprow_opdID;
 //        SafeDB safe_db;
@@ -72,7 +72,7 @@ public class Appointments_recycler_Adapter extends RecyclerView.Adapter {
         appDB appDatabase;
         Appointment glbAppointment;
 
-        contacts_list_holder(View itemView) {
+        appointments_list_holder(View itemView) {
             super(itemView);
 
            // tv_deprow_fullname = itemView.findViewById(R.id.tv_dep_fullname);

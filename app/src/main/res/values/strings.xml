@@ -2,7 +2,7 @@
 
     <string name="phone_valid_intro">SafeDoktor will send a one time SMS message to verify your phone number. Enter the <b>6-digit code</b> below</string>
 
-    <string name="app_name">SafeDoktor</string>
+    <string name="app_name">SafeDoktor 2</string>
     <string name="adverts">Advertisements</string>
     <string name="chad">Comm. Health Desk</string>
     <string name="reg_text">Don\'t have an account? <u><b>Sign Up</b></u></string>

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/splashsafedoktor"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    android:id="@+id/const_splash_parent"
     tools:context="com.softedge.safedoktor.activities.SplashScreenActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

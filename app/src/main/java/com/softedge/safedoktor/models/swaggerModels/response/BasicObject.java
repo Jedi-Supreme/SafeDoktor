@@ -1,6 +1,9 @@
 package com.softedge.safedoktor.models.swaggerModels.response;
 
+import androidx.room.Entity;
+
 import java.io.Serializable;
+
 
 public class BasicObject {
     

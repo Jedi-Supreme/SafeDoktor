@@ -1,24 +1,49 @@
 package com.softedge.safedoktor.models.swaggerModels.body;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import static com.softedge.safedoktor.utilities.AppConstants.*;
 
 @Entity(tableName = TABLE_TIME_SLOTS)
 public class TimeSlot
 {
+    @ColumnInfo(name = KEY_DATE)
     private String date;
+
+    @ColumnInfo(name = KEY_DOCTOR_ID)
     private String doctorid;
+
+    @ColumnInfo(name = KEY_DOCTOR_NAME)
     private String doctorname;
+
+    @ColumnInfo(name = KEY_START_TIME)
     private String starttime;
+
+    @ColumnInfo(name = KEY_END_TIME)
     private String endtime;
+
+    @ColumnInfo(name = KEY_ROASTER_ID)
     private int roasterid;
+
+    @PrimaryKey
+    @ColumnInfo(name = KEY_SLOT_ID)
     private int slotid;
+
+    @ColumnInfo(name = KEY_STATUS_ID)
     private int statusid;
+
+    @ColumnInfo(name = KEY_SERVICE_ID)
     private int serviceid;
+
+    @ColumnInfo(name = KEY_SPECIALTY_ID)
     private int specialityid;
 
+    @ColumnInfo(name = KEY_SPECIALTY_TEXT)
     private String specialtytext;
+
+    @ColumnInfo(name = KEY_BOOKING_NUMB)
     private String bookingnumber;
 
     public TimeSlot() {

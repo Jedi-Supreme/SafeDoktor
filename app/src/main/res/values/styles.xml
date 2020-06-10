@@ -23,7 +23,7 @@
         <item name="colorAccent">@color/blue_highlight</item>
     </style>
     
-    <style name="payment_radioBttons" parent="Widget.AppCompat.CompoundButton.RadioButton">
+    <style name="payment_radioButtons" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:background">@drawable/custom_radio_buttons</item>
         <item name="android:button">@drawable/custom_radio_buttons</item>
     </style>

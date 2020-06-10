@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -43,17 +45,22 @@ import com.softedge.safedoktor.activities.SignupActivity;
 import com.softedge.safedoktor.activities.TOS_Activity;
 import com.softedge.safedoktor.activities.VideoCallingActivity;
 import com.softedge.safedoktor.activities.WelcomeActvity;
+import com.softedge.safedoktor.databases.appDB;
 import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
 import com.softedge.safedoktor.databases.SafeDB;
 import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.retroPatient;
+import com.softedge.safedoktor.models.swaggerModels.PatientModel;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import static com.softedge.safedoktor.utilities.AppConstants.KEY_FULL_TOKEN;
 
 public class common_code {
 
@@ -105,6 +112,18 @@ public class common_code {
 
     //public static final String daynameTimeformat = "E, dd MMM yyyy";
 
+    public static PatientModel currentUser(Context context){
+
+        SharedPreferences appPref = common_code.appPref(context);
+
+        int safeDoktorID = appPref.getInt(AppConstants.KEY_PATIENT_ID,0);
+
+        appDB app_Db = appDB.getInstance(context);
+
+        return app_Db.safeDoktorAccessObj().getpatient(safeDoktorID);
+    }
+
+    //-------------------------------------------DATE AND TIME--------------------------------------
     public static String readableDate(String rDate){
 
         String readableDate = "";
@@ -130,9 +149,37 @@ public class common_code {
         return readableDate;
     }
 
-    public static String readableTime(String time){
+    public static String reverseDate(String dateStr){
 
-        String readableTime ="";
+        String reverseDate = "";
+
+        SimpleDateFormat reverseDate_format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E, d MMMM, yyyy",Locale.getDefault());
+
+        Date date;
+
+        try {
+            date = dateFormat.parse(dateStr);
+
+            if (date != null) {
+                reverseDate = reverseDate_format.format(date);
+            }
+        }catch (Exception ignored){
+
+        }
+
+        return reverseDate + "T00:00:00Z";
+
+    }
+
+    public static String getReadabledate() {
+        long milles = System.currentTimeMillis();
+        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm", Locale.getDefault());
+        java.util.Date resultdate = new java.util.Date(milles);
+        return df.format(resultdate);
+    }
+
+    public static String readableTime(String time){
 
         SimpleDateFormat rTimeformat = new SimpleDateFormat("HH:mm:s",Locale.getDefault());
         SimpleDateFormat readableFormat = new SimpleDateFormat("h:mm a",Locale.getDefault());
@@ -142,11 +189,26 @@ public class common_code {
         try {
             datetime = rTimeformat.parse(time);
 
-            readableTime = readableFormat.format(datetime);
-        }catch (Exception ignore){}
+            if (datetime != null) {
+                return readableFormat.format(datetime);
+            }else {
+                return null;
+            }
+        }catch (Exception ignore){
+            return  null;
+        }
 
-        return readableTime;
     }
+
+    public static String addDayDate(int numberOfDays){
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.add(Calendar.DAY_OF_MONTH,numberOfDays);
+        SimpleDateFormat todayFormat = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
+
+        return todayFormat.format(calendar.getTime());
+    }
+    //-------------------------------------------DATE AND TIME--------------------------------------
 
     public static Date getDateObject(String datetime){
 
@@ -250,6 +312,37 @@ public class common_code {
         }
     }
 
+    public static String rebuildDoctorId(String iDending){
+
+        //sample = SD00000014
+
+        switch (iDending.length()){
+
+            case 1:
+                return "SD0000000";
+            case 2:
+                return "SD000000";
+            case 3:
+                return "SD00000";
+            case 4:
+                return "SD0000";
+            case 5:
+                return "SD000";
+            case 6:
+                return "SD00";
+            case 7:
+                return "SD0";
+            default:
+                return "SD";
+        }
+
+    }
+
+    public static String getLoginToken(Context context){
+        SharedPreferences appPref = common_code.appPref(context);
+        return appPref.getString(KEY_FULL_TOKEN,null);
+    }
+
     //====================================LOGIN TESTS===============================================
     //test if user is logged in
     public static boolean isUserLogged_in() {
@@ -260,7 +353,7 @@ public class common_code {
     public static boolean isFirstRun(Context activity_ctx) {
         SharedPreferences safe_pref = activity_ctx.getSharedPreferences(
                 activity_ctx.getResources().getString(R.string.safe_pref_name), Context.MODE_PRIVATE);
-        return safe_pref.getBoolean(activity_ctx.getResources().getString(R.string.first_run_prefkey), true);
+        return safe_pref.getBoolean(AppConstants.KEY_FIRST_RUN, true);
     }
     //====================================LOGIN TESTS===============================================
 
@@ -485,15 +578,8 @@ public class common_code {
 
     }
 
-    public static String getReadabledate() {
-        long milles = System.currentTimeMillis();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm", Locale.getDefault());
-        java.util.Date resultdate = new java.util.Date(milles);
-        return df.format(resultdate);
-    }
-
-    public static Executor getDBExecutor(int threadcount){
-        return Executors.newFixedThreadPool(threadcount);
+    public static Executor getDBExecutor(){
+        return Executors.newFixedThreadPool(6);
     }
 
     public static byte[] displayImage(String base64string) {
@@ -504,6 +590,15 @@ public class common_code {
             return null;
         }
     }
+
+    public static RoundedBitmapDrawable roundedImage(Context context){
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.generic_avatar);
+        bitmap = Bitmap.createScaledBitmap(bitmap,200,200,false);
+
+        return RoundedBitmapDrawableFactory.create(context.getResources(),bitmap);
+    }
+
+
 
 
 }

@@ -3,7 +3,6 @@
 <resources>
 
     <string name="safe_pref_name">safedoctor_preference</string>
-    <string name="first_run_prefkey">first_run</string>
     <string name="records_ref">Account_Records</string>
     <string name="all_users">All_Users</string>
     <string name="default_email_suffix">"@careassistusers.com"</string>

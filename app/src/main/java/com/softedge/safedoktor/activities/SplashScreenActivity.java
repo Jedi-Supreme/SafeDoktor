@@ -5,32 +5,29 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.Observer;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.softedge.safedoktor.models.fireModels.PatientPackage.Biography;
 import com.softedge.safedoktor.R;
-import com.softedge.safedoktor.databases.SafeDB;
+import com.softedge.safedoktor.api.SwaggerCalls;
+import com.softedge.safedoktor.databases.appDB;
+import com.softedge.safedoktor.models.swaggerModels.body.Login;
+import com.softedge.safedoktor.models.swaggerModels.body.Specialties;
 import com.softedge.safedoktor.utilities.AppConstants;
 import com.softedge.safedoktor.utilities.common_code;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
     final long COUNTDOWN_TIME = 1500; // 1.5 seconds
     final long SECS = 1000;
 
-    String fireID;
-    WeakReference<SplashScreenActivity> weahSplash;
+    ConstraintLayout const_splash_parent;
 
-    SafeDB safe_db;
+    WeakReference<SplashScreenActivity> weahSplash;
 
     //=============================================ON CREATE========================================
     @Override
@@ -39,10 +36,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
         weahSplash = new WeakReference<>(this);
-
-//        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            fireID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        }
+        const_splash_parent = findViewById(R.id.const_splash_parent);
 
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
         CountDownTimer countDownTimer = new CountDownTimer(COUNTDOWN_TIME, SECS) {
@@ -54,7 +48,8 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                loadBioData_online();
+
+                preLoginTest();
             }
         };
         //--------------------------------------------COUNTDOWN TIMER-------------------------------
@@ -65,49 +60,40 @@ public class SplashScreenActivity extends AppCompatActivity {
     //=============================================ON CREATE========================================
 
 
-    void loadBioData_online() {
+    void preLoginTest() {
 
         SharedPreferences appPref = common_code.appPref(weahSplash.get());
+        String username = appPref.getString(AppConstants.KEY_USERNAME,null);
+        String password = appPref.getString(AppConstants.KEY_PASSWORD,null);
+
+        appDB appDbase = appDB.getInstance(weahSplash.get());
+        appDbase.safeDoktorAccessObj().getAllSpecialties();
+
+        Login login  = new Login(username,password);
 
         boolean isLogin = appPref.getBoolean(AppConstants.IS_LOGIN,false);
 
-        if (isLogin){
-            common_code.toDashboard(weahSplash.get());
+        if (!common_code.isFirstRun(weahSplash.get())){
+            if (isLogin){
+                //Refresh token
+                SwaggerCalls.login(const_splash_parent,login);
+                common_code.toDashboard(weahSplash.get());
+
+                appDbase.safeDoktorAccessObj().getAllSpecialties().observe(weahSplash.get(), specialties -> {
+
+                    for (Specialties spec : specialties){
+                        SwaggerCalls.getSpecialtyDoctors(const_splash_parent,spec);
+                    }
+
+                });
+
+            }else {
+                common_code.toLogin(weahSplash.get());
+            }
         }else {
-            common_code.toLogin(weahSplash.get());
+            common_code.toIntro(weahSplash.get());
         }
 //
-//        String all_users = getResources().getString(R.string.all_users);
-//
-//        safe_db = new SafeDB(weahSplash.get(), null);
-//
-//        DatabaseReference bio_ref = FirebaseDatabase.getInstance().getReference(all_users)
-//                .child(Biography.TABLE);
-//
-//        bio_ref.child(fireID).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                Biography userBio = dataSnapshot.getValue(Biography.class);
-//
-//                if (userBio != null) {
-//
-//                    try {
-//                        safe_db.addPat_bio(userBio);
-//                    } catch (Exception ignored) {
-//                        safe_db.updatePat_bio(userBio);
-//                    }
-//                }
-//
-//                bio_ref.removeEventListener(this);
-//            }
-//
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
     }
 

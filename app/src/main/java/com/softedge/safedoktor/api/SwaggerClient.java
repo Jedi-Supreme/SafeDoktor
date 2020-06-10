@@ -14,6 +14,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface SwaggerClient {
@@ -58,23 +59,48 @@ public interface SwaggerClient {
     Call<rSwaggerAPI<List<rServiceContent>>> getServiceResponse(@Header("Authorization") String authHeader, @Path("patientid") int patientid);
     //-------------------------------------------fetch list of services-----------------------------
 
+//    doctor user list -> specialties list -> time slots
+
+    //Get user profiles but save only doctors
+    @GET("api/users")
+    Call<rSwaggerAPI<List<UserAccount>>> getUsersInfo(@Header("Authorization") String authHeader);
 
     //=======================================================TO BOOK APPOINTMENT====================================================================================================
 
     //------------------------------------fetch list of specialties---------------------------------
     @GET("api/setup/clinicalspecialties")
-    Call<rSwaggerAPI<List<BasicObject>>> getClinicalSpecialties(@Header("Authorization") String authHeader);
+    Call<rSwaggerAPI<List<Specialties>>> getClinicalSpecialties(@Header("Authorization") String authHeader);
     //------------------------------------fetch list of specialties---------------------------------
+
+    //---------------------------------------fetch profile photo------------------------------------
+    @GET("api/users/{userId}/photo")
+    Call<SwaggerAPI_ResponseArr<List<Userphoto>>> getUserPhoto(@Header("Authorization") String authHeader,@Path("userId") String userId);
+    //---------------------------------------fetch profile photo------------------------------------
 
     //list available appointment slots
     @GET("api/appointments/serviceavailability/{serviceid}")
     Call<rSwaggerAPI<List<rServiceSlots>>> getAvailableServices(@Header("Authorization") String authHeader, @Path("serviceid") int serviceid, @QueryMap Map<String, String> query);
 
-    //list available appointment slots based on speciality
+    //list available appointment slots based on speciality (Time slots)
     //To avoid overuse of user data bundle, limit slots fetched from today's date to 1 week after
-    @GET("api/appointments/specialtyavailability/{specialtyid}?from={startDate}&to={endDate}")
-    Call<SwaggerAPI_ResponseArr<List<TimeSlot>>> getSpecialtyAvailableServices(@Header("Authorization") String authHeader, @Path("specialtyid") int specialtyid, String startDate, String endDate);
+    @GET("api/appointments/specialtyavailability/{specialtyId}")
+    Call<SwaggerAPI_ResponseArr<List<TimeSlot>>> getSpecialtyAvailableServices(
+            @Header("Authorization") String authHeader,
+            @Path("specialtyId") int specialtyId,
+            @Query("from") String startDate,
+            @Query("to") String endDate);
 
+    //Doctors belonging to a specific clinical specialty
+    @GET("api/setup/clinicalspecialties/{id}/doctors")
+    Call<SwaggerAPI_ResponseArr<List<DoctorOutObj>>> getClinicalSpecialtyDoctors(@Header("Authorization") String authHeader, @Path("id") int id);
+
+    //show servicefee
+    @GET("api/appointments/servicefee/{serviceid}")
+    Call<SwaggerAPI_ResponseArr<List<rServiceFee>>> getServiceFee(@Header("Authorization") String authHeader, @Path("serviceid") int serviceid, @QueryMap Map<String, Integer> query);
+
+    //Booking object sent to finalise appointment booking on server
+    @POST("api/appointments/payandbook")
+    Call<SwaggerAPI_ResponseArr<List<rAppt_Content>>> bookAndPay(@Header("Authorization") String authHeader, @Body ApptBooking bookNPay);
     //=======================================================TO BOOK APPOINTMENT====================================================================================================
 
 
