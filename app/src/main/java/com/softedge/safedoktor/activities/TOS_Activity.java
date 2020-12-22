@@ -61,7 +61,7 @@ public class TOS_Activity extends AppCompatActivity {
             public void onProgressChanged(WebView view, int newProgress){
                 // Update the progress bar with page loading progress
                 probar_toc.setProgress(newProgress);
-                if(newProgress == 100){
+                if(newProgress >= 100){
                     // Hide the progressbar
                     probar_toc.setVisibility(View.GONE);
                 }

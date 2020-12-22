@@ -20,8 +20,6 @@ public class UserAccount {
     private  int userprofileid;
     private boolean locked;
 
-
-
     public String getId() {
         return id;
     }

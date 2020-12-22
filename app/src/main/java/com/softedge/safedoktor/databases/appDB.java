@@ -27,7 +27,8 @@ import com.softedge.safedoktor.models.swaggerModels.response.*;
                 Doctor_Specialty.class,
                 rNotifications.class,
                 BookingsList.class,
-                Appointment.class
+                Appointment.class,
+                rOnlineVisits.class
         },
         exportSchema = false, version = 2)
 public abstract class appDB extends RoomDatabase {

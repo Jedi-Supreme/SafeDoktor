@@ -5,15 +5,18 @@ import java.io.LineNumberReader;
 public class AppConstants {
 
     public static String SAFE_DOCTOR_SENDER_ID  = "SAFE DOKTOR";
+    public static final int NO_SELECTION = -1;
+    public static final int REDDE_APP_ID = 1134;
+//    https://safedoktorapi.newcrystalhealth.org/api/appointments/wigalmmcallback
+    public static final String REDDE_API_KEY = "uncHnXCex47j6QazpXrHQJjm2RR9tq9dfqTPDQQKSFH5hGsArk";
+
     //0245681867
     //kaynet
 
     //---------------------------------MOMO NETWORK--------------------------------
-    public static final String MOMO_TIGO = "TIGO";
-    public static final String MOMO_AIRTEL = "AIRTEL";
     public static final String MOMO_VODAFONE = "VODAFONE";
     public static final String MOMO_MTN = "MTN";
-    public static final String MOMO_AIRTIGO = MOMO_AIRTEL+MOMO_TIGO;
+    public static final String MOMO_AIRTIGO = "AIRTELTIGO";
 
     public static final int CONS_TYPE_SCHEDULE = 1;
     public static final int CONS_TYPE_EMERGENCY = 3;

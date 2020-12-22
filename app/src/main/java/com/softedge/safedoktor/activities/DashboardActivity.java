@@ -278,7 +278,6 @@ public class DashboardActivity extends AppCompatActivity implements
         String usernumber = patient.getPhonenumber();
         int appointmentCount;
 
-//
 //        tv_dash_username.setText(username);
         tv_dash_username.setText(username);
 //        tv_nav_fullname.setText(username);
@@ -287,6 +286,8 @@ public class DashboardActivity extends AppCompatActivity implements
         tv_dash_usernumber.setText(usernumber);
 
         SwaggerCalls.loadAppointments(dash_drawer_layout);
+        Log.e("dashboard Load","Dashboard loading appointments and stuff");
+
         SwaggerCalls.getSpecialties(dash_drawer_layout);
 
         app_Db.safeDoktorAccessObj().appointments(patient.getPatientid())
@@ -298,6 +299,8 @@ public class DashboardActivity extends AppCompatActivity implements
                 SwaggerCalls.getSpecialtyDoctors(dash_drawer_layout,spec);
             }
         });
+
+
 
         //SwaggerCalls.getUserAccounts(dash_drawer_layout);
 

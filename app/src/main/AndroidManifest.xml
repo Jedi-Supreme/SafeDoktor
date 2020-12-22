@@ -9,6 +9,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -17,15 +18,16 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
-        tools:ignore="LockedOrientationActivity"
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="LockedOrientationActivity"
         tools:targetApi="m">
+        <activity android:name=".activities.SlydePay"></activity>
 
         <receiver
             android:name=".service.SafeDoctorSMSReceiver"
@@ -37,19 +39,17 @@
         <receiver android:name=".activities.VerificationActivity" />
 
         <activity
+            android:name=".activities.RegSearch"
             android:label="@string/patSearch"
-            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style"
-            android:name="com.softedge.safedoktor.activities.RegSearch"
-             />
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.TOS_Activity"
+            android:name=".activities.TOS_Activity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/darkAccent_noActionBar" />
         <activity
-            android:name="com.softedge.safedoktor.activities.OpdCardActivity"
+            android:name=".activities.OpdCardActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--
@@ -68,36 +68,36 @@
             android:resource="@color/blue_highlight" />
 
         <activity
-            android:name="com.softedge.safedoktor.activities.VideoCallingActivity"
+            android:name=".activities.VideoCallingActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.Contacts_dependantsActivity"
+            android:name=".activities.Contacts_dependantsActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style" />
         <activity
-            android:name="com.softedge.safedoktor.activities.BiographyActivity"
+            android:name=".activities.BiographyActivity"
             android:label="@string/biography"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.MedicalHistoryActivity"
+            android:name=".activities.MedicalHistoryActivity"
             android:label="@string/medical_history"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.AccountActivity"
+            android:name=".activities.AccountActivity"
             android:screenOrientation="sensorPortrait" />
         <activity
-            android:name="com.softedge.safedoktor.activities.ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:label="@string/edit_profile"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/dark_accent_style" />
         <activity
-            android:name="com.softedge.safedoktor.activities.SplashScreenActivity"
+            android:name=".activities.SplashScreenActivity"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -107,35 +107,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.softedge.safedoktor.activities.WelcomeActvity"
+            android:name=".activities.WelcomeActvity"
             android:label="@string/dash_welcome"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name="com.softedge.safedoktor.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.SignupActivity"
+            android:name=".activities.SignupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/darkAccent_noActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.softedge.safedoktor.activities.VerificationActivity"
+            android:name=".activities.VerificationActivity"
             android:label="@string/verifyCode"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.softedge.safedoktor.activities.DashboardActivity"
+            android:name=".activities.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="com.softedge.safedoktor.activities.AppointmentsActivity" />
-        <activity android:name="com.softedge.safedoktor.activities.VirtualAppt_Activity" />
-        <activity android:name="com.softedge.safedoktor.activities.PhysicalAppt_Activity" />
-        <activity android:name="com.softedge.safedoktor.activities.SettingsActivity" />
+        <activity android:name=".activities.AppointmentsActivity" />
+        <activity android:name=".activities.VirtualAppt_Activity" />
+        <activity android:name=".activities.PhysicalAppt_Activity" />
+        <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.DoctorProfileActivity" />
 
-        <service android:name="com.softedge.safedoktor.service.CloudMessaging">
+        <service android:name=".service.CloudMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

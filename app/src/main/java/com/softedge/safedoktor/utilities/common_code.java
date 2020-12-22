@@ -65,6 +65,7 @@ import static com.softedge.safedoktor.utilities.AppConstants.KEY_FULL_TOKEN;
 public class common_code {
 
     public static final int CAMERA_AUDIO_REQ_CODE = 434;
+    public static final int CALL_REQ_CODE = 454;
     public static final String EMAIL_REMINDER_KEY = "email_reminder_key";
 
     public static final int MALE_GENDER = 1;
@@ -459,6 +460,20 @@ public class common_code {
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},
                     CAMERA_AUDIO_REQ_CODE);
+        }
+    }
+
+    public static boolean checkPermissionForPhone(Context context) {
+        int resultCall = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE);
+        return (resultCall == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static void requestPermissionForPhone(Activity activity) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CALL_PHONE)) {
+            Toast.makeText(activity, "Call permissions needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CALL_PHONE},CALL_REQ_CODE
+                    );
         }
     }
 

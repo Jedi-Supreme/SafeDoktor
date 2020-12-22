@@ -31,8 +31,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Appointments_recycler_Adapter extends RecyclerView.Adapter {
 
-    private List<Appointment> appointments;
-    private WeakReference<AppCompatActivity> weak_activity;
+    private final List<Appointment> appointments;
+    private final WeakReference<AppCompatActivity> weak_activity;
 
     public Appointments_recycler_Adapter(AppCompatActivity activity, List<Appointment> apointment_list) {
         weak_activity = new WeakReference<>(activity);

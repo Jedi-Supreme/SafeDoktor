@@ -10,6 +10,7 @@ import com.softedge.safedoktor.activities.BiographyActivity;
 import com.softedge.safedoktor.activities.Contacts_dependantsActivity;
 import com.softedge.safedoktor.activities.RegSearch;
 import com.softedge.safedoktor.activities.VerificationActivity;
+import com.softedge.safedoktor.interfaces.CarewexClient;
 import com.softedge.safedoktor.models.retrofitModels.employee_login;
 import com.softedge.safedoktor.models.retrofitModels.regResult;
 import com.softedge.safedoktor.models.retrofitModels.retroEmployee;

@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SafeDoktorService {
 
-    private static final String BASEURL = "http://159.89.231.79:1350/";
+//    private static final String BASEURL = "http://159.89.231.79:1350/";
     private static final String secureURL = "https://safedoktorapi.newcrystalhealth.org";
 
     //TODO handle retrofit timeout error

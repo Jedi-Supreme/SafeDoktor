@@ -2,6 +2,7 @@ package com.softedge.safedoktor.interfaces;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -80,6 +81,9 @@ public interface safeDoktor_Access_Obj {
     //======================================TIME SLOTS==============================================
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addTimeSlots(TimeSlot timeSlot);
+
+    @Query("DELETE FROM " + TABLE_TIME_SLOTS + " WHERE " + KEY_SLOT_ID + " = :slotId")
+    void deleteTimeSlot(int slotId);
 
     @Query("SELECT * FROM " + TABLE_TIME_SLOTS + " WHERE " + KEY_DATE + " = :date")
     LiveData<List<TimeSlot>> getSlotsByDate(String date);

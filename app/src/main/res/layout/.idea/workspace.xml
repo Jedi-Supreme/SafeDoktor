@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="99487f22-da9e-42a7-b67f-816819863f24" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/reddeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/interfaces/paymentClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/redde/paymentBody.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/redde/rPayment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Apptunit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/ClinicalNote.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/ConsComplain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Consultation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Consultationtype.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Diagnoses.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Document.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/DrugOut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Examfinding.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Facilityinfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Prescriptiondrug.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Referral.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Servicerequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Systemreviews.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/onlinevisits/Town.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/models/swaggerModels/response/rOnlineVisits.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../.idea/dictionaries/Jedi_Supreme.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../.idea/dictionaries/Jedi_Supreme.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/activities/VirtualAppt_Activity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/activities/VirtualAppt_Activity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/CarewexCalls.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/CarewexCalls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/CarewexClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/interfaces/CarewexClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/SafeDoktorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/SafeDoktorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/SwaggerCalls.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/SwaggerCalls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/api/SwaggerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/interfaces/SwaggerClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/interfaces/safeDoktor_Access_Obj.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/interfaces/safeDoktor_Access_Obj.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/utilities/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/utilities/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/utilities/common_code.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../java/com/softedge/safedoktor/utilities/common_code.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/diag_load_slots.xml" beforeDir="false" afterPath="$PROJECT_DIR$/diag_load_slots.xml" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="ProjectId" id="1eXVc3OUNyxv9cu5N0ex6UXU9FW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="99487f22-da9e-42a7-b67f-816819863f24" name="Default Changelist" comment="" />
+      <created>1594468000633</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594468000633</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

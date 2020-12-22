@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"/>
 
     <TextView
+        android:id="@+id/tv_diag_notification"
         android:layout_marginTop="@dimen/margin_tiny"
-        android:text="Fetching Slots Please wait..."
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/probar_fetching_slots"

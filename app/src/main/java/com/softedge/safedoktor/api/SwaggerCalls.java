@@ -1,5 +1,6 @@
 package com.softedge.safedoktor.api;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,48 +17,40 @@ import com.softedge.safedoktor.activities.SignupActivity;
 import com.softedge.safedoktor.activities.VerificationActivity;
 import com.softedge.safedoktor.activities.VirtualAppt_Activity;
 import com.softedge.safedoktor.databases.appDB;
+import com.softedge.safedoktor.interfaces.SwaggerClient;
+import com.softedge.safedoktor.interfaces.paymentClient;
+import com.softedge.safedoktor.models.redde.paymentBody;
+import com.softedge.safedoktor.models.redde.rPayment;
+import com.softedge.safedoktor.models.swaggerModels.Appointment;
+import com.softedge.safedoktor.models.swaggerModels.ApptBooking;
 import com.softedge.safedoktor.models.swaggerModels.BookingsList;
 import com.softedge.safedoktor.models.swaggerModels.DataModel;
 import com.softedge.safedoktor.models.swaggerModels.PatientModel;
 import com.softedge.safedoktor.models.swaggerModels.SwaggerAPI_ResponseArr;
-import com.softedge.safedoktor.models.swaggerModels.body.Doctor;
-import com.softedge.safedoktor.models.swaggerModels.body.DoctorOutObj;
-import com.softedge.safedoktor.models.swaggerModels.body.Doctor_Specialty;
-import com.softedge.safedoktor.models.swaggerModels.body.Login;
-import com.softedge.safedoktor.models.swaggerModels.body.PhoneNumber;
-import com.softedge.safedoktor.models.swaggerModels.body.TimeSlot;
-import com.softedge.safedoktor.models.swaggerModels.body.UserAccount;
-import com.softedge.safedoktor.models.swaggerModels.body.UserReg;
-import com.softedge.safedoktor.models.swaggerModels.body.Userphoto;
-import com.softedge.safedoktor.models.swaggerModels.body.ValidateCode;
 import com.softedge.safedoktor.models.swaggerModels.rSwaggerAPI;
-import com.softedge.safedoktor.models.swaggerModels.body.Specialties;
-import com.softedge.safedoktor.models.swaggerModels.response.rAppt_Content;
-import com.softedge.safedoktor.models.swaggerModels.response.rIsValid;
-import com.softedge.safedoktor.models.swaggerModels.response.rLogin;
-import com.softedge.safedoktor.models.swaggerModels.response.rServiceFee;
-import com.softedge.safedoktor.models.swaggerModels.response.rValidation;
+import com.softedge.safedoktor.models.swaggerModels.body.*;
+import com.softedge.safedoktor.models.swaggerModels.response.*;
 import com.softedge.safedoktor.service.SessionManagement;
 import com.softedge.safedoktor.utilities.common_code;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.softedge.safedoktor.utilities.AppConstants.KEY_FULL_TOKEN;
-import static com.softedge.safedoktor.utilities.AppConstants.KEY_PATIENT_ID;
-import static com.softedge.safedoktor.utilities.AppConstants.ROLE_DOCTOR;
+import static com.softedge.safedoktor.utilities.AppConstants.*;
 
 public class SwaggerCalls {
 
-    static WeakReference<Context> weakContext;
-    private static SwaggerClient swagger_Client = SafeDoktorService.createService(SwaggerClient.class);
+    private static WeakReference<Context> weakContext;
+    private static final SwaggerClient swagger_Client = SafeDoktorService.createService(SwaggerClient.class);
+    private static final paymentClient reddePayClient = reddeService.createService(paymentClient.class);
 
     //Login user with number and password
     //Doubles as token refreshing
@@ -133,7 +126,7 @@ public class SwaggerCalls {
 
                             ((LoginActivity)view.getContext()).toggleProbar(false);
                         }else {
-                            Log.e("login instance",String.valueOf(false) + " Class: " +view.getContext().getClass().toString());
+                            Log.e("login instance", false + " Class: " +view.getContext().getClass().toString());
 
                         }
                     } catch (IOException e) {
@@ -385,7 +378,6 @@ public class SwaggerCalls {
         //Token type + " " + token string
         WeakReference<Context> weakcontext = new WeakReference<>(view.getContext());
         SharedPreferences appPref = common_code.appPref(weakcontext.get());
-        appDB app_Db = appDB.getInstance(weakcontext.get());
 
         int patientID = appPref.getInt(KEY_PATIENT_ID,0);
         String fulltoken = appPref.getString(KEY_FULL_TOKEN,null);
@@ -405,41 +397,17 @@ public class SwaggerCalls {
                     List<rAppt_Content> apptData_list = response.body().getData().getContent();
 
 //                    Toast.makeText(view.getContext(),"Appt response: " + apptData_list.size(),Toast.LENGTH_SHORT).show();
-//                    Log.e("Appointment",String.valueOf(apptData_list.size()));
+                    Log.e("Appointment",String.valueOf(apptData_list.size()));
 
                     for (rAppt_Content content : apptData_list){
-
-                        int bookingid = content.getAppointment().getBookingid();
-                        String bookingDate = content.getAppointment().getBookingdate();
-
-                        BookingsList bookingsList = new BookingsList(bookingid,patientID,bookingDate);
-
-                        common_code.getDBExecutor().execute(()->app_Db.safeDoktorAccessObj().addBooking(bookingsList));
-
-                        if (content.getAppointment() != null){
-                            common_code.getDBExecutor().execute(()->app_Db.safeDoktorAccessObj().addAppointment(content.getAppointment()));
-                        }
-
-                        if (content.getDetails() != null && content.getDetails().size() > 0){
-                            app_Db.safeDoktorAccessObj().addDetails(content.getDetails().get(0));
-                        }
-
-                        if (content.getPayments() != null && content.getPayments().size() > 0){
-                            app_Db.safeDoktorAccessObj().addPayments(content.getPayments().get(0));
-                        }
-
-                        if (content.getNotifications() != null && content.getNotifications().size() > 0){
-                            app_Db.safeDoktorAccessObj().addNotifications(content.getNotifications().get(0));
-                        }
-
-//                        Login user after saving appointments and booking details
-
-                        if (weakcontext.get() instanceof LoginActivity){
-                            common_code.toDashboard(view.getContext());
-                            ((LoginActivity)weakcontext.get()).toggleProbar(false);
-                        }
+                        saveAppointment_stuff(content, weakcontext.get());
                     }
 
+                    //                        Login user after saving appointments and booking details
+                    if (weakcontext.get() instanceof LoginActivity){
+                        common_code.toDashboard(view.getContext());
+                        ((LoginActivity)weakcontext.get()).toggleProbar(false);
+                    }
 
                 }
 
@@ -449,13 +417,56 @@ public class SwaggerCalls {
             @Override
             public void onFailure(@NonNull Call<rSwaggerAPI<List<rAppt_Content>>> call, @NonNull Throwable t) {
 
-                //Todo refresh appointment list
-
                 Toast.makeText(view.getContext(),"Appointment load error:" + t.getMessage(), Toast.LENGTH_LONG).show();
-//                Log.e("Safe", "Fetching error: " + t.getMessage());
+                Log.e("Appt Load Error", "Fetching error: " + t.getMessage());
                 //Log.i("Safe", "Fetching error: " + t.getMessage() + "");
             }
         });
+    }
+
+    private static void saveAppointment_stuff(rAppt_Content content, Context context){
+
+        appDB app_Db = appDB.getInstance(context);
+        int bookingid = content.getAppointment().getBookingid();
+        String bookingDate = content.getAppointment().getBookingdate();
+
+        BookingsList bookingsList = new BookingsList(bookingid,content.getAppointment().getPatientid(),bookingDate);
+
+        common_code.getDBExecutor().execute(()->app_Db.safeDoktorAccessObj().addBooking(bookingsList));
+
+        if (content.getAppointment() != null){
+            common_code.getDBExecutor().execute(()->app_Db.safeDoktorAccessObj().addAppointment(content.getAppointment()));
+//            Log.e("appt save","appointment saved");
+        }
+
+        if (content.getDetails() != null && content.getDetails().size() > 0){
+            app_Db.safeDoktorAccessObj().addDetails(content.getDetails().get(0));
+            //Log.e("appt save","details saved");
+        }
+
+        if (content.getPayments() != null && content.getPayments().size() > 0){
+            app_Db.safeDoktorAccessObj().addPayments(content.getPayments().get(0));
+            //Log.e("appt save","payments saved");
+        }
+
+        if (content.getNotifications() != null && content.getNotifications().size() > 0){
+            app_Db.safeDoktorAccessObj().addNotifications(content.getNotifications().get(0));
+            //Log.e("appt save","notifications saved");
+        }
+
+        if (context instanceof VirtualAppt_Activity){
+            ((VirtualAppt_Activity)context).dismissSubmitDialog();
+            ((Activity) context).onBackPressed();
+            Toast.makeText(weakContext.get(), "Appointment Booking Successful.", Toast.LENGTH_LONG).show();
+
+//          delete time slot from DB
+            common_code.getDBExecutor().execute(() -> app_Db.safeDoktorAccessObj().deleteTimeSlot(content.getDetails().get(0).getSlotid()));
+
+        }
+
+        //Log.e("appt save","saving ends");
+
+
     }
 
     //Get specialties for appointment booking
@@ -463,21 +474,13 @@ public class SwaggerCalls {
 
         weakContext = new WeakReference<>(view.getContext());
 
-        SharedPreferences appPref = common_code.appPref(weakContext.get());
-        String fulltoken = appPref.getString(KEY_FULL_TOKEN,null);
         appDB appDb = appDB.getInstance(weakContext.get());
 
-        Call<rSwaggerAPI<List<Specialties>>> call = swagger_Client.getClinicalSpecialties(fulltoken);
+        Call<rSwaggerAPI<List<Specialties>>> call = swagger_Client.getClinicalSpecialties(common_code.getLoginToken(weakContext.get()));
 
         call.enqueue(new Callback<rSwaggerAPI<List<Specialties>>>() {
             @Override
             public void onResponse(@NonNull Call<rSwaggerAPI<List<Specialties>>> call,@NonNull Response<rSwaggerAPI<List<Specialties>>> response) {
-
-//                  Log.e("Safe", "loadServices Called");
-//                if (response.code() == HttpURLConnection.HTTP_FORBIDDEN || response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-//
-//
-//                } else
 
                     if (response.isSuccessful()) {
 
@@ -490,39 +493,30 @@ public class SwaggerCalls {
                     if (responsedata != null && responsedata.getContent().size() > 0) {
 
                         for (Specialties specialty : responsedata.getContent()){
+
                             //Save specialty to database
                             common_code.getDBExecutor().execute(()-> appDb.safeDoktorAccessObj().addSpecialties(specialty));
-//                            Log.e("safe",specialty.getId() + " " + specialty.getName() + " Saved");
-//                            Toast.makeText(weakContext.get(),specialty.getName(),Toast.LENGTH_SHORT).show();
+
                         }
 
-                        if (weakContext.get() instanceof VirtualAppt_Activity){
-                            ((VirtualAppt_Activity)weakContext.get()).dismissDialog();
-                        }
+//                        if (weakContext.get() instanceof VirtualAppt_Activity){
+//                            ((VirtualAppt_Activity)weakContext.get()).dismissDialog();
+//                        }
 
                     }
 
                 }
-//                else {
-//
-//                    try {
-//                        String error = response.errorBody().string();
-//                        tokenerror(error);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    listener.onTaskCompleted(false);
-//                }
+
             }
 
             @Override
             public void onFailure(@NonNull Call<rSwaggerAPI<List<Specialties>>> call,@NonNull Throwable t) {
 //                listener.onTaskCompleted(false);
                 Log.e("Safe", "Specialties fetch error: " + t.getMessage());
-                if (weakContext.get() instanceof VirtualAppt_Activity){
-                    ((VirtualAppt_Activity)weakContext.get()).dismissDialog();
-                }
+
+//                if (weakContext.get() instanceof VirtualAppt_Activity){
+//                    ((VirtualAppt_Activity)weakContext.get()).dismissDialog();
+//                }
                 Toast.makeText(weakContext.get(), "Connection Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -532,19 +526,16 @@ public class SwaggerCalls {
     public static void getSpecialtyTimeSlots(View view, int specialityid) {
 
         weakContext = new WeakReference<>(view.getContext());
-
-        SharedPreferences appPref = common_code.appPref(weakContext.get());
-        String fullToken = appPref.getString(KEY_FULL_TOKEN,null);
         appDB appDbase = appDB.getInstance(weakContext.get());
 
-        Call<SwaggerAPI_ResponseArr<List<TimeSlot>>> call = swagger_Client.getSpecialtyAvailableServices(fullToken, specialityid, common_code.addDayDate(0), common_code.addDayDate(7) );
+        Call<SwaggerAPI_ResponseArr<List<TimeSlot>>> call = swagger_Client.getSpecialtyAvailableServices(common_code.getLoginToken(weakContext.get()), specialityid, common_code.addDayDate(0), common_code.addDayDate(7) );
 
         Log.e("TimeSlot","Fetching started");
 
         call.enqueue(new Callback<SwaggerAPI_ResponseArr<List<TimeSlot>>>() {
             @Override
             public void onResponse(@NonNull Call<SwaggerAPI_ResponseArr<List<TimeSlot>>> call, @NonNull Response<SwaggerAPI_ResponseArr<List<TimeSlot>>> response) {
-                  Log.e("TimeSlot", "loadSlot Called:" + response.code() + "\n count: " + response.body().getData().size());
+//                  Log.e("TimeSlot", "loadSlot Called:" + response.code() + "\n count: " + response.body().getData().size());
 //                if (response.code() == HttpURLConnection.HTTP_FORBIDDEN || response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
 //
 //                    sessionManagement.logoutSessionExpired();
@@ -552,7 +543,7 @@ public class SwaggerCalls {
 //
 //                } else
 
-                    if (response.isSuccessful() && response.body() != null) {
+                    if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
 
                     List<TimeSlot> specialtyTimeSlots  = response.body().getData();
 
@@ -567,13 +558,13 @@ public class SwaggerCalls {
                         }
 
                         if (weakContext.get() instanceof VirtualAppt_Activity){
-                            ((VirtualAppt_Activity) weakContext.get()).dismissDialog();
+                            ((VirtualAppt_Activity) weakContext.get()).getDoctorsForSpecialtySlots(specialityid);
                         }
 
                     }else {
 
                         if (weakContext.get() instanceof VirtualAppt_Activity){
-                            ((VirtualAppt_Activity) weakContext.get()).dismissDialog();
+                            ((VirtualAppt_Activity) weakContext.get()).getDoctorsForSpecialtySlots(specialityid);
                             common_code.Mysnackbar(view,"No slots Available",Snackbar.LENGTH_SHORT).show();
                         }
                     }
@@ -582,7 +573,7 @@ public class SwaggerCalls {
                 }else {
 
                         if (weakContext.get() instanceof VirtualAppt_Activity){
-                            ((VirtualAppt_Activity) weakContext.get()).dismissDialog();
+                            ((VirtualAppt_Activity) weakContext.get()).getDoctorsForSpecialtySlots(specialityid);
                         }
                     }
 
@@ -592,7 +583,7 @@ public class SwaggerCalls {
             public void onFailure(@NonNull Call<SwaggerAPI_ResponseArr<List<TimeSlot>>> call,@NonNull Throwable t) {
 
                 if (weakContext.get() instanceof VirtualAppt_Activity){
-                    ((VirtualAppt_Activity) weakContext.get()).dismissDialog();
+                    ((VirtualAppt_Activity) weakContext.get()).getDoctorsForSpecialtySlots(specialityid);
                 }
 
 //                listener.onTaskCompleted(false);
@@ -602,66 +593,6 @@ public class SwaggerCalls {
     }
 
     //--------------------USER -> PHOTO -> SAVE-----------------------------------------------------
-    public static void getUserAccounts(View view) {
-
-        weakContext = new WeakReference<>(view.getContext());
-
-        SharedPreferences appPref = common_code.appPref(weakContext.get());
-        String fullToken = appPref.getString(KEY_FULL_TOKEN,null);
-
-        swagger_Client.getUsersInfo(fullToken)
-                .enqueue(new Callback<rSwaggerAPI<List<UserAccount>>>() {
-                    @Override
-                    public void onResponse(@NonNull Call<rSwaggerAPI<List<UserAccount>>> call,@NonNull Response<rSwaggerAPI<List<UserAccount>>> response) {
-
-//                        if (response.code() == HttpURLConnection.HTTP_FORBIDDEN || response.code()==HttpURLConnection.HTTP_UNAUTHORIZED) {
-//
-//                        } else
-                            if (response.isSuccessful() && response.body() != null) {
-
-                                List<UserAccount> userAccountList = response.body().getData().getContent();
-
-                                Log.e("safe","Getting user account: " + userAccountList.size());
-
-
-                                for (UserAccount user : userAccountList){
-
-                                    Log.e("safe","Name: " + user.getFirstname() + " " + user.getLastname() + "\n Role: " + user.getRole().getName() + "\n Email: " + user.getEmailaddress());
-
-                                    if (user.getRole().getId() == ROLE_DOCTOR && !user.isLocked()){
-//                                        getUserPhoto(weakContext.get(),fullToken,user);
-                                    }
-                                }
-
-                            // AppConstants.CACHE_SYSTEM_USERS=responseModel.getContent();
-                        }
-//                            else {
-//
-//                            String d= null;
-//                            try {
-//                                d = response.errorBody().string();
-//                                Toast.makeText(context,d,Toast.LENGTH_LONG).show();
-//                            } catch (IOException e) {
-//                                e.printStackTrace();
-//                            }
-//                            mSwipeRefresh.setRefreshing(false);
-//                            Log.e("",""+d);
-//
-//                        }
-
-
-                    }
-
-                    @Override
-                    public void onFailure( @NonNull Call<rSwaggerAPI<List<UserAccount>>> call,@NonNull Throwable throwable) {
-//                        Toast.makeText(context,"Error occurred",Toast.LENGTH_LONG).show();
-//                        mSwipeRefresh.setRefreshing(false);
-//                        throwable.printStackTrace();
-                        Log.e("safe","User Error: "+throwable.getMessage());
-                    }
-                });
-    }
-
     private static void getUserPhoto(Context context, String token, UserAccount user){
 
         swagger_Client.getUserPhoto(token,user.getId()).enqueue(new Callback<SwaggerAPI_ResponseArr<List<Userphoto>>>() {
@@ -671,45 +602,25 @@ public class SwaggerCalls {
 
                 if (response.isSuccessful() && response.body() != null){
 
-                    Log.e("safe","Getting user photo: " + user.getId());
-                    String userPhoto = "";
+                    Log.e("pro pic","Getting user photo: " + user.getId());
+                    String userPhoto;
 
                     if (response.body().getData().size() > 0){
                         Userphoto photo = response.body().getData().get(0);
                         userPhoto = photo.getPhoto();
+                        //TODO reuse for user profile picture
                     }
 
-                    Doctor doctor = new Doctor(
-                            user.getId(),
-                            user.getTitle().getName(),
-                            user.getFirstname(),
-                            user.getLastname(),
-                            user.getOthername(),
-                            user.getGendergroup().getName(),
-                            user.getEmailaddress(),
-                            userPhoto
-                    );
-
-//                    saveDoctor(context,doctor);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<SwaggerAPI_ResponseArr<List<Userphoto>>> call,@NonNull Throwable t) {
-                Log.e("safe","Photo Error: "+ t.getMessage());
+                Log.e("pro pic","Photo Error: "+ t.getMessage());
             }
         });
     }
-
-    private static void saveDoctor(Context context, Doctor doctor){
-
-        appDB app_db = appDB.getInstance(context);
-        common_code.getDBExecutor().execute(() -> app_db.safeDoktorAccessObj().addDoctor(doctor));
-        Log.e("safe","Saving doctor account");
-    }
-
     //--------------------USER -> PHOTO -> SAVE-----------------------------------------------------
-
 
     public static void getSpecialtyDoctors(View view,Specialties specialty) {
 
@@ -788,26 +699,16 @@ public class SwaggerCalls {
         });
     }
 
-    private void loadServiceFee(View view,int serviceId) {
+    public static void loadServiceFee(View view,int chatTypeID,int serviceId) {
 
         weakContext = new WeakReference<>(view.getContext());
 
-//        HashMap<String, Integer> query = new HashMap<String, Integer>();
-//
-//        query.put("consultationchattypeid", chatId);
-//        query.put("patientid", AppConstants.patientID);
-//
-//        serviceProgressDialog.setMessage("Working... Please wait");
-//        serviceProgressDialog.show();
-
-        Call<SwaggerAPI_ResponseArr<List<rServiceFee>>> call = swagger_Client.getServiceFee(common_code.getLoginToken(weakContext.get()), serviceId, query);
-
-//        Log.i("Safe", "Fee URL is " + mSafeDoctorService.getServiceFee(TokenString.tokenString, serviceid, query).request().url().toString());
+        Call<SwaggerAPI_ResponseArr<List<rServiceFee>>> call = swagger_Client.getServiceFee(common_code.getLoginToken(weakContext.get()),
+                serviceId, chatTypeID, common_code.currentUser(weakContext.get()).getPatientid());
 
         call.enqueue(new Callback<SwaggerAPI_ResponseArr<List<rServiceFee>>>() {
             @Override
             public void onResponse(@NonNull Call<SwaggerAPI_ResponseArr<List<rServiceFee>>> call,@NonNull Response<SwaggerAPI_ResponseArr<List<rServiceFee>>> response) {
-//                Log.i("Safe", "LoadServiceFee Called");
 
 //                if (response.code() == HttpURLConnection.HTTP_FORBIDDEN || response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
 //                    serviceProgressDialog.dismiss();
@@ -820,26 +721,19 @@ public class SwaggerCalls {
 //                    Log.i("Safe", "Fetching Cash");
 //                    serviceFeeResponse = response.body();
 
-//                    serviceFees = serviceFeeResponse.getData();
                         List<rServiceFee> serviceFees = response.body().getData();
 
                     for (rServiceFee fee : serviceFees) {
 
-
-//                        serviceFee = s.getFee();
-//                        Log.i("Safe", serviceFee + "");
+                        if (weakContext.get() instanceof VirtualAppt_Activity){
+                            ((VirtualAppt_Activity) weakContext.get()).setServiceFee(fee.getFee());
+                        }
 
                     }
 
-                    serviceFeeTextView.setText("GHS" + serviceFee);
-
-//                    serviceProgressDialog.dismiss();
-                    //Toast.makeText(getApplicationContext(), "Fetch Successful", Toast.LENGTH_SHORT).show();
                 } else {
-//                    serviceProgressDialog.dismiss();
-//                    serviceFeeTextView.setText("GHS0.0");
                     //Toast.makeText(getApplicationContext(), "Unable To Fetch. Please Contact HelpLine", Toast.LENGTH_LONG).show();
-                    Log.i("Safe", "Fetching fee error code " + response.code() + "");
+                    Log.e("fee fetch", "Fetching fee error code " + response.code() + "");
                 }
             }
 
@@ -849,11 +743,262 @@ public class SwaggerCalls {
                 //Log.i("SafeRes", t.getMessage());
 //                serviceProgressDialog.dismiss();
 //                Toast.makeText(getApplicationContext(), "Network Error, please try again", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
+                Log.e("fee fetch", "Fetching fee error: " + t.getMessage());
             }
         });
     }
 
+    public static void loadBookAndPay(View view, ApptBooking booking, int serviceFee, String consultTypeName){
+
+        weakContext = new WeakReference<>(view.getContext());
+
+        appDB appDbase =  appDB.getInstance(weakContext.get());
+//        serviceProgressDialog.setMessage("Booking Appointment and Making Payment");
+//        serviceProgressDialog.show();
+//
+//        String wallet = AppConstants.patientPhoneNumber + "555";
+//        bookNPay.setConsultationchattypeid(AppConstants.consultationchattypeid);
+//        bookNPay.setDoctorid(AppConstants.doctorid);
+//        bookNPay.setMobilemoneynetworkid(AppConstants.mobilemoneynetworkid);
+//        bookNPay.setPatientid(AppConstants.patientID);
+//        bookNPay.setReasonid(AppConstants.reasonid);
+//        bookNPay.setServiceid(AppConstants.serviceID);
+//        bookNPay.setSlotid(AppConstants.slotid);
+//
+//        if(!alternativeNumberEditText.getText().toString().isEmpty())
+//        {
+//            bookNPay.setWalletnumber(alternativeNumberEditText.getText().toString());
+//        }
+//        else {
+//            bookNPay.setWalletnumber(AppConstants.patientPhoneNumber);
+//        }
+        String paymentDescription = "Payment for " + consultTypeName + " Consultation";
+
+
+        Call<SwaggerAPI_ResponseArr<List<rAppt_Content>>> call = swagger_Client.bookAndPay(common_code.getLoginToken(weakContext.get()), booking);
+
+//        Log.i("Safe", "After loadBookNPay, wallet is " + bookNPay.getWalletnumber().toString() + " pNo is " + wallet);
+//        Log.i("Safe", "After loadBookNPay, chat is " + bookNPay.getConsultationchattypeid() + "");
+//        Log.i("Safe", "After loadBookNPay, patientid is " + bookNPay.getPatientid() + "");
+//        Log.i("Safe", "After loadBookNPay, network is " + bookNPay.getMobilemoneynetworkid() + "");
+//        Log.i("Safe", "After loadBookNPay, service is " + bookNPay.getServiceid() + "");
+//        Log.i("Safe", "After loadBookNPay, bookNPay is " + bookNPay.getSlotid() + "");
+//        Log.i("Safe", "After loadBookNPay, bookNPay is " + bookNPay.getReasonid() + "");
+//        Log.i("Safe", "After loadBookNPay, bookNPay is " + bookNPay.getDoctorid() + "");
+//        Log.i("Safe", "After loadBookNPay, bookNPay is " + bookNPay.getVodafonetoken() + "");
+
+        call.enqueue(new Callback<SwaggerAPI_ResponseArr<List<rAppt_Content>>>() {
+            @Override
+            public void onResponse(@NonNull Call<SwaggerAPI_ResponseArr<List<rAppt_Content>>> call,@NonNull Response<SwaggerAPI_ResponseArr<List<rAppt_Content>>> response) {
+                Log.e("booking", "loadBookNPay Called");
+
+//                if (response.code() == HttpURLConnection.HTTP_FORBIDDEN) {
+//                    serviceProgressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Please Login", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(getApplicationContext(), FormLogin.class);
+//                    startActivity(intent);
+//                } else
+
+                    if (response.isSuccessful() && response.body() != null && response.body().getData() != null){
+//                    serviceProgressDialog.dismiss();
+                    Log.e("booking", "Fetching BookNPay Response");
+//                    bookNPayResponse = response.body();
+//                    confirmedAppointmentList = bookNPayResponse.getData();
+                    Appointment appointment = response.body().getData().get(0).getAppointment();
+
+                    Log.e("appt", "booking Id: " + appointment.getBookingid());
+                        Log.e("appt", "momo id: " + booking.getMobilemoneynetworkid());
+
+                        paymentBody payment_body = new paymentBody(
+                                serviceFee,booking.getWalletnumber(),
+                                appointment.getBookingnumber(),paymentDescription,
+                                booking.getMobilemoneynetworkid(),booking.getWalletnumber());
+
+                    payment_body.setClientTransId(String.valueOf(appointment.getBookingid()));
+                        Log.e("appt", "app id: " + payment_body.getAppId());
+
+                    if (serviceFee > 0) {
+
+                        //call redde payment
+                        Toast.makeText(weakContext.get(), "Booking Successful. Awaiting Payment", Toast.LENGTH_SHORT).show();
+                        makePayment(payment_body);
+
+                    }else {
+
+                        //save appointment and return to appointment page
+                        saveAppointment_stuff(response.body().getData().get(0),weakContext.get());
+//                        common_code.getDBExecutor().execute(() -> appDbase.safeDoktorAccessObj().addAppointment(appointment));
+                    }
+
+//                    popUpMakePaymentTransaction();
+
+                } else {
+//                    serviceProgressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Unable To Make Booking. Please Contact HelpLine", Toast.LENGTH_LONG).show();
+//                    Log.i("Safe", "Fetching error code " + response.code() + "");
+//                    try {
+//                        Log.i("Safe", "Response is " + response.errorBody().string());
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+                    Log.i("SafeTggggg", "Out kwraa");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SwaggerAPI_ResponseArr<List<rAppt_Content>>> call,@NonNull Throwable t) {
+                Log.i("SafeRes","Fetching error"+  t.getMessage());
+
+//                try {
+//                    Log.i("SafeRes","Fetching error"+  t.getMessage());
+//                    serviceProgressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Network Error, please try again", Toast.LENGTH_SHORT).show();
+//                    t.printStackTrace();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
+    }
+
+    private static void makePayment(paymentBody payment){
+
+        Call<rPayment> reddeCall = reddePayClient.payment(REDDE_API_KEY,payment);
+
+        reddeCall.enqueue(new Callback<rPayment>() {
+            @Override
+            public void onResponse(@NonNull Call<rPayment> call,@NonNull Response<rPayment> response) {
+
+                if (response.isSuccessful() && response.body() != null){
+                    Log.e("pay",response.body().getReason());
+                }else if (response.errorBody() != null){
+                    try {
+                        Log.e("pay Error",response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<rPayment> call,@NonNull Throwable t) {
+                Log.e("payment","Failed to pay: " + t.getMessage());
+            }
+        });
+    }
+
+//    TODO GET ONLINE VISITS
+    public void getOnlineVisits(View view,int patientid,String startDate,String endDate) {
+
+        //String from=formateDate("2018-02-01 00:00:00");
+        weakContext = new WeakReference<>(view.getContext());
+        Call<SwaggerAPI_ResponseArr<List<rOnlineVisits>>> call = swagger_Client.getOnlineVisits(common_code.getLoginToken(weakContext.get()),patientid,startDate,endDate);
+
+        call.enqueue(new Callback<SwaggerAPI_ResponseArr<List<rOnlineVisits>>>() {
+            @Override
+            public void onResponse(@NonNull Call<SwaggerAPI_ResponseArr<List<rOnlineVisits>>> call, @NonNull Response<SwaggerAPI_ResponseArr<List<rOnlineVisits>>> response) {
+
+                List<rOnlineVisits> visitList=new ArrayList<>();
+
+//                if (response.code() == HttpURLConnection.HTTP_FORBIDDEN || response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+//                    sessionManagement.logoutSessionExpired();
+//
+//
+//                } else
+
+                    if (response.isSuccessful() && response.body() != null && response.body().getData().size() > 0) {
+//                        TODO save online visits
+                    visitList =response.body().getData();
+//                    AppConstants.CACHE_ONLINE_VISIT=visitList;
+
+//                    listener.onTaskCompleted(visitList );
+                }
+//                    else {
+//                    try {
+//                        Log.e("getConsultationReferral",response.errorBody().string().toString());
+//                        String error=response.errorBody().string().toString();
+//                        Log.e("getOnlineVisits",error);
+//                        tokenerror(error);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    listener.onTaskCompleted(visitList);
+//                }
+//
+//                if(swipeRefreshLayout!=null){
+//                    swipeRefreshLayout.setRefreshing(false);
+//
+//                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SwaggerAPI_ResponseArr<List<rOnlineVisits>>> call,@NonNull Throwable t) {
+                //Toast.makeText(context,"Fetching Online Visits....Network Error occured",Toast.LENGTH_LONG).show();
+//                try{
+//                    Log.e("getConsultationReferral","Fetching error"+ t.getMessage());
+//                }catch (Exception e){
+//
+//                }
+//
+//                if(swipeRefreshLayout!=null){
+//                    swipeRefreshLayout.setRefreshing(false);
+//
+//                }
+            }
+        });
+
+
+    }
+
+//    private void loadBookingStatus(int bookingid) {
+//
+////        serviceProgressDialog.setMessage("Verifying Payment. \nPlease ensure payment has been made");
+////        serviceProgressDialog.show();
+//
+//        Log.i("Safe", "loadBooking About To be called");
+//
+//        Call<SwaggerAPI_ResponseArr> call = swagger_Client.getBookingStatus(common_code.getLoginToken(weakContext.get()), bookingid);
+////        Log.i("Safe", "Fee URL is " + mSafeDoctorService.getBookingStatus(TokenString.tokenString, bookingid).request().url().toString());
+//        call.enqueue(new Callback<SwagArrayResponseModel>() {
+//            @Override
+//            public void onResponse(Call<SwagArrayResponseModel> call, Response<SwagArrayResponseModel> response) {
+//                Log.i("Safe", "loadBookingStatus Called");
+//                if (response.code() == HttpURLConnection.HTTP_FORBIDDEN) {
+//                    serviceProgressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Please Login", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(getApplicationContext(), FormLogin.class);
+//                    startActivity(intent);
+//                } else if (response.code() == 200) {
+//                    Log.i("Safe", "Fetching Booking Status");
+//                    bookingStatusResponse = response.body();
+//                    serviceProgressDialog.dismiss();
+//                    status = true;
+//                    Toast.makeText(getApplicationContext(), "Payment Successful", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                } else if (response.code() == 500)
+//                {
+//                    serviceProgressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Payment Pending. Please Try Again", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    serviceProgressDialog.dismiss();
+//                    Toast.makeText(getApplicationContext(), "Unable To Fetch Booking Status. Please Contact HelpLine", Toast.LENGTH_SHORT).show();
+//                    Log.i("Safe", "Fetching fee error code " + response.code() + "");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SwagArrayResponseModel> call, Throwable t) {
+//                Log.i("SafeRes", "Fetching error"+ t.getMessage());
+//                serviceProgressDialog.dismiss();
+//                Toast.makeText(getApplicationContext(), "Network Error, please try again", Toast.LENGTH_SHORT).show();
+//                t.printStackTrace();
+//            }
+//        });
+//    }
 
     }
 
